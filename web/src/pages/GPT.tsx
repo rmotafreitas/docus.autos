@@ -1,23 +1,23 @@
-import { Button } from "./components/ui/button";
+import { Button } from "../components/ui/button";
 import { Github, Wand2 } from "lucide-react";
-import { Separator } from "./components/ui/separator";
-import { Textarea } from "./components/ui/textarea";
-import { Label } from "./components/ui/label";
+import { Separator } from "../components/ui/separator";
+import { Textarea } from "../components/ui/textarea";
+import { Label } from "../components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./components/ui/select";
-import { Slider } from "./components/ui/slider";
-import { VideoInputForm } from "./components/input-form";
-import { PromptSelect } from "./components/prompt-select";
+} from "../components/ui/select";
+import { Slider } from "../components/ui/slider";
+import { VideoInputForm } from "../components/input-form";
+import { PromptSelect } from "../components/prompt-select";
 import { useEffect, useState } from "react";
 
 import { useCompletion } from "ai/react";
 
-export function App() {
+export function VideAppPage() {
   const [temperature, setTemperature] = useState(0.5);
   const [videoId, setVideoId] = useState<string | null>(null);
 

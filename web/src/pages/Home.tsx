@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Navbar } from "@/components/navbar";
 
-export function App() {
+export function HomePage() {
   return (
     <div>
+      <Navbar />
       <section className="flex flex-col justify-center items-center gap-6">
         <h1 className="bg-clip-text text-transparent font-bold text-7xl bg-gradient-to-r from-[#5350F6] to-[#E662FE] mt-20 text-center">
           AI Documents Tool
