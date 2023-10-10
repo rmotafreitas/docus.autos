@@ -10,6 +10,12 @@ datasource db {
   url      = "file:../database/dev/db"
 }
 
+model PrompTypes {
+  id     String   @id @default(uuid())
+  name   String   @unique
+  Prompt Prompt[]
+}
+
 model Video {
   id         String   @id @default(uuid())
   name       String
@@ -19,7 +25,9 @@ model Video {
 }
 
 model Prompt {
-  id       String @id @default(uuid())
+  id       String     @id @default(uuid())
   title    String
   template String
+  typeId   String     @default(uuid())
+  type     PrompTypes @relation(fields: [typeId], references: [id])
 }

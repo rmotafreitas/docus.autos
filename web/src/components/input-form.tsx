@@ -159,45 +159,19 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
     return URL.createObjectURL(selectedFile);
   }, [selectedFile, youtubeVideoInfo]);
 
-  const downloadFileFromYTDLUrl = async (url: string) => {
-    // download file from url and download it
-    const res = await axios.get(url, {
-      responseType: "blob",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    });
-
-    const blob = new Blob([res.data], { type: "audio/mpeg" });
-    const file = new File([blob], "output.mp3", { type: "audio/mpeg" });
-
-    window.location.href = URL.createObjectURL(file);
-
-    return file;
-  };
-
   const handleUploadVideo = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const prompt = promptInputRef.current?.value;
 
-    if (
-      (inputType === "file" && !selectedFile) ||
-      (inputType === "youtube" && youtubeVideoInfo.title === "") ||
-      !prompt
-    ) {
+    if (!selectedFile) {
       return;
     }
-    const file =
-      inputType === "file" ? selectedFile : youtubeVideoInfo.audioFileURL;
 
-    if (!file) return;
-
+    // converter o video em áudio
     setStatus("converting");
-    const audioFile =
-      selectedFile instanceof File
-        ? await convertVideoToAudio(selectedFile)
-        : await downloadFileFromYTDLUrl(youtubeVideoInfo.audioFileURL);
+
+    const audioFile = await convertVideoToAudio(selectedFile);
 
     const data = new FormData();
     data.append("file", audioFile);
