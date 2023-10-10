@@ -14,7 +14,7 @@ export function LoginPage() {
     console.log("Auth flow completed");
     const user = await hanko.user.getCurrent();
     console.log(user);
-    router("/profile");
+    router("/apps");
   };
 
   useEffect(
