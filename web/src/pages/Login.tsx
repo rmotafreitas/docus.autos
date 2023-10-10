@@ -1,17 +1,26 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 // @ts-ignore
-import { register, Hanko } from "@teamhanko/hanko-elements";
+import { Hanko, register } from "@teamhanko/hanko-elements";
+import { useNavigate } from "react-router-dom";
 import { Navbar } from "../components/navbar";
 
 const hankoApi = import.meta.env.VITE_HANKO_API_URL;
 
 export function LoginPage() {
   const hanko = useMemo(() => new Hanko(hankoApi), []);
+  const router = useNavigate();
+
+  const handleAuthFlowCompleted = async () => {
+    console.log("Auth flow completed");
+    const user = await hanko.user.getCurrent();
+    console.log(user);
+    router("/profile");
+  };
 
   useEffect(
     () =>
       hanko.onAuthFlowCompleted(() => {
-        console.log("Auth flow completed");
+        handleAuthFlowCompleted();
       }),
     [hanko]
   );
