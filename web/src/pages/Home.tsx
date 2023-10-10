@@ -1,6 +1,11 @@
 import { Navbar } from "@/components/navbar";
 import { Separator } from "@/components/ui/separator";
-import { FileVideo, Globe } from "lucide-react";
+import {
+  FileVideo,
+  Globe,
+  LucideFileAudio2,
+  LucideFileText,
+} from "lucide-react";
 
 export function HomePage() {
   return (
@@ -26,7 +31,7 @@ export function HomePage() {
           revolutionize your documents functionality with AI integration
         </h3>
       </section>
-      <section className="flex flex-row justify-evenly w-5/6 items-center gap-6 mb-10">
+      <section className="flex flex-row justify-evenly w-5/6 items-center gap-6 mb-16">
         <div className="max-w-xl flex flex-col gap-2">
           <h4 className="text-4xl font-semibold">
             Lorem ipsum, dolor sit amet
@@ -54,6 +59,36 @@ export function HomePage() {
             <aside>
               <h5 className="text-lg font-semibold">Internet Access</h5>
               <p>Generate a summary for any website</p>
+            </aside>
+          </section>
+        </aside>
+      </section>
+      <section className="flex flex-row-reverse justify-evenly w-5/6 items-center gap-6 mb-10">
+        <div className="max-w-xl flex flex-col gap-2">
+          <h4 className="text-4xl font-semibold">
+            Lorem ipsum, dolor sit amet
+          </h4>
+          <p className="text-lg leading-relaxed">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta,
+            nobis nostrum libero eaque fuga modi amet exercitationem
+            reprehenderit aut commodi repudiandae ipsum quibusdam minus labore
+            quae ipsam accusamus illo facere?
+          </p>
+        </div>
+        <aside className="flex flex-col max-w-3xl bg-muted p-4 gap-4 rounded-lg">
+          <section className="flex flex-row gap-2">
+            <LucideFileText className="w-14 h-14 stroke-primary" />
+            <aside>
+              <h5 className="text-lg font-semibold">PDF Documents file</h5>
+              <p>Create glossary, summary and appoints grammar mistakes</p>
+            </aside>
+          </section>
+          <Separator className="w-full bg-muted-foreground" />
+          <section className="flex flex-row gap-2">
+            <LucideFileAudio2 className="w-14 h-14 stroke-primary" />
+            <aside>
+              <h5 className="text-lg font-semibold">Audio Files</h5>
+              <p>Generate a transcript, bullet points for your audio files</p>
             </aside>
           </section>
         </aside>

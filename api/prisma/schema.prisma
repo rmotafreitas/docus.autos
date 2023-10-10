@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:../database/dev/db"
 }
 
 model Video {
@@ -21,5 +21,5 @@ model Video {
 model Prompt {
   id       String @id @default(uuid())
   title    String
-  template String @db.Text
+  template String
 }
