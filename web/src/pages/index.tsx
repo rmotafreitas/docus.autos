@@ -20,15 +20,15 @@ export function HomePage() {
           documents
         </p>
         <p className="text-2xl font-semibold text-[#FF3BFF]">
-          Automate your docus
+          Automate your docs
         </p>
       </section>
       <section className="flex flex-col justify-center items-center gap-6 mt-10 mb-20">
-        <h2 className="bg-clip-text text-transparent font-bold text-5xl bg-gradient-to-r from-[#5350F6] to-[#E662FE] mt-20 text-center">
+        <h2 className="bg-clip-text text-transparent font-bold text-5xl bg-gradient-to-r from-[#5350F6] to-[#E662FE] mt-20 text-center pb-2">
           Hack your productivity
         </h2>
         <h3 className="text-3xl text-center max-w-7xl">
-          revolutionize your documents functionality with AI integration
+          Revolutionize your documents functionality with AI integration
         </h3>
       </section>
       <section className="flex flex-row justify-evenly w-5/6 items-center gap-6 mb-16">
