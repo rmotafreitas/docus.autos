@@ -22,7 +22,7 @@ export function PromptSelect({ onPromptSelected }: PromptSelectProps) {
   const [prompts, setPrompts] = useState<Prompt[]>([]);
 
   useEffect(() => {
-    api.get("/prompts").then((response) => {
+    api.get("/prompts/video").then((response) => {
       setPrompts(response.data);
     });
   }, []);
