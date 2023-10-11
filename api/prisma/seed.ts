@@ -3,13 +3,6 @@ const prisma = new PrismaClient();
 
 async function main() {
   await prisma.prompt.deleteMany();
-  await prisma.prompTypes.deleteMany();
-
-  const videoType = await prisma.prompTypes.create({
-    data: {
-      name: "video",
-    },
-  });
 
   await prisma.prompt.create({
     data: {
@@ -33,7 +26,7 @@ Transcript:
 '''
 {transcription}
 '''`.trim(),
-      typeId: videoType.id,
+      type: "video",
     },
   });
 
@@ -62,7 +55,7 @@ Transcript:
 '''
 {transcription}
 '''`.trim(),
-      typeId: videoType.id,
+      type: "video",
     },
   });
 
@@ -88,7 +81,7 @@ Transcript:
 '''
 {transcription}
 '''`.trim(),
-      typeId: videoType.id,
+      type: "video",
     },
   });
 }
