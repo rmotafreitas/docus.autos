@@ -11,11 +11,12 @@ datasource db {
 }
 
 model Video {
-  id         String   @id @default(uuid())
-  name       String
-  path       String
-  transcript String?
-  createdAt  DateTime @default(now())
+  id           String         @id @default(uuid())
+  name         String
+  path         String
+  transcript   String?
+  createdAt    DateTime       @default(now())
+  VideoHistory VideoHistory[]
 }
 
 model Prompt {
@@ -23,4 +24,13 @@ model Prompt {
   title    String
   template String
   type     String @default("video")
+}
+
+model VideoHistory {
+  id         String @id @default(uuid())
+  userId     String
+  videoId    String
+  video      Video  @relation(fields: [videoId], references: [id])
+  promptText String
+  reusltText String
 }
