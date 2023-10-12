@@ -16,6 +16,7 @@ import { PromptSelect } from "../../components/prompt-select";
 import { useEffect, useState } from "react";
 
 import { useCompletion } from "ai/react";
+import { Navbar } from "@/components/navbar";
 
 export function VideosAppPage() {
   const [temperature, setTemperature] = useState(0.5);
@@ -45,23 +46,7 @@ export function VideosAppPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="px-6 py-3 flex items-center justify-between border-b">
-        <h1 className="text-xl font-bold">Docus.autos</h1>
-
-        <div className="flex items-center gap-3">
-          <span className="text-sm text-muted-foreground">
-            Made with 💜 by TEAM
-          </span>
-
-          <Separator orientation="vertical" className="h-6" />
-
-          <Button variant="outline">
-            <Github className="w-4 h-4 mr-2" />
-            Github
-          </Button>
-        </div>
-      </div>
-
+      <Navbar />
       <main className="flex-1 p-6 flex gap-6">
         <section className="flex flex-col flex-1 gap-4">
           <div className="grid grid-rows-2 gap-4 flex-1">

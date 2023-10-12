@@ -1,5 +1,6 @@
+import { FeatureCard } from "@/components/feature-card";
 import { Navbar } from "@/components/navbar";
-import { FileVideo } from "lucide-react";
+import { FileAudio, FileText, FileVideo, Globe } from "lucide-react";
 
 export function AppsPage() {
   return (
@@ -7,118 +8,50 @@ export function AppsPage() {
       <Navbar />
       <section className="flex-1 flex flex-col justify-center items-center">
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 justify-center">
-          <div className="bg-muted rounded-lg p-4 flex flex-col gap-4 max-w-xs">
-            <div className="flex justify-start items-center gap-4">
-              <div className="flex justify-center items-center text-center bg-primary rounded-md p-2  bg-gradient-to-r from-[#5350F6] to-[#E662FE]">
-                <FileVideo className="text-xl" />
-              </div>
-              <h1 className="font-semibold text-lg">Videos App</h1>
-            </div>
-            <ul className="flex flex-col gap-2">
-              <li className="leading-relaxed">
-                <p>
-                  <span className="font-semibold"> &bull; </span>
-                  Generate a cool title for your video
-                </p>
-              </li>
-              <li className="leading-relaxed">
-                <p>
-                  <span className="font-semibold"> &bull; </span>
-                  Generate an attractive description for your video
-                </p>
-              </li>
-              <li className="leading-relaxed">
-                <p>
-                  <span className="font-semibold"> &bull; </span>
-                  Generate a summary from a video
-                </p>
-              </li>
-            </ul>
-          </div>
-          <div className="bg-muted rounded-lg p-4 flex flex-col gap-4 max-w-xs">
-            <div className="flex justify-start items-center gap-4">
-              <div className="flex justify-center items-center text-center bg-primary rounded-md p-2  bg-gradient-to-r from-[#5350F6] to-[#E662FE]">
-                <FileVideo className="text-xl" />
-              </div>
-              <h1 className="font-semibold text-lg">Websites App</h1>
-            </div>
-            <ul className="flex flex-col gap-2">
-              <li className="leading-relaxed">
-                <p>
-                  <span className="font-semibold"> &bull; </span>
-                  Generate a cool title for your video
-                </p>
-              </li>
-              <li className="leading-relaxed">
-                <p>
-                  <span className="font-semibold"> &bull; </span>
-                  Generate an attractive description for your video
-                </p>
-              </li>
-              <li className="leading-relaxed">
-                <p>
-                  <span className="font-semibold"> &bull; </span>
-                  Generate a summary from a video
-                </p>
-              </li>
-            </ul>
-          </div>
-          <div className="bg-muted rounded-lg p-4 flex flex-col gap-4 max-w-xs">
-            <div className="flex justify-start items-center gap-4">
-              <div className="flex justify-center items-center text-center bg-primary rounded-md p-2  bg-gradient-to-r from-[#5350F6] to-[#E662FE]">
-                <FileVideo className="text-xl" />
-              </div>
-              <h1 className="font-semibold text-lg">Documents App</h1>
-            </div>
-            <ul className="flex flex-col gap-2">
-              <li className="leading-relaxed">
-                <p>
-                  <span className="font-semibold"> &bull; </span>
-                  Generate a cool title for your video
-                </p>
-              </li>
-              <li className="leading-relaxed">
-                <p>
-                  <span className="font-semibold"> &bull; </span>
-                  Generate an attractive description for your video
-                </p>
-              </li>
-              <li className="leading-relaxed">
-                <p>
-                  <span className="font-semibold"> &bull; </span>
-                  Generate a summary from a video
-                </p>
-              </li>
-            </ul>
-          </div>
-          <div className="bg-muted rounded-lg p-4 flex flex-col gap-4 max-w-xs">
-            <div className="flex justify-start items-center gap-4">
-              <div className="flex justify-center items-center text-center bg-primary rounded-md p-2  bg-gradient-to-r from-[#5350F6] to-[#E662FE]">
-                <FileVideo className="text-xl" />
-              </div>
-              <h1 className="font-semibold text-lg">Audios App</h1>
-            </div>
-            <ul className="flex flex-col gap-2">
-              <li className="leading-relaxed">
-                <p>
-                  <span className="font-semibold"> &bull; </span>
-                  Generate a cool title for your video
-                </p>
-              </li>
-              <li className="leading-relaxed">
-                <p>
-                  <span className="font-semibold"> &bull; </span>
-                  Generate an attractive description for your video
-                </p>
-              </li>
-              <li className="leading-relaxed">
-                <p>
-                  <span className="font-semibold"> &bull; </span>
-                  Generate a summary from a video
-                </p>
-              </li>
-            </ul>
-          </div>
+          <FeatureCard
+            i={1}
+            title="Videos"
+            Icon={FileVideo}
+            url="/apps/videos"
+            features={[
+              "Generate a cool title for your video",
+              "Generate an attractive description for your video",
+              "Generate a summary from a video",
+            ]}
+          />
+          <FeatureCard
+            i={2}
+            title="Websites"
+            Icon={Globe}
+            url="/apps/websites"
+            features={[
+              "Generate a cool title for your website",
+              "Generate an attractive description for your website",
+              "Generate a summary from a website",
+            ]}
+          />
+          <FeatureCard
+            i={3}
+            title="Articles"
+            Icon={FileText}
+            url="/apps/articles"
+            features={[
+              "Generate a cool title for your article",
+              "Make the best bullet points for your article",
+              "Generate a summary from an article",
+            ]}
+          />
+          <FeatureCard
+            i={4}
+            Icon={FileAudio}
+            title="Audios"
+            url="/apps/audios"
+            features={[
+              "Generate a transcript from an audio",
+              "Generate a summary from an audio",
+              "Make a blog post from an audio",
+            ]}
+          />
         </section>
       </section>
     </div>
