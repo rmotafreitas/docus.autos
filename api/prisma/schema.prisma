@@ -27,10 +27,11 @@ model Prompt {
 }
 
 model Videohistory {
-  id         String  @id @default(uuid())
+  id         String   @id @default(uuid())
   userId     String
   videoId    String
-  video      Video   @relation(fields: [videoId], references: [id])
-  promptText String
+  video      Video    @relation(fields: [videoId], references: [id])
+  promptText String?
   resultText String?
+  createdAt  DateTime @default(now())
 }
