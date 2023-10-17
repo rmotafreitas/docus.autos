@@ -63,6 +63,7 @@ export function VideosAppPage() {
           videoId,
           userId: user?.id,
           resultText: completion,
+          promptText: prompt,
         })
         .catch(console.error);
     },
