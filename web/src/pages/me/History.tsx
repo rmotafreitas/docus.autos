@@ -85,10 +85,10 @@ export function HistoryPage() {
           <TableCaption>A list of your {} prompts.</TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Invoice</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Method</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
+              <TableHead className="w-[100px]">Video</TableHead>
+              <TableHead>Prompt</TableHead>
+              <TableHead>Result</TableHead>
+              <TableHead className="text-right">Date</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
