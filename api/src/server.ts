@@ -6,6 +6,7 @@ import { uploadVideoRoute } from "./routes/upload-video";
 import { createTranscriptionRoute } from "./routes/create-transcription";
 import { generateAICompletionRoute } from "./routes/generate-ai-completion";
 import { getYTVideoInfoRoute } from "./routes/get-yt-video-info";
+import { saveAIVideoCompletion } from "./routes/save-ai-video-completion";
 
 const app = fastify();
 
@@ -22,6 +23,7 @@ app.register(getYTVideoInfoRoute);
 app.register(uploadVideoRoute);
 app.register(createTranscriptionRoute);
 app.register(generateAICompletionRoute);
+app.register(saveAIVideoCompletion);
 
 app
   .listen({
