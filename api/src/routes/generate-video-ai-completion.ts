@@ -6,8 +6,8 @@ import { streamToResponse, OpenAIStream } from "ai";
 import { createReadStream } from "node:fs";
 import { openai } from "../lib/opeanai";
 
-export const generateAICompletionRoute = async (app: FastifyInstance) => {
-  app.post("/ai/complete", async (request, reply) => {
+export const generateVideoAICompletionRoute = async (app: FastifyInstance) => {
+  app.post("/ai/complete/video", async (request, reply) => {
     const bodySchema = z.object({
       videoId: z.string().uuid(),
       prompt: z.string(),
@@ -30,7 +30,7 @@ export const generateAICompletionRoute = async (app: FastifyInstance) => {
     console.log(promptMessage);
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4",
+      model: "gpt-3.5-turbo-16k-0613",
       temperature,
       messages: [
         {
@@ -38,6 +38,7 @@ export const generateAICompletionRoute = async (app: FastifyInstance) => {
           content: promptMessage,
         },
       ],
+      // max_tokens: 150,
       stream: true,
     });
 

@@ -84,6 +84,59 @@ Transcript:
       type: "video",
     },
   });
+
+  await prisma.prompt.create({
+    data: {
+      title: "Summary for Website",
+      template: `Your task is to create a concise summary for a website.
+
+        Below, you will find content from the website, which you will use to generate the summary.
+        
+        The summary should be no longer than 200 words, written in the first person, and should highlight the key points of the website.
+        
+        Employ engaging language that captures the reader's interest.
+        
+        The format for your response should be as follows:
+        
+        '''
+        Summary.
+        '''
+        
+        Content:
+        '''
+        {content}
+        '''`.trim(),
+      type: "website",
+    },
+  });
+
+  await prisma.prompt.create({
+    data: {
+      title: "FAQ for Website",
+      template:
+        `Your task is to create a concise FAQ (Frequently Asked Questions) for a website.
+
+      Below, you'll find content from the website. Utilize this material to craft the FAQ.
+      
+      It should consist of a maximum of 200 words in the first person, including only information from the website.
+      
+      Employ attention-grabbing language that captivates the reader's attention and refrain from inventing details.
+      
+      The format for your response should be as follows:
+
+      
+      '''
+      Q(N): [question]
+      A(N): [answer]
+      '''
+      
+      Content
+      '''
+      {content}
+      '''`.trim(),
+      type: "website",
+    },
+  });
 }
 
 main()

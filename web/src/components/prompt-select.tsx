@@ -16,13 +16,14 @@ interface Prompt {
 
 interface PromptSelectProps {
   onPromptSelected: (template: string) => void;
+  type: "video" | "website";
 }
 
-export function PromptSelect({ onPromptSelected }: PromptSelectProps) {
+export function PromptSelect({ onPromptSelected, type }: PromptSelectProps) {
   const [prompts, setPrompts] = useState<Prompt[]>([]);
 
   useEffect(() => {
-    api.get("/prompts/video").then((response) => {
+    api.get("/prompts/" + type).then((response) => {
       setPrompts(response.data);
     });
   }, []);

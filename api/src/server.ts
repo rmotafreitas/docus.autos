@@ -4,8 +4,12 @@ import { fastify } from "fastify";
 import { getAllPromptsRoute } from "./routes/get-all-prompts";
 import { uploadVideoRoute } from "./routes/upload-video";
 import { createTranscriptionRoute } from "./routes/create-transcription";
-import { generateAICompletionRoute } from "./routes/generate-ai-completion";
+import { generateVideoAICompletionRoute } from "./routes/generate-video-ai-completion";
+import { generateWebsiteAICompletionRoute } from "./routes/generate-website-ai-completion";
+import { getWebsiteContentRoute } from "./routes/get-website-content";
 import { getYTVideoInfoRoute } from "./routes/get-yt-video-info";
+import fastifystatic from "@fastify/static";
+import path from "path";
 
 const app = fastify();
 
@@ -21,8 +25,13 @@ app.register(getAllPromptsRoute);
 app.register(getYTVideoInfoRoute);
 app.register(uploadVideoRoute);
 app.register(createTranscriptionRoute);
-app.register(generateAICompletionRoute);
-
+app.register(generateVideoAICompletionRoute);
+app.register(generateWebsiteAICompletionRoute);
+app.register(getWebsiteContentRoute);
+app.register(fastifystatic, {
+  root: path.join(__dirname, "..", "tmp"),
+  prefix: "/tmp/",
+});
 app
   .listen({
     port: 3333,

@@ -34,3 +34,11 @@ model VideoHistory {
   promptText String
   reusltText String
 }
+
+model Website {
+  url       String   @id
+  title     String?
+  image     String?
+  content   String?
+  createdAt DateTime @default(now())
+}

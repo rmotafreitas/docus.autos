@@ -11,19 +11,15 @@ import {
   SelectValue,
 } from "../../components/ui/select";
 import { Slider } from "../../components/ui/slider";
-import { VideoInputForm } from "../../components/video-input-form";
+import { WebsiteInputForm } from "../../components/website-input-form";
 import { PromptSelect } from "../../components/prompt-select";
 import { useEffect, useState } from "react";
-import { useCompletion } from "ai/react";
 import { Navbar } from "@/components/navbar";
+import { useCompletion } from "ai/react";
 
-export function VideosAppPage() {
+export function WebsitesAppPage() {
   const [temperature, setTemperature] = useState(0.5);
-  const [videoId, setVideoId] = useState<string | null>(null);
-
-  useEffect(() => {
-    (async () => {})();
-  }, []);
+  const [url, setWebsiteUrl] = useState<string | null>(null);
 
   const {
     input,
@@ -33,9 +29,9 @@ export function VideosAppPage() {
     completion,
     isLoading,
   } = useCompletion({
-    api: "http://localhost:3333/ai/complete/video",
+    api: "http://localhost:3333/ai/complete/website",
     body: {
-      videoId,
+      url,
       temperature,
     },
     headers: {
@@ -65,21 +61,21 @@ export function VideosAppPage() {
           <p className="text-sm text-muted-foreground">
             Pro tip: You can use{" "}
             <code className="text-violet-400">
-              {"{"}transcription{"}"}
+              {"{"}content{"}"}
             </code>{" "}
-            tag on your prompt to add the transcription of the audio
+            tag on your prompt to add the content of the website
           </p>
         </section>
 
         <aside className="w-80 flex flex-col gap-6">
-          <VideoInputForm onVideoUploaded={setVideoId} />
+          <WebsiteInputForm onWebsiteUploaded={setWebsiteUrl} />
 
           <Separator />
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
               <Label>Prompt</Label>
-              <PromptSelect type="video" onPromptSelected={setInput} />
+              <PromptSelect type="website" onPromptSelected={setInput} />
             </div>
 
             <Separator />
@@ -102,7 +98,7 @@ export function VideosAppPage() {
             <Separator />
 
             <div className="flex flex-col gap-4">
-              <Label>Temperature</Label>
+              <Label>Creativity</Label>
               <Slider
                 min={0}
                 max={1}
@@ -112,13 +108,13 @@ export function VideosAppPage() {
               />
 
               <span className="text-xs text-muted-foreground italic leading-relaxed">
-                Higher temperature means the AI will be more creative
+                Higher creativity enables more innovative responses
               </span>
             </div>
 
             <Separator />
 
-            <Button disabled={isLoading || !videoId} type="submit">
+            <Button disabled={isLoading || !url} type="submit">
               Generate
               <Wand2 className="w-4 h-4 ml-2" />
             </Button>
