@@ -1,3 +1,9 @@
 {
-  "cSpell.words": ["Fastify", "hanko", "openai", "videohistory"]
+  "cSpell.words": [
+    "Fastify",
+    "hanko",
+    "openai",
+    "videohistory"
+  ],
+  "jira-plugin.workingProject": ""
 }

@@ -15,7 +15,7 @@ export function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/auth" element={<LoginPage />} />
         <Route path="/apps/videos" element={<VideosAppPage />} />
-        <Route path="/me/profile" element={<ProfilePage />} />
+        <Route path="/me" element={<ProfilePage />} />
         <Route path="/me/history" element={<HistoryPage />} />
         <Route path="/apps" element={<AppsPage />} />
         {/* <Route path="*" element={<NotFound />} />*/}

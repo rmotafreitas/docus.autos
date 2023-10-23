@@ -26,12 +26,20 @@ export async function videoCompletionSave(
   });
 
   if (!video) {
+    const transcription = await prisma.video.findUnique({
+      where: {
+        id: videoId,
+      },
+    });
     await prisma.videohistory.create({
       data: {
         videoId,
         userId,
         resultText,
-        promptText,
+        promptText: promptText.replace(
+          "{transcription}",
+          transcription?.transcript || "{transcription}"
+        ),
       },
     });
   }

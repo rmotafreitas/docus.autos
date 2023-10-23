@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 // @ts-ignore
 import { register } from "@teamhanko/hanko-elements";
 import { hankoInstance } from "@/lib/hanko";
@@ -29,16 +29,30 @@ import {
   FilterIcon,
   Globe,
 } from "lucide-react";
+import { api } from "@/lib/axios";
+
+interface HistoryItemVideo {
+  id: string;
+  videoId: string;
+  promptText: string;
+  resultText: string;
+  createdAt: string;
+}
 
 export function HistoryPage() {
   const hanko = useMemo(() => hankoInstance, []);
   const router = useNavigate();
+  const [history, setHistory] = useState([]);
 
   useEffect(() => {
     (async () => {
       try {
         const user = await hanko.user.getCurrent();
         console.log(user);
+        const history = await api.post("/ai/complete/all/log", {
+          userId: user.id,
+        });
+        setHistory(history.data.videos);
       } catch (e) {
         router("/auth?expired=1");
       }
@@ -92,12 +106,16 @@ export function HistoryPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell className="font-medium">INV001</TableCell>
-              <TableCell>Paid</TableCell>
-              <TableCell>Credit Card</TableCell>
-              <TableCell className="text-right">$250.00</TableCell>
-            </TableRow>
+            {history.map((item: HistoryItemVideo, i: number) => (
+              <TableRow key={item.id}>
+                <TableCell className="font-medium">{i + 1}</TableCell>
+                <TableCell>{item.promptText.slice(0, 60)}...</TableCell>
+                <TableCell>{item.resultText.slice(0, 60)}...</TableCell>
+                <TableCell className="text-right">
+                  {new Date(item.createdAt).toLocaleDateString()}
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </div>
