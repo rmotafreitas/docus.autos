@@ -1,5 +1,5 @@
 import { Button } from "../../components/ui/button";
-import { Github, Wand2 } from "lucide-react";
+import { Wand2 } from "lucide-react";
 import { Separator } from "../../components/ui/separator";
 import { Textarea } from "../../components/ui/textarea";
 import { Label } from "../../components/ui/label";
@@ -13,16 +13,30 @@ import {
 import { Slider } from "../../components/ui/slider";
 import { VideoInputForm } from "../../components/video-input-form";
 import { PromptSelect } from "../../components/prompt-select";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useCompletion } from "ai/react";
 import { Navbar } from "@/components/navbar";
+import { hankoInstance } from "@/lib/hanko";
+import { useNavigate } from "react-router-dom";
+import { api } from "@/lib/axios";
 
 export function VideosAppPage() {
   const [temperature, setTemperature] = useState(0.5);
   const [videoId, setVideoId] = useState<string | null>(null);
+  const [user, setUser] = useState<any>(null);
+
+  const hanko = useMemo(() => hankoInstance, []);
+  const router = useNavigate();
 
   useEffect(() => {
-    (async () => {})();
+    (async () => {
+      try {
+        const user = await hanko.user.getCurrent();
+        setUser(user);
+      } catch (e) {
+        router("/auth?expired=1");
+      }
+    })();
   }, []);
 
   const {
@@ -33,13 +47,24 @@ export function VideosAppPage() {
     completion,
     isLoading,
   } = useCompletion({
-    api: "http://localhost:3333/ai/complete/video",
+    api: "http://localhost:3333/ai/complete/videos",
     body: {
       videoId,
       temperature,
+      userId: user?.id,
     },
     headers: {
       "Content-Type": "application/json",
+    },
+    onFinish: (prompt, completion) => {
+      api
+        .post("/ai/complete/videos/save", {
+          videoId,
+          userId: user?.id,
+          resultText: completion,
+          promptText: prompt,
+        })
+        .catch(console.error);
     },
   });
 

@@ -16,7 +16,7 @@ model Video {
   path         String
   transcript   String?
   createdAt    DateTime       @default(now())
-  VideoHistory VideoHistory[]
+  VideoHistory Videohistory[]
 }
 
 model Prompt {
@@ -26,13 +26,14 @@ model Prompt {
   type     String @default("video")
 }
 
-model VideoHistory {
-  id         String @id @default(uuid())
+model Videohistory {
+  id         String   @id @default(uuid())
   userId     String
   videoId    String
-  video      Video  @relation(fields: [videoId], references: [id])
-  promptText String
-  reusltText String
+  video      Video    @relation(fields: [videoId], references: [id])
+  promptText String?
+  resultText String?
+  createdAt  DateTime @default(now())
 }
 
 model Website {

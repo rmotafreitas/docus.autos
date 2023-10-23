@@ -1,9 +1,9 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
-import { videoCompletion } from "./completion/gen/video";
+import { videoCompletionSave } from "./completion/save/video";
 
-export const generateAICompletionRoute = async (app: FastifyInstance) => {
-  app.post("/ai/complete/:type", async (request, reply) => {
+export const saveAIVideoCompletion = async (app: FastifyInstance) => {
+  app.post("/ai/complete/:type/save", async (request, reply) => {
     const paramsSchema = z.object({
       type: z.string(),
     });
@@ -12,7 +12,7 @@ export const generateAICompletionRoute = async (app: FastifyInstance) => {
 
     switch (type) {
       case "videos":
-        await videoCompletion(request, reply);
+        await videoCompletionSave(request, reply);
         break;
       default:
         return reply.status(400).send({ error: "Invalid type" });

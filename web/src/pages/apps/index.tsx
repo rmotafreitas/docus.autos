@@ -1,8 +1,25 @@
 import { FeatureCard } from "@/components/feature-card";
 import { Navbar } from "@/components/navbar";
+import { hankoInstance } from "@/lib/hanko";
 import { FileAudio, FileText, FileVideo, Globe } from "lucide-react";
+import { useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function AppsPage() {
+  const hanko = useMemo(() => hankoInstance, []);
+  const router = useNavigate();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const user = await hanko.user.getCurrent();
+        console.log(user);
+      } catch (e) {
+        router("/auth?expired=1");
+      }
+    })();
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />

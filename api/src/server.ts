@@ -10,6 +10,8 @@ import { getWebsiteContentRoute } from "./routes/get-website-content";
 import { getYTVideoInfoRoute } from "./routes/get-yt-video-info";
 import fastifystatic from "@fastify/static";
 import path from "path";
+import { saveAIVideoCompletion } from "./routes/save-ai-completion";
+import { getAILogsCompletion } from "./routes/get-ai-log";
 
 const app = fastify();
 
@@ -32,6 +34,9 @@ app.register(fastifystatic, {
   root: path.join(__dirname, "..", "tmp"),
   prefix: "/tmp/",
 });
+app.register(saveAIVideoCompletion);
+app.register(getAILogsCompletion);
+
 app
   .listen({
     port: 3333,
