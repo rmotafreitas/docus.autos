@@ -29,7 +29,7 @@ export function WebsitesAppPage() {
     completion,
     isLoading,
   } = useCompletion({
-    api: "http://localhost:3333/ai/complete/website",
+    api: "http://localhost:3333/ai/complete/websites",
     body: {
       url,
       temperature,
