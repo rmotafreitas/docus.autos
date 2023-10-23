@@ -13,13 +13,30 @@ import {
 import { Slider } from "../../components/ui/slider";
 import { WebsiteInputForm } from "../../components/website-input-form";
 import { PromptSelect } from "../../components/prompt-select";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Navbar } from "@/components/navbar";
 import { useCompletion } from "ai/react";
+import { useNavigate } from "react-router-dom";
+import { hankoInstance } from "@/lib/hanko";
 
 export function WebsitesAppPage() {
   const [temperature, setTemperature] = useState(0.5);
   const [url, setWebsiteUrl] = useState<string | null>(null);
+
+  const [user, setUser] = useState<any>(null);
+  const hanko = useMemo(() => hankoInstance, []);
+  const router = useNavigate();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const user = await hanko.user.getCurrent();
+        setUser(user);
+      } catch (e) {
+        router("/auth?expired=1");
+      }
+    })();
+  }, []);
 
   const {
     input,
