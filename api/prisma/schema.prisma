@@ -35,3 +35,11 @@ model Videohistory {
   resultText String?
   createdAt  DateTime @default(now())
 }
+
+model Website {
+  url       String   @id
+  title     String?
+  image     String?
+  content   String?
+  createdAt DateTime @default(now())
+}

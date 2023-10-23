@@ -22,11 +22,15 @@
   "dependencies": {
     "@fastify/cors": "^8.3.0",
     "@fastify/multipart": "^7.7.3",
+    "@fastify/static": "^6.11.2",
     "@prisma/client": "5.3.0",
     "ai": "^2.2.14",
+    "axios": "^1.5.1",
+    "cheerio": "1.0.0-rc.12",
     "dotenv": "^16.3.1",
     "fastify": "^4.23.1",
     "openai": "^4.6.0",
+    "puppeteer": "^21.3.8",
     "ytdl-core": "^4.11.5",
     "zod": "^3.22.2"
   }
