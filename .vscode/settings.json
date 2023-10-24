@@ -3,7 +3,8 @@
     "Fastify",
     "hanko",
     "openai",
-    "videohistory"
+    "videohistory",
+    "websitehistory"
   ],
   "jira-plugin.workingProject": ""
 }

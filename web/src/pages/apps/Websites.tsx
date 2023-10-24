@@ -18,6 +18,7 @@ import { Navbar } from "@/components/navbar";
 import { useCompletion } from "ai/react";
 import { useNavigate } from "react-router-dom";
 import { hankoInstance } from "@/lib/hanko";
+import { api } from "@/lib/axios";
 
 export function WebsitesAppPage() {
   const [temperature, setTemperature] = useState(0.5);
@@ -53,6 +54,16 @@ export function WebsitesAppPage() {
     },
     headers: {
       "Content-Type": "application/json",
+    },
+    onFinish: (prompt, completion) => {
+      api
+        .post("/ai/complete/websites/save", {
+          url,
+          userId: user?.id,
+          resultText: completion,
+          promptText: input,
+        })
+        .catch(console.error);
     },
   });
 

@@ -37,9 +37,20 @@ model Videohistory {
 }
 
 model Website {
-  url       String   @id
-  title     String?
-  image     String?
-  content   String?
-  createdAt DateTime @default(now())
+  url            String           @id
+  title          String?
+  image          String?
+  content        String?
+  createdAt      DateTime         @default(now())
+  Websitehistory Websitehistory[]
+}
+
+model Websitehistory {
+  id         String   @id @default(uuid())
+  userId     String
+  websiteUrl String
+  website    Website  @relation(fields: [websiteUrl], references: [url])
+  promptText String?
+  resultText String?
+  createdAt  DateTime @default(now())
 }
