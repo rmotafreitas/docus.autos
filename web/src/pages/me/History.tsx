@@ -39,25 +39,97 @@ interface HistoryItemVideo {
   createdAt: string;
 }
 
+interface HistoryItemWebsite {
+  id: string;
+  websiteUrl: string;
+  promptText: string;
+  resultText: string;
+  createdAt: string;
+}
+
+interface History {
+  videos: HistoryItemVideo[];
+  websites: HistoryItemWebsite[];
+}
+
 export function HistoryPage() {
   const hanko = useMemo(() => hankoInstance, []);
   const router = useNavigate();
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState<History>();
+  const [filter, setFilter] = useState<
+    "video" | "website" | "document" | "audio"
+  >("video");
 
   useEffect(() => {
     (async () => {
       try {
         const user = await hanko.user.getCurrent();
-        console.log(user);
         const history = await api.post("/ai/complete/all/log", {
           userId: user.id,
         });
-        setHistory(history.data.videos);
+        setHistory(history.data);
       } catch (e) {
         router("/auth?expired=1");
       }
     })();
   }, []);
+
+  const Components = {
+    video: () => (
+      <Table>
+        <TableCaption>A list of your {} prompts.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[100px]">Video</TableHead>
+            <TableHead>Prompt</TableHead>
+            <TableHead>Result</TableHead>
+            <TableHead className="text-right">Date</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {history?.videos &&
+            history.videos.map((item: HistoryItemVideo, i: number) => (
+              <TableRow key={item.id}>
+                <TableCell className="font-medium">{i + 1}</TableCell>
+                <TableCell>{item.promptText.slice(0, 60)}...</TableCell>
+                <TableCell>{item.resultText.slice(0, 60)}...</TableCell>
+                <TableCell className="text-right">
+                  {new Date(item.createdAt).toLocaleDateString()}
+                </TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+    ),
+    website: () => (
+      <Table>
+        <TableCaption>A list of your {} prompts.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[100px]">Website</TableHead>
+            <TableHead>Prompt</TableHead>
+            <TableHead>Result</TableHead>
+            <TableHead className="text-right">Date</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {history?.websites &&
+            history.websites.map((item: HistoryItemWebsite, i: number) => (
+              <TableRow key={item.id}>
+                <TableCell className="font-medium">{item.websiteUrl}</TableCell>
+                <TableCell>{item.promptText.slice(0, 60)}...</TableCell>
+                <TableCell>{item.resultText.slice(0, 60)}...</TableCell>
+                <TableCell className="text-right">
+                  {new Date(item.createdAt).toLocaleDateString()}
+                </TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+    ),
+    document: () => <div>Document</div>,
+    audio: () => <div>Audio</div>,
+  };
 
   return (
     <div className="flex flex-col min-h-screen justify-center items-center">
@@ -71,13 +143,18 @@ export function HistoryPage() {
             <DropdownMenuContent>
               <DropdownMenuLabel>Media Filter</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>All</DropdownMenuItem>
-              <DropdownMenuItem className="flex flex-row gap-2 justify-start items-center">
+              <DropdownMenuItem
+                onClick={() => setFilter("video")}
+                className="flex flex-row gap-2 justify-start items-center"
+              >
                 <FileVideo className="w-4" />
                 Videos
               </DropdownMenuItem>
 
-              <DropdownMenuItem className="flex flex-row gap-2 justify-start items-center">
+              <DropdownMenuItem
+                onClick={() => setFilter("website")}
+                className="flex flex-row gap-2 justify-start items-center"
+              >
                 <Globe className="w-4" />
                 Websites
               </DropdownMenuItem>
@@ -94,30 +171,7 @@ export function HistoryPage() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-
-        <Table>
-          <TableCaption>A list of your {} prompts.</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[100px]">Video</TableHead>
-              <TableHead>Prompt</TableHead>
-              <TableHead>Result</TableHead>
-              <TableHead className="text-right">Date</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {history.map((item: HistoryItemVideo, i: number) => (
-              <TableRow key={item.id}>
-                <TableCell className="font-medium">{i + 1}</TableCell>
-                <TableCell>{item.promptText.slice(0, 60)}...</TableCell>
-                <TableCell>{item.resultText.slice(0, 60)}...</TableCell>
-                <TableCell className="text-right">
-                  {new Date(item.createdAt).toLocaleDateString()}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        {Components[filter]()}
       </div>
     </div>
   );

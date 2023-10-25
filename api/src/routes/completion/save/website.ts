@@ -7,34 +7,34 @@ export async function websiteCompletionSave(
   reply: FastifyReply
 ) {
   const bodySchema = z.object({
-    websiteUrl: z.string(),
+    url: z.string(),
     userId: z.string().uuid(),
     resultText: z.string(),
     promptText: z.string(),
   });
 
-  const { websiteUrl, resultText, userId, promptText } = bodySchema.parse(
+  const { url, resultText, userId, promptText } = bodySchema.parse(
     request.body
   );
 
-  const video = await prisma.websitehistory.findFirst({
+  const website = await prisma.websitehistory.findFirst({
     where: {
-      websiteUrl,
+      websiteUrl: url,
       userId,
       resultText,
     },
   });
 
-  if (!video) {
+  if (!website) {
     const website = await prisma.website.findUnique({
       where: {
-        url: websiteUrl,
+        url,
       },
     });
     await prisma.websitehistory.create({
       data: {
         userId,
-        websiteUrl,
+        websiteUrl: url,
         resultText,
         promptText: promptText.replace(
           "{content}",

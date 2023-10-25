@@ -27,13 +27,8 @@ export const getYTVideoInfoRoute = async (app: FastifyInstance) => {
       return reply.status(400).send({ error: "Invalid URL" });
     }
 
-    const audioFile = chooseFormat(info.formats, {
-      filter: "audioonly",
-      quality: "lowestaudio",
-    });
-
     const res = {
-      audioFileURL: audioFile?.url || "404",
+      id: info.videoDetails.videoId,
       title: info.videoDetails.title,
       thumbnail:
         info.videoDetails.thumbnails[info.videoDetails.thumbnails.length - 1]

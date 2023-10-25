@@ -22,7 +22,7 @@ const statusMessages = {
 interface YoutubeVideoInfo {
   url: string;
   title: string;
-  audioFileURL: string;
+  id: string;
   thumbnail: string;
 }
 
@@ -41,7 +41,7 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
   const [youtubeVideoInfo, setYoutubeVideoInfo] = useState<YoutubeVideoInfo>({
     url: "",
     title: "",
-    audioFileURL: "",
+    id: "",
     thumbnail: "",
   });
 
@@ -54,7 +54,7 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
       return setYoutubeVideoInfo({
         url: "",
         title: "",
-        audioFileURL: "",
+        id: "",
         thumbnail: "",
       });
     }
@@ -64,7 +64,7 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
       return setYoutubeVideoInfo({
         url,
         title: "",
-        audioFileURL: "",
+        id: "",
         thumbnail: "404",
       });
     }
@@ -84,12 +84,12 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
         };
       });
 
-    const { title, audioFileURL, thumbnail } = res.data;
+    const { title, id, thumbnail } = res.data;
 
     setYoutubeVideoInfo({
       url,
       title,
-      audioFileURL,
+      id,
       thumbnail,
     });
 
@@ -161,25 +161,34 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
 
   const handleUploadVideo = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     const prompt = promptInputRef.current?.value;
+    let videoId: string = "";
 
-    if (!selectedFile) {
+    if (inputType === "file" && !selectedFile) {
       return;
+    } else {
+      if (selectedFile) {
+        // converter o video em áudio
+        setStatus("converting");
+
+        const audioFile = await convertVideoToAudio(selectedFile);
+
+        const data = new FormData();
+        data.append("file", audioFile);
+
+        setStatus("uploading");
+        const res = await api.post("/videos", data);
+        videoId = res.data.video.id;
+      } else if (youtubeVideoInfo.title !== "") {
+        setStatus("uploading");
+        const res = await api.post("/videos/yt/download", {
+          url: youtubeVideoInfo.url,
+        });
+        videoId = res.data.video.id;
+      }
     }
 
-    // converter o video em áudio
-    setStatus("converting");
-
-    const audioFile = await convertVideoToAudio(selectedFile);
-
-    const data = new FormData();
-    data.append("file", audioFile);
-
-    setStatus("uploading");
-    const res = await api.post("/videos", data);
-
-    const videoId = res.data.video.id;
+    if (!videoId) return;
 
     setStatus("generating");
     await api.post(`/videos/${videoId}/transcription`, {
@@ -269,7 +278,6 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
             className="h-20 resize-none leading-relaxed"
             ref={youtubeLinkInputRef}
             onChange={handleGetInfoFromYoutube}
-            value={youtubeVideoInfo.url}
           />
         </>
       )}
