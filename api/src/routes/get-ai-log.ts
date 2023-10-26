@@ -42,8 +42,11 @@ export const getAILogsCompletion = async (app: FastifyInstance) => {
         "websites",
         userId
       )) as Prisma.WebsitehistoryGetPayload<{}>[];
+      res.articles = (await getLogFrom(
+        "articles",
+        userId
+      )) as Prisma.ArticlehistoryGetPayload<{}>[];
       // res.audios = await getLogFrom("audios", userId);
-      // res.files = await getLogFrom("files", userId);
       return res;
     }
     return res[type];
@@ -55,11 +58,13 @@ export const getAILogsCompletion = async (app: FastifyInstance) => {
   ): Promise<
     | Prisma.VideohistoryGetPayload<{}>[]
     | Prisma.WebsitehistoryGetPayload<{}>[]
+    | Prisma.ArticlehistoryGetPayload<{}>[]
     | null
   > => {
     let res:
       | Prisma.VideohistoryGetPayload<{}>[]
       | Prisma.WebsitehistoryGetPayload<{}>[]
+      | Prisma.ArticlehistoryGetPayload<{}>[]
       | null = null;
     switch (type) {
       case "videos":
@@ -74,6 +79,11 @@ export const getAILogsCompletion = async (app: FastifyInstance) => {
       case "audios":
         break;
       case "articles":
+        res = await prisma.articlehistory.findMany({
+          where: {
+            userId,
+          },
+        });
         break;
     }
     return res;

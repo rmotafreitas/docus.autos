@@ -56,7 +56,6 @@ export function ArticleAppPage() {
       "Content-Type": "application/json",
     },
     onFinish: (prompt, completion) => {
-      /*
       api
         .post("/ai/complete/articles/save", {
           articleId,
@@ -65,7 +64,6 @@ export function ArticleAppPage() {
           promptText: input,
         })
         .catch(console.error);
-      */
     },
   });
 

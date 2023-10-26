@@ -36,10 +36,7 @@ export async function websiteCompletionSave(
         userId,
         websiteUrl: url,
         resultText,
-        promptText: promptText.replace(
-          "{content}",
-          website?.content || "{content}"
-        ),
+        promptText,
       },
     });
   }
