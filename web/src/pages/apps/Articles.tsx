@@ -19,6 +19,8 @@ import { hankoInstance } from "@/lib/hanko";
 import { useNavigate } from "react-router-dom";
 import { api } from "@/lib/axios";
 import { ArticleInputForm } from "@/components/article-input-form";
+import * as Dialog from "@radix-ui/react-dialog";
+import { ChatModal } from "@/components/chat-modal";
 
 export function ArticleAppPage() {
   const [temperature, setTemperature] = useState(0.5);
@@ -149,6 +151,11 @@ export function ArticleAppPage() {
           </form>
         </aside>
       </main>
+
+      <Dialog.Root>
+        <Dialog.Trigger>Open chat</Dialog.Trigger>
+        <ChatModal />
+      </Dialog.Root>
     </div>
   );
 }
