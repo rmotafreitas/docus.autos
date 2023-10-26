@@ -47,9 +47,18 @@ interface HistoryItemWebsite {
   createdAt: string;
 }
 
+interface HistoryItemArticle {
+  id: string;
+  articleId: string;
+  promptText: string;
+  resultText: string;
+  createdAt: string;
+}
+
 interface History {
   videos: HistoryItemVideo[];
   websites: HistoryItemWebsite[];
+  articles: HistoryItemArticle[];
 }
 
 export function HistoryPage() {
@@ -57,7 +66,7 @@ export function HistoryPage() {
   const router = useNavigate();
   const [history, setHistory] = useState<History>();
   const [filter, setFilter] = useState<
-    "video" | "website" | "document" | "audio"
+    "video" | "website" | "article" | "audio"
   >("video");
 
   useEffect(() => {
@@ -127,7 +136,32 @@ export function HistoryPage() {
         </TableBody>
       </Table>
     ),
-    document: () => <div>Document</div>,
+    article: () => (
+      <Table>
+        <TableCaption>A list of your {} prompts.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[100px]">Article</TableHead>
+            <TableHead>Prompt</TableHead>
+            <TableHead>Result</TableHead>
+            <TableHead className="text-right">Date</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {history?.articles &&
+            history.articles.map((item: HistoryItemArticle, i: number) => (
+              <TableRow key={item.id}>
+                <TableCell className="font-medium">{item.articleId}</TableCell>
+                <TableCell>{item.promptText.slice(0, 60)}...</TableCell>
+                <TableCell>{item.resultText.slice(0, 60)}...</TableCell>
+                <TableCell className="text-right">
+                  {new Date(item.createdAt).toLocaleDateString()}
+                </TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+    ),
     audio: () => <div>Audio</div>,
   };
 
@@ -159,7 +193,10 @@ export function HistoryPage() {
                 Websites
               </DropdownMenuItem>
 
-              <DropdownMenuItem className="flex flex-row gap-2 justify-start items-center">
+              <DropdownMenuItem
+                className="flex flex-row gap-2 justify-start items-center"
+                onClick={() => setFilter("article")}
+              >
                 <FileText className="w-4" />
                 Documents
               </DropdownMenuItem>
