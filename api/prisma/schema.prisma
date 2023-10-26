@@ -45,6 +45,25 @@ model Website {
   Websitehistory Websitehistory[]
 }
 
+model Article {
+  id             String           @id @default(uuid())
+  name           String
+  path           String
+  transcript     String?
+  createdAt      DateTime         @default(now())
+  Articlehistory Articlehistory[]
+}
+
+model Articlehistory {
+  id         String   @id @default(uuid())
+  userId     String
+  articleId  String
+  article    Article  @relation(fields: [articleId], references: [id])
+  promptText String?
+  resultText String?
+  createdAt  DateTime @default(now())
+}
+
 model Websitehistory {
   id         String   @id @default(uuid())
   userId     String

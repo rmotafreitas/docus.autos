@@ -137,6 +137,31 @@ Transcript:
       type: "website",
     },
   });
+
+  await prisma.prompt.create({
+    data: {
+      title: "Summary for Article",
+      template: `Your role is to generate a succinct summary for an article.
+
+Below you will receive a transcript of this article, use this transcript to generate the summary.
+
+The summary should be a maximum of 200 words, containing the main points of the article.
+
+Use attention-grabbing words that catch the reader's attention.
+
+The return should be in the following format:
+
+'''
+Summary.
+'''
+
+Transcript:
+'''
+{transcription}
+'''`.trim(),
+      type: "article",
+    },
+  });
 }
 
 main()

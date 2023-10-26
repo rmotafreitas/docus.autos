@@ -16,7 +16,7 @@ interface Prompt {
 
 interface PromptSelectProps {
   onPromptSelected: (template: string) => void;
-  type: "video" | "website";
+  type: "video" | "website" | "article";
 }
 
 export function PromptSelect({ onPromptSelected, type }: PromptSelectProps) {

@@ -11,7 +11,6 @@ import {
   SelectValue,
 } from "../../components/ui/select";
 import { Slider } from "../../components/ui/slider";
-import { VideoInputForm } from "../../components/video-input-form";
 import { PromptSelect } from "../../components/prompt-select";
 import { useEffect, useMemo, useState } from "react";
 import { useCompletion } from "ai/react";
@@ -19,10 +18,11 @@ import { Navbar } from "@/components/navbar";
 import { hankoInstance } from "@/lib/hanko";
 import { useNavigate } from "react-router-dom";
 import { api } from "@/lib/axios";
+import { ArticleInputForm } from "@/components/article-input-form";
 
-export function VideosAppPage() {
+export function ArticleAppPage() {
   const [temperature, setTemperature] = useState(0.5);
-  const [videoId, setVideoId] = useState<string | null>(null);
+  const [articleId, setArticleId] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
 
   const hanko = useMemo(() => hankoInstance, []);
@@ -47,23 +47,25 @@ export function VideosAppPage() {
     completion,
     isLoading,
   } = useCompletion({
-    api: "http://localhost:3333/ai/complete/videos",
+    api: "http://localhost:3333/ai/complete/articles",
     body: {
-      videoId,
+      id: articleId,
       temperature,
     },
     headers: {
       "Content-Type": "application/json",
     },
     onFinish: (prompt, completion) => {
+      /*
       api
-        .post("/ai/complete/videos/save", {
-          videoId,
+        .post("/ai/complete/articles/save", {
+          articleId,
           userId: user?.id,
           resultText: completion,
           promptText: input,
         })
         .catch(console.error);
+      */
     },
   });
 
@@ -91,19 +93,19 @@ export function VideosAppPage() {
             <code className="text-violet-400">
               {"{"}transcription{"}"}
             </code>{" "}
-            tag on your prompt to add the transcription of the audio
+            tag on your prompt to add the transcription of the article
           </p>
         </section>
 
         <aside className="w-80 flex flex-col gap-6">
-          <VideoInputForm onVideoUploaded={setVideoId} />
+          <ArticleInputForm onArticleUploaded={setArticleId} />
 
           <Separator />
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
               <Label>Prompt</Label>
-              <PromptSelect type="video" onPromptSelected={setInput} />
+              <PromptSelect type="article" onPromptSelected={setInput} />
             </div>
 
             <Separator />
@@ -142,7 +144,7 @@ export function VideosAppPage() {
 
             <Separator />
 
-            <Button disabled={isLoading || !videoId} type="submit">
+            <Button disabled={isLoading || !articleId} type="submit">
               Generate
               <Wand2 className="w-4 h-4 ml-2" />
             </Button>

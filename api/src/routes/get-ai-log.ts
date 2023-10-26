@@ -8,7 +8,7 @@ interface typeRes {
   videos: Prisma.VideohistoryGetPayload<{}>[] | null;
   websites: Prisma.WebsitehistoryGetPayload<{}>[] | null;
   audios: any[] | null;
-  files: any[] | null;
+  articles: any[] | null;
 }
 
 export const getAILogsCompletion = async (app: FastifyInstance) => {
@@ -30,7 +30,7 @@ export const getAILogsCompletion = async (app: FastifyInstance) => {
       videos: [],
       websites: [],
       audios: [],
-      files: [],
+      articles: [],
     };
 
     if (type === "all") {
@@ -50,7 +50,7 @@ export const getAILogsCompletion = async (app: FastifyInstance) => {
   });
 
   const getLogFrom = async (
-    type: "videos" | "websites" | "audios" | "files",
+    type: "videos" | "websites" | "audios" | "articles",
     userId: string
   ): Promise<
     | Prisma.VideohistoryGetPayload<{}>[]
@@ -73,7 +73,7 @@ export const getAILogsCompletion = async (app: FastifyInstance) => {
         break;
       case "audios":
         break;
-      case "files":
+      case "articles":
         break;
     }
     return res;
