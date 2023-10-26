@@ -3,6 +3,7 @@ import { z } from "zod";
 import { videoCompletion } from "./completion/gen/video";
 import { websiteCompletion } from "./completion/gen/website";
 import { articleCompletion } from "./completion/gen/article";
+import { audioCompletion } from "./completion/gen/audio";
 
 export const generateAICompletionRoute = async (app: FastifyInstance) => {
   app.post("/ai/complete/:type", async (request, reply) => {
@@ -21,6 +22,9 @@ export const generateAICompletionRoute = async (app: FastifyInstance) => {
         break;
       case "articles":
         await articleCompletion(request, reply);
+        break;
+      case "audios":
+        await audioCompletion(request, reply);
         break;
       default:
         return reply.status(400).send({ error: "Invalid type" });

@@ -6,7 +6,7 @@ import { createReadStream } from "node:fs";
 import { openai } from "../lib/opeanai";
 
 export const createTranscriptionAudioRoute = async (app: FastifyInstance) => {
-  app.post("/audios/:audiosId/transcription", async (request, reply) => {
+  app.post("/audios/:audioId/transcription", async (request, reply) => {
     const paramsSchema = z.object({
       audioId: z.string().uuid(),
     });

@@ -67,7 +67,7 @@ Transcript:
 
 Below you will receive a transcript of this video, use this transcript to generate the summary.
 
-The summary ption should be a maximum of 200 words in first person, containing the main points of the video.
+The summary should be a maximum of 200 words in first person, containing the main points of the video.
 
 Use attention-grabbing words that catch the reader's attention.
 
@@ -160,6 +160,31 @@ Transcript:
 {transcription}
 '''`.trim(),
       type: "article",
+    },
+  });
+
+  await prisma.prompt.create({
+    data: {
+      title: "Summary for Audio",
+      template: `Your role is to generate a succinct summary for an audio.
+
+Below you will receive a transcript of this audio, use this transcript to generate the summary.
+
+The summary should be a maximum of 200 words, containing the main points of the audio.
+
+Use attention-grabbing words that catch the reader's attention.
+
+The return should be in the following format:
+
+'''
+Summary.
+'''
+
+Transcript:
+'''
+{transcription}
+'''`.trim(),
+      type: "audio",
     },
   });
 }

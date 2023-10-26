@@ -3,6 +3,7 @@ import { z } from "zod";
 import { videoCompletionSave } from "./completion/save/video";
 import { websiteCompletionSave } from "./completion/save/website";
 import { articleCompletionSave } from "./completion/save/article";
+import { audioCompletionSave } from "./completion/save/audio";
 
 export const saveAIVideoCompletion = async (app: FastifyInstance) => {
   app.post("/ai/complete/:type/save", async (request, reply) => {
@@ -22,7 +23,7 @@ export const saveAIVideoCompletion = async (app: FastifyInstance) => {
         await articleCompletionSave(request, reply);
         break;
       case "audios":
-        // await audioCompletionSave(request, reply);
+        await audioCompletionSave(request, reply);
         break;
       default:
         return reply.status(400).send({ error: "Invalid type" });

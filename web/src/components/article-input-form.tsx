@@ -1,6 +1,5 @@
 import { Button } from "./ui/button";
 import { FileText, Upload } from "lucide-react";
-import { Separator } from "./ui/separator";
 import { ChangeEvent, FormEvent, useMemo, useState } from "react";
 
 import { api } from "@/lib/axios";

@@ -56,7 +56,6 @@ export function AudiosAppPage() {
       "Content-Type": "application/json",
     },
     onFinish: (prompt, completion) => {
-      /*
       api
         .post("/ai/complete/audios/save", {
           audioId,
@@ -65,7 +64,6 @@ export function AudiosAppPage() {
           promptText: input,
         })
         .catch(console.error);
-        */
     },
   });
 
