@@ -1,5 +1,5 @@
 import { Button } from "../../components/ui/button";
-import { Wand2 } from "lucide-react";
+import { MessagesSquareIcon, Wand2 } from "lucide-react";
 import { Separator } from "../../components/ui/separator";
 import { Textarea } from "../../components/ui/textarea";
 import { Label } from "../../components/ui/label";
@@ -88,13 +88,25 @@ export function ArticleAppPage() {
               value={completion}
             />
           </div>
-          <p className="text-sm text-muted-foreground">
-            Pro tip: You can use{" "}
-            <code className="text-violet-400">
-              {"{"}transcription{"}"}
-            </code>{" "}
-            tag on your prompt to add the transcription of the article
-          </p>
+          <section className="flex flex-row justify-between items-center">
+            <p className="text-sm text-muted-foreground">
+              Pro tip: You can use{" "}
+              <code className="text-violet-400">
+                {"{"}transcription{"}"}
+              </code>{" "}
+              tag on your prompt to add the transcription of the article
+            </p>
+
+            <Dialog.Root>
+              <Dialog.Trigger>
+                <Button className="flex items-center">
+                  <MessagesSquareIcon className="w-4 h-4 mr-2" />
+                  AI Chat
+                </Button>
+              </Dialog.Trigger>
+              <ChatModal />
+            </Dialog.Root>
+          </section>
         </section>
 
         <aside className="w-80 flex flex-col gap-6">
@@ -151,11 +163,6 @@ export function ArticleAppPage() {
           </form>
         </aside>
       </main>
-
-      <Dialog.Root>
-        <Dialog.Trigger>Open chat</Dialog.Trigger>
-        <ChatModal />
-      </Dialog.Root>
     </div>
   );
 }

@@ -2,22 +2,29 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { SendHorizonal } from "lucide-react";
+import { ScrollArea } from "./ui/scroll-area";
 
 export function ChatModal() {
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="bg-black/60 inset-0 fixed" />
-      <Dialog.Content className="fixed bg-[#2A2634] py-4 px-6 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg w-[480px] shadow-lg shadow-black/25">
+      <Dialog.Content className="fixed bg-[#2A2634] py-4 px-4 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg w-[480px] h-[480px] max-h-[480px] shadow-lg shadow-black/25 flex flex-col">
         <Dialog.Title className="text-xl font-black mb-4">AI Chat</Dialog.Title>
-        <ChatBubble
-          text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nulla sunt a doloribus sint aliquid, minima similique eius! Recusandae molestiae cum laboriosam omnis. Aperiam voluptatibus possimus rem praesentium! Quae, aliquid?"
-          isAi
-        />
-        <ChatBubble
-          text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nulla sunt a doloribus sint aliquid, minima similique eius! Recusandae molestiae cum laboriosam omnis. Aperiam voluptatibus possimus rem praesentium! Quae, aliquid?"
-          isAi={false}
-        />
-        <div className="flex w-full items-center space-x-2">
+        <ScrollArea className="flex-1 flex-col pr-2">
+          <ChatBubble
+            text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nulla sunt a doloribus sint aliquid, minima similique eius! Recusandae molestiae cum laboriosam omnis. Aperiam voluptatibus possimus rem praesentium! Quae, aliquid?"
+            isAi
+          />
+          <ChatBubble
+            text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nulla sunt a doloribus sint aliquid, minima similique eius! Recusandae molestiae cum laboriosam omnis. Aperiam voluptatibus possimus rem praesentium! Quae, aliquid?"
+            isAi={false}
+          />
+          <ChatBubble
+            text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nulla sunt a doloribus sint aliquid, minima similique eius! Recusandae molestiae cum laboriosam omnis. Aperiam voluptatibus possimus rem praesentium! Quae, aliquid?"
+            isAi
+          />
+        </ScrollArea>
+        <div className="flex w-full pt-2 items-end space-x-2">
           <Input type="text" placeholder="Type a message..." />
           <Button type="submit">
             <SendHorizonal />
