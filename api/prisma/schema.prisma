@@ -19,6 +19,25 @@ model Video {
   VideoHistory Videohistory[]
 }
 
+model Audio {
+  id           String         @id @default(uuid())
+  name         String
+  path         String
+  transcript   String?
+  createdAt    DateTime       @default(now())
+  AudioHistory Audiohistory[]
+}
+
+model Audiohistory {
+  id         String   @id @default(uuid())
+  userId     String
+  audioId    String
+  audio      Audio    @relation(fields: [audioId], references: [id])
+  promptText String?
+  resultText String?
+  createdAt  DateTime @default(now())
+}
+
 model Prompt {
   id       String @id @default(uuid())
   title    String
