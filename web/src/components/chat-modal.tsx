@@ -40,7 +40,7 @@ export function ChatModal({ id, type }: ChatModalProps) {
   async function getMessages() {
     const { data } = await api.post(`/ai/chat/${type}`, {
       userId,
-      contentId: id,
+      id,
     });
     setMessages(data);
   }

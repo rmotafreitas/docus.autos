@@ -26,14 +26,25 @@ export async function videoCompletionSave(
   });
 
   if (!video) {
-    await prisma.videohistory.create({
+    const res = await prisma.videohistory.create({
       data: {
         videoId,
         userId,
         resultText,
         promptText,
+        messages: {
+          create: [
+            {
+              userId,
+              promptText,
+              resultText,
+            },
+          ],
+        },
       },
     });
+
+    return res;
   }
 
   return;

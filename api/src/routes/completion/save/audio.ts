@@ -26,14 +26,24 @@ export async function audioCompletionSave(
   });
 
   if (!audio) {
-    await prisma.audiohistory.create({
+    const res = await prisma.audiohistory.create({
       data: {
         audioId,
         userId,
         resultText,
         promptText,
+        messages: {
+          create: [
+            {
+              userId,
+              promptText,
+              resultText,
+            },
+          ],
+        },
       },
     });
+    return res;
   }
 
   return;

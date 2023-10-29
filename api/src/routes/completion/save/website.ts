@@ -26,19 +26,24 @@ export async function websiteCompletionSave(
   });
 
   if (!website) {
-    const website = await prisma.website.findUnique({
-      where: {
-        url,
-      },
-    });
-    await prisma.websitehistory.create({
+    const res = await prisma.websitehistory.create({
       data: {
         userId,
         websiteUrl: url,
         resultText,
         promptText,
+        messages: {
+          create: [
+            {
+              userId,
+              promptText,
+              resultText,
+            },
+          ],
+        },
       },
     });
+    return res;
   }
 
   return;

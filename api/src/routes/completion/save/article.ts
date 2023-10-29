@@ -26,17 +26,12 @@ export async function articleCompletionSave(
   });
 
   if (!article) {
-    const transcript = await prisma.article.findUnique({
-      where: {
-        id: articleId,
-      },
-    });
     const res = await prisma.articlehistory.create({
       data: {
         userId,
         articleId,
         resultText,
-        promptText: promptText,
+        promptText,
         messages: {
           create: [
             {
