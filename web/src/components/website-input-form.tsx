@@ -5,6 +5,7 @@ import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
 import { Textarea } from "./ui/textarea";
 import { api } from "@/lib/axios";
+import { Input } from "./ui/input";
 
 type Status = "waiting" | "fetching" | "uploading" | "generating" | "success";
 
@@ -45,14 +46,13 @@ export const WebsiteInputForm = ({
     setUrl(value);
   };
 
-  const previewURL = useMemo(() => {}, [selectedWebsite, websiteInfo]);
-
   const handleUploadWebsite = async (event: FormEvent<HTMLFormElement>) => {
+    setUrl(url.trim());
     event.preventDefault();
     setStatus("fetching");
     setIsFetchingDataFromAPI(true);
     const res = await api.post("/websites", {
-      url: url.includes("http") ? url : `https://${url}`,
+      url: url.trim().includes("http") ? url.trim() : `https://${url.trim()}`,
     });
     setStatus("success");
     setIsFetchingDataFromAPI(false);
@@ -84,11 +84,10 @@ export const WebsiteInputForm = ({
       </label>
       <Separator />
       <Label htmlFor="website_url">Website Url</Label>
-      <Textarea
+      <Input
         disabled={status !== "waiting"}
         id="website_url"
         placeholder="Paste a website link here"
-        className="h-20 resize-none leading-relaxed"
         onChange={(e) => handleGetInfoFromWebsite(e.target.value)}
       />
 

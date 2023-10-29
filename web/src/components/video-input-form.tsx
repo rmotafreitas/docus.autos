@@ -8,7 +8,7 @@ import { ChangeEvent, FormEvent, useMemo, useRef, useState } from "react";
 import { initFFmpeg } from "@/lib/ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
 import { api } from "@/lib/axios";
-import axios from "axios";
+import { Input } from "./ui/input";
 
 type Status = "waiting" | "converting" | "uploading" | "generating" | "success";
 
@@ -34,7 +34,7 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isFetchingDataFromAPI, setIsFetchingDataFromAPI] = useState(false);
   const promptInputRef = useRef<HTMLTextAreaElement>(null);
-  const youtubeLinkInputRef = useRef<HTMLTextAreaElement>(null);
+  const youtubeLinkInputRef = useRef<HTMLInputElement>(null);
 
   const [status, setStatus] = useState<Status>("waiting");
   const [inputType, setInputType] = useState<"file" | "youtube">("file");
@@ -47,7 +47,7 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
 
   const handleGetInfoFromYoutube = async () => {
     setIsFetchingDataFromAPI(true);
-    const url = youtubeLinkInputRef.current?.value;
+    const url = youtubeLinkInputRef.current?.value.trim();
 
     if (!url) {
       setIsFetchingDataFromAPI(false);
@@ -182,7 +182,7 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
       } else if (youtubeVideoInfo.title !== "") {
         setStatus("uploading");
         const res = await api.post("/videos/yt/download", {
-          url: youtubeVideoInfo.url,
+          url: youtubeVideoInfo.url.trim(),
         });
         videoId = res.data.video.id;
       }
@@ -271,11 +271,10 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
           </label>
           <Separator />
           <Label htmlFor="yt_url">Youtube Video Url</Label>
-          <Textarea
+          <Input
             disabled={status !== "waiting"}
             id="yt_url"
             placeholder="Paste a youtube link here"
-            className="h-20 resize-none leading-relaxed"
             ref={youtubeLinkInputRef}
             onChange={handleGetInfoFromYoutube}
           />
