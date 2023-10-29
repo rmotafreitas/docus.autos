@@ -1,9 +1,8 @@
 import { CrossIcon, Globe, Upload } from "lucide-react";
-import { FormEvent, useMemo, useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
-import { Textarea } from "./ui/textarea";
 import { api } from "@/lib/axios";
 import { Input } from "./ui/input";
 
@@ -51,16 +50,29 @@ export const WebsiteInputForm = ({
     event.preventDefault();
     setStatus("fetching");
     setIsFetchingDataFromAPI(true);
-    const res = await api.post("/websites", {
-      url: url.trim().includes("http") ? url.trim() : `https://${url.trim()}`,
-    });
-    setStatus("success");
-    setIsFetchingDataFromAPI(false);
-    const image = await api.get(res.data.image, { responseType: "blob" });
-    const file = new File([image.data], "image.png", { type: "image/png" });
-    res.data.image = URL.createObjectURL(file);
-    setWebsiteInfo(res.data);
-    onWebsiteUploaded(res.data.url);
+    try {
+      const res = await api.post("/websites", {
+        url: url.trim().includes("http") ? url.trim() : `https://${url.trim()}`,
+      });
+      // grab status from response
+
+      setStatus("success");
+      setIsFetchingDataFromAPI(false);
+      const image = await api.get(res.data.image, { responseType: "blob" });
+      const file = new File([image.data], "image.png", { type: "image/png" });
+      res.data.image = URL.createObjectURL(file);
+      setWebsiteInfo(res.data);
+      onWebsiteUploaded(res.data.url);
+    } catch (error) {
+      setStatus("waiting");
+      setIsFetchingDataFromAPI(false);
+      setWebsiteInfo({
+        url: "",
+        title: "",
+        image: "404",
+        content: "",
+      });
+    }
   };
 
   return (
@@ -78,7 +90,7 @@ export const WebsiteInputForm = ({
         ) : (
           <>
             <CrossIcon className="w-4 h-4" />
-            Invalid URL
+            Invalid URL or Website not available for us :(
           </>
         )}
       </label>
