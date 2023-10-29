@@ -30,6 +30,8 @@ export function ArticleAppPage() {
   const hanko = useMemo(() => hankoInstance, []);
   const router = useNavigate();
 
+  const [chatId, setChatId] = useState<string>("");
+
   useEffect(() => {
     (async () => {
       try {
@@ -57,15 +59,14 @@ export function ArticleAppPage() {
     headers: {
       "Content-Type": "application/json",
     },
-    onFinish: (prompt, completion) => {
-      api
-        .post("/ai/complete/articles/save", {
-          articleId,
-          userId: user?.id,
-          resultText: completion,
-          promptText: input,
-        })
-        .catch(console.error);
+    onFinish: async (prompt, completion) => {
+      const res = await api.post("/ai/complete/articles/save", {
+        articleId,
+        userId: user?.id,
+        resultText: completion,
+        promptText: input,
+      });
+      setChatId(res.data.id);
     },
   });
 
@@ -98,13 +99,13 @@ export function ArticleAppPage() {
             </p>
 
             <Dialog.Root>
-              <Dialog.Trigger>
-                <Button className="flex items-center">
+              <Dialog.Trigger disabled={!chatId} className="flex items-center">
+                <Button disabled={!chatId}>
                   <MessagesSquareIcon className="w-4 h-4 mr-2" />
                   AI Chat
                 </Button>
               </Dialog.Trigger>
-              <ChatModal />
+              {chatId && <ChatModal type="article" id={chatId} />}
             </Dialog.Root>
           </section>
         </section>

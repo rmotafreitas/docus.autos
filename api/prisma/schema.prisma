@@ -29,13 +29,14 @@ model Audio {
 }
 
 model Audiohistory {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   userId     String
   audioId    String
-  audio      Audio    @relation(fields: [audioId], references: [id])
+  audio      Audio     @relation(fields: [audioId], references: [id])
   promptText String?
   resultText String?
-  createdAt  DateTime @default(now())
+  createdAt  DateTime  @default(now())
+  messages   Message[]
 }
 
 model Prompt {
@@ -46,13 +47,14 @@ model Prompt {
 }
 
 model Videohistory {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   userId     String
   videoId    String
-  video      Video    @relation(fields: [videoId], references: [id])
+  video      Video     @relation(fields: [videoId], references: [id])
   promptText String?
   resultText String?
-  createdAt  DateTime @default(now())
+  createdAt  DateTime  @default(now())
+  messages   Message[]
 }
 
 model Website {
@@ -74,21 +76,39 @@ model Article {
 }
 
 model Articlehistory {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   userId     String
   articleId  String
-  article    Article  @relation(fields: [articleId], references: [id])
+  article    Article   @relation(fields: [articleId], references: [id])
   promptText String?
   resultText String?
-  createdAt  DateTime @default(now())
+  createdAt  DateTime  @default(now())
+  messages   Message[]
+}
+
+model Message {
+  id               String          @id @default(uuid())
+  userId           String
+  promptText       String?
+  resultText       String?
+  createdAt        DateTime        @default(now())
+  Articlehistory   Articlehistory? @relation(fields: [articlehistoryId], references: [id])
+  articlehistoryId String?
+  Websitehistory   Websitehistory? @relation(fields: [websitehistoryId], references: [id])
+  websitehistoryId String?
+  Videohistory     Videohistory?   @relation(fields: [videohistoryId], references: [id])
+  videohistoryId   String?
+  Audiohistory     Audiohistory?   @relation(fields: [audiohistoryId], references: [id])
+  audiohistoryId   String?
 }
 
 model Websitehistory {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   userId     String
   websiteUrl String
-  website    Website  @relation(fields: [websiteUrl], references: [url])
+  website    Website   @relation(fields: [websiteUrl], references: [url])
   promptText String?
   resultText String?
-  createdAt  DateTime @default(now())
+  createdAt  DateTime  @default(now())
+  messages   Message[]
 }

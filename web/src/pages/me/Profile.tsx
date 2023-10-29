@@ -1,16 +1,27 @@
-import { useEffect } from "react";
+import { useContext, useMemo } from "react";
 // @ts-ignore
 import { register } from "@teamhanko/hanko-elements";
 import { Navbar } from "@/components/navbar";
-
-const hankoApi = import.meta.env.VITE_HANKO_API_URL;
+import { hankoInstance } from "@/lib/hanko";
+import { UserIdContext, UserIdContextProps } from "@/contexts/user.context";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export function ProfilePage() {
-  useEffect(() => {
-    register(hankoApi).catch((error) => {
-      // handle error
-    });
-  }, []);
+  const hanko = useMemo(() => hankoInstance, []);
+
+  const { userId, setUserId }: UserIdContextProps = useContext(UserIdContext);
+  const router = useNavigate();
+
+  if (!userId) {
+    router("/auth");
+  }
+
+  const handleHankoLogout = async () => {
+    setUserId("");
+    await hanko.user.logout();
+    router("/auth");
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -23,6 +34,7 @@ export function ProfilePage() {
         >
           <hanko-profile />
         </div>
+        <Button onClick={handleHankoLogout}>Logout</Button>
       </section>
     </div>
   );

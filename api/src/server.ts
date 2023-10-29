@@ -1,3 +1,4 @@
+import { getAIChatRoute } from "./routes/chat/chat";
 import { prisma } from "./lib/prisma";
 import { fastifyCors } from "@fastify/cors";
 import { fastify } from "fastify";
@@ -15,6 +16,8 @@ import { downloadYtAudioRoute } from "./routes/download-yt-audio";
 import { uploadArticleRoute } from "./routes/upload-article-and-transcribe";
 import { uploadAudioRoute } from "./routes/upload-audio";
 import { createTranscriptionAudioRoute } from "./routes/create-transcription-audio";
+import { getAIChatCompleteRoute } from "./routes/chat/chat-completition";
+import { getAIChatSaveRoute } from "./routes/chat/chat-save";
 
 const app = fastify();
 
@@ -38,6 +41,9 @@ app.register(getAILogsCompletion);
 app.register(downloadYtAudioRoute);
 app.register(uploadArticleRoute);
 app.register(uploadAudioRoute);
+app.register(getAIChatRoute);
+app.register(getAIChatCompleteRoute);
+app.register(getAIChatSaveRoute);
 
 app.register(fastifystatic, {
   root: path.join(__dirname, "..", "tmp"),

@@ -26,15 +26,30 @@ export async function articleCompletionSave(
   });
 
   if (!article) {
-    await prisma.articlehistory.create({
+    const transcript = await prisma.article.findUnique({
+      where: {
+        id: articleId,
+      },
+    });
+    const res = await prisma.articlehistory.create({
       data: {
         userId,
         articleId,
         resultText,
         promptText: promptText,
+        messages: {
+          create: [
+            {
+              userId,
+              promptText,
+              resultText,
+            },
+          ],
+        },
       },
     });
+    console.log(res);
+    return res;
   }
-
   return;
 }

@@ -15,16 +15,13 @@ export const saveAIVideoCompletion = async (app: FastifyInstance) => {
 
     switch (type) {
       case "videos":
-        await videoCompletionSave(request, reply);
-        break;
+        return await videoCompletionSave(request, reply);
       case "websites":
-        await websiteCompletionSave(request, reply);
+        return await websiteCompletionSave(request, reply);
       case "articles":
-        await articleCompletionSave(request, reply);
-        break;
+        return await articleCompletionSave(request, reply);
       case "audios":
-        await audioCompletionSave(request, reply);
-        break;
+        return await audioCompletionSave(request, reply);
       default:
         return reply.status(400).send({ error: "Invalid type" });
     }

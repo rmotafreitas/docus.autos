@@ -1,10 +1,13 @@
-import { useEffect, useMemo } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../components/navbar";
 import { hankoApi, hankoInstance } from "@/lib/hanko";
 import { register } from "@teamhanko/hanko-elements";
+import { UserIdContext, UserIdContextProps } from "@/contexts/user.context";
 
 export function LoginPage() {
+  const { setUserId }: UserIdContextProps = useContext(UserIdContext);
+
   const router = useNavigate();
 
   const hanko = useMemo(() => hankoInstance, []);
@@ -12,7 +15,7 @@ export function LoginPage() {
   const handleAuthFlowCompleted = async () => {
     console.log("Auth flow completed");
     const user = await hanko.user.getCurrent();
-    console.log(user);
+    setUserId(user.id);
     router("/apps");
   };
 
