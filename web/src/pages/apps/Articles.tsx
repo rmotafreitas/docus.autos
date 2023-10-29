@@ -1,5 +1,5 @@
 import { Button } from "../../components/ui/button";
-import { MessagesSquareIcon, Wand2 } from "lucide-react";
+import { Wand2 } from "lucide-react";
 import { Separator } from "../../components/ui/separator";
 import { Textarea } from "../../components/ui/textarea";
 import { Label } from "../../components/ui/label";
@@ -19,8 +19,7 @@ import { hankoInstance } from "@/lib/hanko";
 import { useNavigate } from "react-router-dom";
 import { api } from "@/lib/axios";
 import { ArticleInputForm } from "@/components/article-input-form";
-import * as Dialog from "@radix-ui/react-dialog";
-import { ChatModal } from "@/components/chat-modal";
+import { ChatSection } from "@/components/chat-modal";
 
 export function ArticleAppPage() {
   const [temperature, setTemperature] = useState(0.5);
@@ -98,15 +97,7 @@ export function ArticleAppPage() {
               tag on your prompt to add the transcription of the article
             </p>
 
-            <Dialog.Root>
-              <Dialog.Trigger disabled={!chatId} className="flex items-center">
-                <Button disabled={!chatId}>
-                  <MessagesSquareIcon className="w-4 h-4 mr-2" />
-                  AI Chat
-                </Button>
-              </Dialog.Trigger>
-              {chatId && <ChatModal type="article" id={chatId} />}
-            </Dialog.Root>
+            <ChatSection id={chatId} type="article" />
           </section>
         </section>
 

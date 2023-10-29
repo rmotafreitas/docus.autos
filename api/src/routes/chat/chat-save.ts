@@ -19,7 +19,7 @@ export const getAIChatSaveRoute = async (app: FastifyInstance) => {
     );
 
     const paramsSchema = z.object({
-      type: z.enum(["article", "video"]),
+      type: z.enum(["article", "video", "website", "audio"]),
     });
 
     const { type } = paramsSchema.parse(request.params);
@@ -40,6 +40,63 @@ export const getAIChatSaveRoute = async (app: FastifyInstance) => {
           where: {
             userId,
             articlehistoryId: contentId,
+          },
+          orderBy: {
+            createdAt: "asc",
+          },
+        });
+        break;
+      case "video":
+        await prisma.message.create({
+          data: {
+            userId,
+            videohistoryId: contentId,
+            promptText,
+            resultText,
+          },
+        });
+        messages = await prisma.message.findMany({
+          where: {
+            userId,
+            videohistoryId: contentId,
+          },
+          orderBy: {
+            createdAt: "asc",
+          },
+        });
+        break;
+      case "website":
+        await prisma.message.create({
+          data: {
+            userId,
+            websitehistoryId: contentId,
+            promptText,
+            resultText,
+          },
+        });
+        messages = await prisma.message.findMany({
+          where: {
+            userId,
+            websitehistoryId: contentId,
+          },
+          orderBy: {
+            createdAt: "asc",
+          },
+        });
+        break;
+      case "audio":
+        await prisma.message.create({
+          data: {
+            userId,
+            audiohistoryId: contentId,
+            promptText,
+            resultText,
+          },
+        });
+        messages = await prisma.message.findMany({
+          where: {
+            userId,
+            audiohistoryId: contentId,
           },
           orderBy: {
             createdAt: "asc",

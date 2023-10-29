@@ -19,10 +19,12 @@ import { useCompletion } from "ai/react";
 import { useNavigate } from "react-router-dom";
 import { hankoInstance } from "@/lib/hanko";
 import { api } from "@/lib/axios";
+import { ChatSection } from "@/components/chat-modal";
 
 export function WebsitesAppPage() {
   const [temperature, setTemperature] = useState(0.5);
   const [url, setWebsiteUrl] = useState<string | null>(null);
+  const [chatId, setChatId] = useState<string>("");
 
   const [user, setUser] = useState<any>(null);
   const hanko = useMemo(() => hankoInstance, []);
@@ -55,15 +57,14 @@ export function WebsitesAppPage() {
     headers: {
       "Content-Type": "application/json",
     },
-    onFinish: (prompt, completion) => {
-      api
-        .post("/ai/complete/websites/save", {
-          url,
-          userId: user?.id,
-          resultText: completion,
-          promptText: input,
-        })
-        .catch(console.error);
+    onFinish: async (prompt, completion) => {
+      const res = await api.post("/ai/complete/websites/save", {
+        url,
+        userId: user?.id,
+        resultText: completion,
+        promptText: input,
+      });
+      setChatId(res.data.id);
     },
   });
 
@@ -86,13 +87,17 @@ export function WebsitesAppPage() {
               value={completion}
             />
           </div>
-          <p className="text-sm text-muted-foreground">
-            Pro tip: You can use{" "}
-            <code className="text-violet-400">
-              {"{"}content{"}"}
-            </code>{" "}
-            tag on your prompt to add the content of the website
-          </p>
+          <section className="flex flex-row justify-between items-center">
+            <p className="text-sm text-muted-foreground">
+              Pro tip: You can use{" "}
+              <code className="text-violet-400">
+                {"{"}transcription{"}"}
+              </code>{" "}
+              tag on your prompt to add the transcription of the website
+            </p>
+
+            <ChatSection id={chatId} type="website" />
+          </section>
         </section>
 
         <aside className="w-80 flex flex-col gap-6">
@@ -126,7 +131,7 @@ export function WebsitesAppPage() {
             <Separator />
 
             <div className="flex flex-col gap-4">
-              <Label>Creativity</Label>
+              <Label>Temperature</Label>
               <Slider
                 min={0}
                 max={1}

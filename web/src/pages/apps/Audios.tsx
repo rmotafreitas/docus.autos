@@ -19,11 +19,13 @@ import { hankoInstance } from "@/lib/hanko";
 import { useNavigate } from "react-router-dom";
 import { api } from "@/lib/axios";
 import { AudioInputForm } from "@/components/audio-input-form";
+import { ChatSection } from "@/components/chat-modal";
 
 export function AudiosAppPage() {
   const [temperature, setTemperature] = useState(0.5);
   const [audioId, setAudioId] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
+  const [chatId, setChatId] = useState<string>("");
 
   const hanko = useMemo(() => hankoInstance, []);
   const router = useNavigate();
@@ -55,15 +57,14 @@ export function AudiosAppPage() {
     headers: {
       "Content-Type": "application/json",
     },
-    onFinish: (prompt, completion) => {
-      api
-        .post("/ai/complete/audios/save", {
-          audioId,
-          userId: user?.id,
-          resultText: completion,
-          promptText: input,
-        })
-        .catch(console.error);
+    onFinish: async (prompt, completion) => {
+      const res = await api.post("/ai/complete/audios/save", {
+        audioId,
+        userId: user?.id,
+        resultText: completion,
+        promptText: input,
+      });
+      setChatId(res.data.id);
     },
   });
 
@@ -86,13 +87,17 @@ export function AudiosAppPage() {
               value={completion}
             />
           </div>
-          <p className="text-sm text-muted-foreground">
-            Pro tip: You can use{" "}
-            <code className="text-violet-400">
-              {"{"}transcription{"}"}
-            </code>{" "}
-            tag on your prompt to add the transcription of the audio
-          </p>
+          <section className="flex flex-row justify-between items-center">
+            <p className="text-sm text-muted-foreground">
+              Pro tip: You can use{" "}
+              <code className="text-violet-400">
+                {"{"}transcription{"}"}
+              </code>{" "}
+              tag on your prompt to add the transcription of the audio
+            </p>
+
+            <ChatSection id={chatId} type="audio" />
+          </section>
         </section>
 
         <aside className="w-80 flex flex-col gap-6">

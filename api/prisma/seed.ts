@@ -90,7 +90,7 @@ Transcript:
       title: "Summary for Website",
       template: `Your task is to create a concise summary for a website.
 
-        Below, you will find content from the website, which you will use to generate the summary.
+        Below, you will find transcription from the website, which you will use to generate the summary.
         
         The summary should be no longer than 200 words, written in the first person, and should highlight the key points of the website.
         
@@ -102,9 +102,9 @@ Transcript:
         Summary.
         '''
         
-        Content:
+        Transcription:
         '''
-        {content}
+        {transcription}
         '''`.trim(),
       type: "website",
     },
@@ -116,7 +116,7 @@ Transcript:
       template:
         `Your task is to create a concise FAQ (Frequently Asked Questions) for a website.
 
-      Below, you'll find content from the website. Utilize this material to craft the FAQ.
+      Below, you'll find transcription from the website. Utilize this material to craft the FAQ.
       
       It should consist of a maximum of 200 words in the first person, including only information from the website.
       
@@ -130,9 +130,9 @@ Transcript:
       A(N): [answer]
       '''
       
-      Content
+      Transcription
       '''
-      {content}
+      {transcription}
       '''`.trim(),
       type: "website",
     },

@@ -1,22 +1,35 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { SendHorizonal } from "lucide-react";
+import { MessagesSquareIcon, SendHorizonal } from "lucide-react";
 import { ScrollArea } from "./ui/scroll-area";
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { api } from "@/lib/axios";
 import { UserIdContext, UserIdContextProps } from "@/contexts/user.context";
 import { useCompletion } from "ai/react";
 
 interface ChatModalProps {
   id: string;
-  type: "article" | "video";
-  disabled?: boolean;
+  type: "article" | "video" | "audio" | "website";
 }
 
 interface Message {
   promptText: string;
   resultText: string;
+}
+
+export function ChatSection({ id, type }: ChatModalProps) {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger disabled={!id} className="flex items-center">
+        <Button disabled={!id}>
+          <MessagesSquareIcon className="w-4 h-4 mr-2" />
+          AI Chat
+        </Button>
+      </Dialog.Trigger>
+      {id && <ChatModal type={type} id={id} />}
+    </Dialog.Root>
+  );
 }
 
 export function ChatModal({ id, type }: ChatModalProps) {

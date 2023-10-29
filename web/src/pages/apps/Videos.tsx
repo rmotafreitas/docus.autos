@@ -19,11 +19,13 @@ import { Navbar } from "@/components/navbar";
 import { hankoInstance } from "@/lib/hanko";
 import { useNavigate } from "react-router-dom";
 import { api } from "@/lib/axios";
+import { ChatSection } from "@/components/chat-modal";
 
 export function VideosAppPage() {
   const [temperature, setTemperature] = useState(0.5);
   const [videoId, setVideoId] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
+  const [chatId, setChatId] = useState<string>("");
 
   const hanko = useMemo(() => hankoInstance, []);
   const router = useNavigate();
@@ -55,15 +57,14 @@ export function VideosAppPage() {
     headers: {
       "Content-Type": "application/json",
     },
-    onFinish: (prompt, completion) => {
-      api
-        .post("/ai/complete/videos/save", {
-          videoId,
-          userId: user?.id,
-          resultText: completion,
-          promptText: input,
-        })
-        .catch(console.error);
+    onFinish: async (prompt, completion) => {
+      const res = await api.post("/ai/complete/videos/save", {
+        videoId,
+        userId: user?.id,
+        resultText: completion,
+        promptText: input,
+      });
+      setChatId(res.data.id);
     },
   });
 
@@ -86,13 +87,17 @@ export function VideosAppPage() {
               value={completion}
             />
           </div>
-          <p className="text-sm text-muted-foreground">
-            Pro tip: You can use{" "}
-            <code className="text-violet-400">
-              {"{"}transcription{"}"}
-            </code>{" "}
-            tag on your prompt to add the transcription of the audio
-          </p>
+          <section className="flex flex-row justify-between items-center">
+            <p className="text-sm text-muted-foreground">
+              Pro tip: You can use{" "}
+              <code className="text-violet-400">
+                {"{"}transcription{"}"}
+              </code>{" "}
+              tag on your prompt to add the transcription of the video
+            </p>
+
+            <ChatSection id={chatId} type="video" />
+          </section>
         </section>
 
         <aside className="w-80 flex flex-col gap-6">
