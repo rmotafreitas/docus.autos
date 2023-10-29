@@ -9,12 +9,12 @@ export const getAIChatCompleteRoute = async (app: FastifyInstance) => {
   app.post("/ai/chat/:type/complete", async (request, reply) => {
     const bodySchema = z.object({
       userId: z.string().uuid(),
-      id: z.string().uuid(),
+      contentId: z.string().uuid(),
       prompt: z.string(),
       temperature: z.number().min(0).max(1).default(0.5),
     });
 
-    const { userId, id, prompt } = bodySchema.parse(request.body);
+    const { userId, contentId, prompt } = bodySchema.parse(request.body);
 
     const paramsSchema = z.object({
       type: z.enum(["article", "video", "website", "audio"]),
@@ -29,7 +29,7 @@ export const getAIChatCompleteRoute = async (app: FastifyInstance) => {
         messages = await prisma.message.findMany({
           where: {
             userId,
-            id,
+            articlehistoryId: contentId,
           },
           orderBy: {
             createdAt: "asc",
@@ -40,7 +40,7 @@ export const getAIChatCompleteRoute = async (app: FastifyInstance) => {
         messages = await prisma.message.findMany({
           where: {
             userId,
-            id,
+            videohistoryId: contentId,
           },
           orderBy: {
             createdAt: "asc",
@@ -51,7 +51,7 @@ export const getAIChatCompleteRoute = async (app: FastifyInstance) => {
         messages = await prisma.message.findMany({
           where: {
             userId,
-            id,
+            websitehistoryId: contentId,
           },
           orderBy: {
             createdAt: "asc",
@@ -62,7 +62,7 @@ export const getAIChatCompleteRoute = async (app: FastifyInstance) => {
         messages = await prisma.message.findMany({
           where: {
             userId,
-            id,
+            audiohistoryId: contentId,
           },
           orderBy: {
             createdAt: "asc",

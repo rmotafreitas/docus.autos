@@ -9,12 +9,12 @@ export const getAIChatSaveRoute = async (app: FastifyInstance) => {
   app.post("/ai/chat/:type/save", async (request, reply) => {
     const bodySchema = z.object({
       userId: z.string().uuid(),
-      id: z.string().uuid(),
+      contentId: z.string().uuid(),
       promptText: z.string(),
       resultText: z.string(),
     });
 
-    const { userId, id, promptText, resultText } = bodySchema.parse(
+    const { userId, contentId, promptText, resultText } = bodySchema.parse(
       request.body
     );
 
@@ -31,7 +31,7 @@ export const getAIChatSaveRoute = async (app: FastifyInstance) => {
         await prisma.message.create({
           data: {
             userId,
-            id,
+            articlehistoryId: contentId,
             promptText,
             resultText,
           },
@@ -39,7 +39,7 @@ export const getAIChatSaveRoute = async (app: FastifyInstance) => {
         messages = await prisma.message.findMany({
           where: {
             userId,
-            id,
+            articlehistoryId: contentId,
           },
           orderBy: {
             createdAt: "asc",
@@ -50,7 +50,7 @@ export const getAIChatSaveRoute = async (app: FastifyInstance) => {
         await prisma.message.create({
           data: {
             userId,
-            id,
+            videohistoryId: contentId,
             promptText,
             resultText,
           },
@@ -58,7 +58,7 @@ export const getAIChatSaveRoute = async (app: FastifyInstance) => {
         messages = await prisma.message.findMany({
           where: {
             userId,
-            id,
+            videohistoryId: contentId,
           },
           orderBy: {
             createdAt: "asc",
@@ -69,7 +69,7 @@ export const getAIChatSaveRoute = async (app: FastifyInstance) => {
         await prisma.message.create({
           data: {
             userId,
-            id,
+            websitehistoryId: contentId,
             promptText,
             resultText,
           },
@@ -77,7 +77,7 @@ export const getAIChatSaveRoute = async (app: FastifyInstance) => {
         messages = await prisma.message.findMany({
           where: {
             userId,
-            id,
+            websitehistoryId: contentId,
           },
           orderBy: {
             createdAt: "asc",
@@ -88,7 +88,7 @@ export const getAIChatSaveRoute = async (app: FastifyInstance) => {
         await prisma.message.create({
           data: {
             userId,
-            id,
+            audiohistoryId: contentId,
             promptText,
             resultText,
           },
@@ -96,7 +96,7 @@ export const getAIChatSaveRoute = async (app: FastifyInstance) => {
         messages = await prisma.message.findMany({
           where: {
             userId,
-            id,
+            audiohistoryId: contentId,
           },
           orderBy: {
             createdAt: "asc",
