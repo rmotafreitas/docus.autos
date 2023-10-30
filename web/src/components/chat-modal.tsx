@@ -60,6 +60,7 @@ export function ChatModal({ id, type }: ChatModalProps) {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
     onFinish: async (prompt, completion) => {
       setInput("");
       setCompletion("");

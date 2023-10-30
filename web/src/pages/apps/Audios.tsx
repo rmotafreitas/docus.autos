@@ -57,6 +57,7 @@ export function AudiosAppPage() {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
     onFinish: async (prompt, completion) => {
       const res = await api.post("/ai/complete/audios/save", {
         audioId,

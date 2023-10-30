@@ -81,12 +81,12 @@ export const getAIChatCompleteRoute = async (app: FastifyInstance) => {
     messages.forEach((message) => {
       if (message.resultText) {
         openaiMessages.push({
-          role: "system",
-          content: message.resultText,
-        });
-        openaiMessages.push({
           role: "user",
           content: message.promptText,
+        });
+        openaiMessages.push({
+          role: "system",
+          content: message.resultText,
         });
       }
     });
@@ -97,6 +97,8 @@ export const getAIChatCompleteRoute = async (app: FastifyInstance) => {
         prompt +
         "''' Note: Forget the template that was defined in the start of the messages '''",
     });
+
+    console.log(openaiMessages);
 
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo-16k-0613",
