@@ -58,7 +58,7 @@ export const downloadYtAudioRoute = async (app: FastifyInstance) => {
 
       const video = await prisma.video.create({
         data: {
-          name: "output-yt.mp3",
+          name: url,
           path: uploadDir,
         },
       });

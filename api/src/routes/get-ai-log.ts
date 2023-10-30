@@ -76,6 +76,9 @@ export const getAILogsCompletion = async (app: FastifyInstance) => {
           where: {
             userId,
           },
+          include: {
+            video: true,
+          },
         });
         break;
       case "websites":
@@ -89,6 +92,9 @@ export const getAILogsCompletion = async (app: FastifyInstance) => {
         res = await prisma.audiohistory.findMany({
           where: {
             userId,
+          },
+          include: {
+            audio: true,
           },
         });
         break;

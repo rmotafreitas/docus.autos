@@ -6,7 +6,7 @@ import { VideosAppPage } from "./pages/apps/Videos";
 import { WebsitesAppPage } from "./pages/apps/Websites";
 import { ProfilePage } from "./pages/me/Profile";
 import { AppsPage } from "./pages/apps";
-import { HistoryPage } from "./pages/me/History";
+import { HistoryPage } from "./pages/me/logs/History";
 import { ArticleAppPage } from "./pages/apps/Articles";
 import { AudiosAppPage } from "./pages/apps/Audios";
 import { UserIdContext, UserIdContextProps } from "./contexts/user.context";

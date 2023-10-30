@@ -176,6 +176,7 @@ export function ChatModal({ id, type, close }: ChatModalProps) {
             value={isLoading || completion.length > 0 ? "" : input}
             type="text"
             placeholder="Type a message..."
+            className="text-foreground"
           />
           <Button disabled={isLoading} type="submit">
             <SendHorizonal />

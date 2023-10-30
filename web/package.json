@@ -22,6 +22,7 @@
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slider": "^1.1.2",
     "@radix-ui/react-slot": "^1.0.2",
+    "@tanstack/react-table": "^8.10.7",
     "@teamhanko/hanko-elements": "^0.8.3",
     "@types/js-cookie": "^3.0.5",
     "ai": "^2.2.14",

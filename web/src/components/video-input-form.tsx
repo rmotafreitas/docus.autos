@@ -109,7 +109,7 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
   const convertVideoToAudio = async (video: File) => {
     const ffmpeg = await initFFmpeg();
 
-    await ffmpeg.writeFile("input.mp4", await fetchFile(video));
+    await ffmpeg.writeFile(video.name, await fetchFile(video));
 
     // ffmpeg.on("log", (log) => console.log(log));
 
