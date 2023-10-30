@@ -72,12 +72,12 @@ export function ArticleAppPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="flex-1 p-6 flex gap-6">
+      <main className="flex-1 p-6 flex gap-6 max-md:flex-col-reverse">
         <section className="flex flex-col flex-1 gap-4">
           <div className="grid grid-rows-2 gap-4 flex-1">
             <Textarea
               placeholder="Type your prompt here"
-              className="resize-none p-4 leading-relaxed"
+              className="resize-none p-4 leading-relaxed max-md:h-60"
               value={input}
               onChange={handleInputChange}
             />
@@ -101,7 +101,7 @@ export function ArticleAppPage() {
           </section>
         </section>
 
-        <aside className="w-80 flex flex-col gap-6">
+        <aside className="w-80 flex flex-col gap-6 max-md:w-full">
           <ArticleInputForm onArticleUploaded={setArticleId} />
 
           <Separator />

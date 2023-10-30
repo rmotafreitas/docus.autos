@@ -1,16 +1,18 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { MessagesSquareIcon, SendHorizonal } from "lucide-react";
+import { Cross, MessagesSquareIcon, SendHorizonal } from "lucide-react";
 import { ScrollArea } from "./ui/scroll-area";
 import { useContext, useEffect, useState } from "react";
 import { api } from "@/lib/axios";
 import { UserIdContext, UserIdContextProps } from "@/contexts/user.context";
 import { useCompletion } from "ai/react";
+import { Cross1Icon, Cross2Icon } from "@radix-ui/react-icons";
 
 interface ChatModalProps {
   id: string;
   type: "article" | "video" | "audio" | "website";
+  close?: () => void;
 }
 
 interface Message {
@@ -28,26 +30,43 @@ const scrollChat = () => {
 };
 
 export function ChatSection({ id, type }: ChatModalProps) {
+  const [open, setOpen] = useState(false);
+
   return (
     <Dialog.Root
+      open={open}
       onOpenChange={() => {
+        setOpen(!open);
         setTimeout(() => {
           scrollChat();
         }, 100);
       }}
     >
       <Dialog.Trigger disabled={!id} className="flex items-center">
-        <Button disabled={!id}>
+        <Button
+          onClick={() => {
+            setOpen(true);
+          }}
+          disabled={!id}
+        >
           <MessagesSquareIcon className="w-4 h-4 mr-2" />
           AI Chat
         </Button>
       </Dialog.Trigger>
-      {id && <ChatModal type={type} id={id} />}
+      {id && (
+        <ChatModal
+          close={() => {
+            setOpen(false);
+          }}
+          type={type}
+          id={id}
+        />
+      )}
     </Dialog.Root>
   );
 }
 
-export function ChatModal({ id, type }: ChatModalProps) {
+export function ChatModal({ id, type, close }: ChatModalProps) {
   const [messages, setMessages] = useState<Message[]>([]);
 
   const { userId }: UserIdContextProps = useContext(UserIdContext);
@@ -101,8 +120,18 @@ export function ChatModal({ id, type }: ChatModalProps) {
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="bg-black/60 inset-0 fixed" />
-      <Dialog.Content className="fixed bg-[#2A2634] py-4 px-4 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg w-[480px] h-[480px] max-h-[480px] shadow-lg shadow-black/25 flex flex-col">
-        <Dialog.Title className="text-xl font-black mb-4">AI Chat</Dialog.Title>
+      <Dialog.Content
+        className="fixed bg-[#2A2634] py-4 px-4 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg w-[480px] h-[480px] max-h-[480px] shadow-lg shadow-black/25 flex flex-col
+      max-sm:w-screen max-sm:h-screen max-sm:max-w-full max-sm:max-h-full max-sm:rounded-none max-sm:top-0 max-sm:left-0 max-sm:-translate-x-0 max-sm:-translate-y-0
+      "
+      >
+        <Dialog.Title className="text-xl font-black mb-4 items-center flex">
+          <h1>AI Chat</h1>
+          <Cross2Icon
+            onClick={close}
+            className="sm:hidden w-6 h-6 ml-auto cursor-pointer"
+          />
+        </Dialog.Title>
         <ScrollArea className="flex-1 flex-col pr-2 scroll-area">
           {messages &&
             messages.map((message: Message, i) => {
