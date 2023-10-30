@@ -77,7 +77,7 @@ export function ArticleAppPage() {
           <div className="grid grid-rows-2 gap-4 flex-1">
             <Textarea
               placeholder="Type your prompt here"
-              className="resize-none p-4 leading-relaxed max-md:h-60"
+              className="resize-none p-4 leading-relaxed max-md:h-64"
               value={input}
               onChange={handleInputChange}
             />
@@ -88,7 +88,7 @@ export function ArticleAppPage() {
               value={completion}
             />
           </div>
-          <section className="flex flex-row justify-between items-center">
+          <section className="flex flex-row justify-between items-center max-sm:flex-col-reverse max-sm:gap-2">
             <p className="text-sm text-muted-foreground">
               Pro tip: You can use{" "}
               <code className="text-violet-400">

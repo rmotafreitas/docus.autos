@@ -42,12 +42,16 @@ export function ChatSection({ id, type }: ChatModalProps) {
         }, 100);
       }}
     >
-      <Dialog.Trigger disabled={!id} className="flex items-center">
+      <Dialog.Trigger
+        disabled={!id}
+        className="flex items-center max-sm:w-full"
+      >
         <Button
           onClick={() => {
             setOpen(true);
           }}
           disabled={!id}
+          className="max-sm:w-full"
         >
           <MessagesSquareIcon className="w-4 h-4 mr-2" />
           AI Chat
