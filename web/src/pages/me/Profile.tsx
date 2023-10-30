@@ -37,16 +37,9 @@ export function ProfilePage() {
           <hanko-profile />
           <section className="w-full flex flex-row justify-center gap-2 items-center">
             <Button className="flex flex-1 bg-primary">
-              <a href="/me/history" onClick={handleHankoLogout}>
-                History
-              </a>
+              <Link to="/me/history">History</Link>
             </Button>
-            <Button
-              className="flex flex-1 bg-primary"
-              onClick={handleHankoLogout}
-            >
-              My prompts
-            </Button>
+            <Button className="flex flex-1 bg-primary">My prompts</Button>
             <Button
               className="flex flex-1 bg-red-500 hover:bg-red-600"
               onClick={handleHankoLogout}
