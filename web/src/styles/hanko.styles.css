@@ -99,7 +99,9 @@ hanko-auth::part(link) {
 
 hanko-auth {
   --background-color: white;
+  --container-max-width: 410px;
 }
+
 hanko-profile {
   --background-color: transparent;
   --color: var(--foreground);
