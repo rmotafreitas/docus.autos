@@ -86,7 +86,7 @@ hanko-auth::part(primary-button):hover {
 }
 
 hanko-auth::part(paragraph) {
-  @apply text-white;
+  @apply text-foreground;
 }
 
 hanko-profile::part(paragraph),
@@ -95,7 +95,7 @@ hanko-profile::part(headline1) {
 }
 
 hanko-auth::part(link) {
-  @apply text-white;
+  @apply text-foreground;
 }
 
 hanko-auth {
@@ -103,5 +103,5 @@ hanko-auth {
 }
 hanko-profile {
   --background-color: transparent;
-  --color: white;
+  --color: var(--foreground);
 }

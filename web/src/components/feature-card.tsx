@@ -24,9 +24,7 @@ export function FeatureCard({ title, features, Icon, url, i }: Props) {
       }}
     >
       <div className="flex justify-start items-center gap-4">
-        <div className="flex justify-center items-center text-center bg-primary rounded-md p-2  bg-gradient-to-r from-[#5350F6] to-[#E662FE]">
-          <Icon className="text-xl" />
-        </div>
+        <Icon className="text-xl" />
         <h1 className="font-semibold text-lg">{title}</h1>
       </div>
       <ul className="flex flex-col gap-2">

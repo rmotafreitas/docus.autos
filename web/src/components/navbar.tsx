@@ -33,7 +33,7 @@ export function Navbar() {
         <li className="text-lg font-semibold">
           <Link
             to={isLogged ? "/me" : "/auth"}
-            className="bg-[#4F4CE5] px-4 py-1 rounded-lg"
+            className="bg-primary text-primary-foreground px-4 py-1 rounded-lg"
           >
             {isLogged ? "Profile" : "Login"}
           </Link>
