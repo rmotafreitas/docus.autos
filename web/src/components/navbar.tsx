@@ -1,6 +1,7 @@
 import { hankoInstance } from "@/lib/hanko";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { ModeToggle } from "./mode-toggle";
 
 export function Navbar() {
   const [isLogged, setIsLogged] = useState(false);
@@ -10,7 +11,7 @@ export function Navbar() {
   useEffect(() => {
     (async () => {
       try {
-        const user = await hanko.user.getCurrent();
+        await hanko.user.getCurrent();
         setIsLogged(true);
       } catch (e) {
         setIsLogged(false);
@@ -27,6 +28,7 @@ export function Navbar() {
         Docus
       </Link>
       <ul className="flex gap-8 items-center">
+        <ModeToggle />
         <li className="text-lg font-semibold">
           <Link to="/apps">Apps</Link>
         </li>
