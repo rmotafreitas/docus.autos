@@ -39,6 +39,14 @@ interface HistoryItemVideo {
   createdAt: string;
 }
 
+interface HistoryItemAudio {
+  id: string;
+  audioId: string;
+  promptText: string;
+  resultText: string;
+  createdAt: string;
+}
+
 interface HistoryItemWebsite {
   id: string;
   websiteUrl: string;
@@ -72,7 +80,6 @@ export function HistoryPage() {
   useEffect(() => {
     (async () => {
       try {
-        const user = await hanko.user.getCurrent();
         const history = await api.post("/ai/complete/all/log");
         setHistory(history.data);
       } catch (e) {
@@ -84,7 +91,7 @@ export function HistoryPage() {
   const Components = {
     video: () => (
       <Table>
-        <TableCaption>A list of your {} prompts.</TableCaption>
+        <TableCaption>A list of your video related prompts</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Video</TableHead>
@@ -110,7 +117,7 @@ export function HistoryPage() {
     ),
     website: () => (
       <Table>
-        <TableCaption>A list of your {} prompts.</TableCaption>
+        <TableCaption>A list of your web related prompts</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Website</TableHead>
@@ -123,7 +130,9 @@ export function HistoryPage() {
           {history?.websites &&
             history.websites.map((item: HistoryItemWebsite, i: number) => (
               <TableRow key={item.id}>
-                <TableCell className="font-medium">{item.websiteUrl}</TableCell>
+                <TableCell className="font-medium break-words max-w-[5em]">
+                  {item.websiteUrl}
+                </TableCell>
                 <TableCell>{item.promptText.slice(0, 60)}...</TableCell>
                 <TableCell>{item.resultText.slice(0, 60)}...</TableCell>
                 <TableCell className="text-right">
@@ -136,7 +145,7 @@ export function HistoryPage() {
     ),
     article: () => (
       <Table>
-        <TableCaption>A list of your {} prompts.</TableCaption>
+        <TableCaption>A list of your PDFs related prompts</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Article</TableHead>
@@ -160,13 +169,38 @@ export function HistoryPage() {
         </TableBody>
       </Table>
     ),
-    audio: () => <div>Audio</div>,
+    audio: () => (
+      <Table>
+        <TableCaption>A list of your audio related prompts</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[100px]">Audio</TableHead>
+            <TableHead>Prompt</TableHead>
+            <TableHead>Result</TableHead>
+            <TableHead className="text-right">Date</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {history?.videos &&
+            history.videos.map((item: HistoryItemVideo, i: number) => (
+              <TableRow key={item.id}>
+                <TableCell className="font-medium">{i + 1}</TableCell>
+                <TableCell>{item.promptText.slice(0, 60)}...</TableCell>
+                <TableCell>{item.resultText.slice(0, 60)}...</TableCell>
+                <TableCell className="text-right">
+                  {new Date(item.createdAt).toLocaleDateString()}
+                </TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
+    ),
   };
 
   return (
     <div className="flex flex-col min-h-screen justify-center items-center">
       <Navbar />
-      <div className="flex flex-col justify-center items-center flex-1 min-h-full min-w-[74rem] max-w-[74rem]">
+      <div className="flex flex-col justify-center items-center flex-1 min-h-full xl:min-w-[74rem] xl:max-w-[74rem] max-xl:w-full">
         <div className="flex justify-end w-full mb-4">
           <DropdownMenu>
             <DropdownMenuTrigger className="flex flex-row justify-center items-center gap-2">
@@ -199,7 +233,10 @@ export function HistoryPage() {
                 Documents
               </DropdownMenuItem>
 
-              <DropdownMenuItem className="flex flex-row gap-2 justify-start items-center">
+              <DropdownMenuItem
+                className="flex flex-row gap-2 justify-start items-center"
+                onClick={() => setFilter("audio")}
+              >
                 <FileAudio className="w-4" />
                 Audios
               </DropdownMenuItem>

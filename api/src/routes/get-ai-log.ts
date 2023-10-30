@@ -25,12 +25,6 @@ export const getAILogsCompletion = async (app: FastifyInstance) => {
 
     const { type } = paramsSchema.parse(request.params);
 
-    const bodySchema = z.object({
-      contentId: z.string().uuid().optional(),
-    });
-
-    const { contentId } = bodySchema.parse(request.body);
-
     let res: typeRes = {
       videos: [],
       websites: [],

@@ -27,13 +27,7 @@ export function ProfilePage() {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <section className="flex-1 flex flex-col justify-center items-center">
-        <div
-          className="w-fit h-fit bg-gradient-to-r from-[#5350F6] to-[#E662FE] backdrop-blur-lg   
-
-        rounded-3xl shadow-lg py-10 px-10"
-        >
-          <hanko-profile />
-        </div>
+        <hanko-profile />
         <Button onClick={handleHankoLogout}>Logout</Button>
       </section>
     </div>
