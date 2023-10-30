@@ -98,8 +98,6 @@ export const getAIChatCompleteRoute = async (app: FastifyInstance) => {
         "''' Note: Forget the template that was defined in the start of the messages '''",
     });
 
-    console.log(openaiMessages);
-
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo-16k-0613",
       temperature: 0.5,

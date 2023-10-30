@@ -13,7 +13,6 @@ export function LoginPage() {
   const hanko = useMemo(() => hankoInstance, []);
 
   const handleAuthFlowCompleted = async () => {
-    console.log("Auth flow completed");
     const user = await hanko.user.getCurrent();
     setUserId(user.id);
     router("/apps");

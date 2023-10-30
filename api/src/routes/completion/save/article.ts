@@ -41,7 +41,6 @@ export async function articleCompletionSave(
         },
       },
     });
-    console.log(res);
     return res;
   }
   return;

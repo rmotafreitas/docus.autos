@@ -99,19 +99,17 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
   };
 
   const convertVideoToAudio = async (video: File) => {
-    console.log(video);
-
-    console.log("Converting video to audio...");
-
     const ffmpeg = await initFFmpeg();
 
     await ffmpeg.writeFile("input.mp4", await fetchFile(video));
 
     // ffmpeg.on("log", (log) => console.log(log));
 
+    /*
     ffmpeg.on("progress", (progress) => {
       console.log("Convert progress: " + ~~(progress.progress * 100));
     });
+    */
 
     await ffmpeg.exec([
       "-i",
@@ -131,8 +129,6 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
     const audioFile = new File([audioFileBlob], "output.mp3", {
       type: "audio/mpeg",
     });
-
-    console.log("Done converting video to audio!");
 
     return audioFile;
   };

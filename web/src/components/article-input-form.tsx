@@ -49,7 +49,6 @@ export const ArticleInputForm = ({
       data.append("file", selectedFile);
       const res = await api.post("/articles", data);
       setStatus("success");
-      console.log(res.data);
       onArticleUploaded(res.data.article.id);
     }
   };
