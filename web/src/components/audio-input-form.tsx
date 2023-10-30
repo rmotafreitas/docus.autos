@@ -133,7 +133,7 @@ export const AudioInputForm = ({ onAudioUploaded }: AudioInputFormProps) => {
         <Button
           onClick={handleDeleteAudio}
           type="button"
-          className="bg-red-500 hover:bg-gray-500"
+          className="bg-red-600 hover:bg-gray-500"
         >
           <Trash className="w-4 h-4" />
         </Button>

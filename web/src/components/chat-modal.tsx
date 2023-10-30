@@ -125,11 +125,11 @@ export function ChatModal({ id, type, close }: ChatModalProps) {
     <Dialog.Portal>
       <Dialog.Overlay className="bg-black/60 inset-0 fixed" />
       <Dialog.Content
-        className="fixed bg-[#2A2634] py-4 px-4 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg w-[480px] h-[480px] max-h-[480px] shadow-lg shadow-black/25 flex flex-col
+        className="fixed bg-muted py-4 px-4 text-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg w-[480px] h-[480px] max-h-[480px] shadow-lg shadow-black/25 flex flex-col
       max-sm:w-screen max-sm:h-screen max-sm:max-w-full max-sm:max-h-full max-sm:rounded-none max-sm:top-0 max-sm:left-0 max-sm:-translate-x-0 max-sm:-translate-y-0
       "
       >
-        <Dialog.Title className="text-xl font-black mb-4 items-center flex">
+        <Dialog.Title className="text-xl text-foreground font-black mb-4 items-center flex">
           <h1>AI Chat</h1>
           <Cross2Icon
             onClick={close}
@@ -204,7 +204,7 @@ function ChatBubble({ text, isAi, visible }: ChatBubbleProps) {
         <div
           className={`
             ${isAi ? "bg-[#4F4CE5]" : "bg-gray-500"}
-        rounded-lg py-2 px-4 shadow-lg shadow-black/25`}
+        rounded-lg py-2 px-4`}
         >
           <p className="text-white leading-relaxed break-words whitespace-pre-wrap">
             {text}

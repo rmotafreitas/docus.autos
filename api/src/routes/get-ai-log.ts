@@ -7,8 +7,8 @@ import { Prisma } from "@prisma/client";
 interface typeRes {
   videos: Prisma.VideohistoryGetPayload<{}>[] | null;
   websites: Prisma.WebsitehistoryGetPayload<{}>[] | null;
-  audios: any[] | null;
-  articles: any[] | null;
+  audios: Prisma.AudiohistoryGetPayload<{}>[] | null;
+  articles: Prisma.ArticlehistoryGetPayload<{}>[] | null;
 }
 
 export const getAILogsCompletion = async (app: FastifyInstance) => {
@@ -72,6 +72,11 @@ export const getAILogsCompletion = async (app: FastifyInstance) => {
       | null = null;
     switch (type) {
       case "videos":
+        res = await prisma.videohistory.findMany({
+          where: {
+            userId,
+          },
+        });
         break;
       case "websites":
         res = await prisma.websitehistory.findMany({
@@ -91,6 +96,9 @@ export const getAILogsCompletion = async (app: FastifyInstance) => {
         res = await prisma.articlehistory.findMany({
           where: {
             userId,
+          },
+          include: {
+            article: true,
           },
         });
         break;

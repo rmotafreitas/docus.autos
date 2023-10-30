@@ -1,22 +1,27 @@
-import { hankoInstance } from "@/lib/hanko";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ModeToggle } from "./mode-toggle";
+import Cookies from "js-cookie";
+import * as jose from "jose";
 
 export function Navbar() {
   const [isLogged, setIsLogged] = useState(false);
 
-  const hanko = useMemo(() => hankoInstance, []);
-
   useEffect(() => {
-    (async () => {
-      try {
-        await hanko.user.getCurrent();
-        setIsLogged(true);
-      } catch (e) {
-        setIsLogged(false);
+    try {
+      const token = Cookies.get("hanko");
+
+      const payload = jose.decodeJwt(token ?? "");
+      const userID = payload.sub;
+
+      if (!userID || token === undefined) {
+        throw new Error("Invalid token");
       }
-    })();
+
+      setIsLogged(true);
+    } catch (error) {
+      setIsLogged(false);
+    }
   }, []);
 
   return (

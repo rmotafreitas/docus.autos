@@ -1,10 +1,10 @@
-import { useContext, useMemo } from "react";
+import { useContext, useEffect, useMemo } from "react";
 // @ts-ignore
 import { register } from "@teamhanko/hanko-elements";
 import { Navbar } from "@/components/navbar";
-import { hankoInstance } from "@/lib/hanko";
+import { hankoApi, hankoInstance } from "@/lib/hanko";
 import { UserIdContext, UserIdContextProps } from "@/contexts/user.context";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 export function ProfilePage() {
@@ -23,12 +23,38 @@ export function ProfilePage() {
     router("/auth");
   };
 
+  useEffect(() => {
+    register(hankoApi).catch((error) => {
+      // handle error
+    });
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <section className="flex-1 flex flex-col justify-center items-center">
-        <hanko-profile />
-        <Button onClick={handleHankoLogout}>Logout</Button>
+        <div>
+          <hanko-profile />
+          <section className="w-full flex flex-row justify-center gap-2 items-center">
+            <Button className="flex flex-1 bg-primary">
+              <a href="/me/history" onClick={handleHankoLogout}>
+                History
+              </a>
+            </Button>
+            <Button
+              className="flex flex-1 bg-primary"
+              onClick={handleHankoLogout}
+            >
+              My prompts
+            </Button>
+            <Button
+              className="flex flex-1 bg-red-500 hover:bg-red-600"
+              onClick={handleHankoLogout}
+            >
+              Logout
+            </Button>
+          </section>
+        </div>
       </section>
     </div>
   );

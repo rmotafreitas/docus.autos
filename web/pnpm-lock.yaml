@@ -44,6 +44,9 @@ dependencies:
   '@teamhanko/hanko-elements':
     specifier: ^0.8.3
     version: 0.8.3
+  '@types/js-cookie':
+    specifier: ^3.0.5
+    version: 3.0.5
   ai:
     specifier: ^2.2.14
     version: 2.2.14(react@18.2.0)(solid-js@1.7.12)(svelte@4.2.1)(vue@3.3.4)
@@ -56,6 +59,12 @@ dependencies:
   clsx:
     specifier: ^2.0.0
     version: 2.0.0
+  jose:
+    specifier: ^5.0.1
+    version: 5.0.1
+  js-cookie:
+    specifier: ^3.0.5
+    version: 3.0.5
   lucide-react:
     specifier: ^0.276.0
     version: 0.276.0(react@18.2.0)
@@ -1577,7 +1586,7 @@ packages:
   /@teamhanko/hanko-frontend-sdk@0.8.3:
     resolution: {integrity: sha512-VjGYLDb4xSCFrcgUqm7VhVWCFH/pf16+/61e6MsGbr7hqJXfnQirQhYwXs2vQWG2A8F/2oianD2aaLZIC4W3CQ==}
     dependencies:
-      '@types/js-cookie': 3.0.4
+      '@types/js-cookie': 3.0.5
     dev: false
 
   /@teamhanko/preact-custom-element@4.2.2(preact@10.18.1):
@@ -1592,8 +1601,8 @@ packages:
     resolution: {integrity: sha512-VeiPZ9MMwXjO32/Xu7+OwflfmeoRwkE/qzndw42gGtgJwZopBnzy2gD//NN1+go1mADzkDcqf/KnFRSjTJ8xJA==}
     dev: false
 
-  /@types/js-cookie@3.0.4:
-    resolution: {integrity: sha512-vMMnFF+H5KYqdd/myCzq6wLDlPpteJK+jGFgBus3Da7lw+YsDmx2C8feGTzY2M3Fo823yON+HC2CL240j4OV+w==}
+  /@types/js-cookie@3.0.5:
+    resolution: {integrity: sha512-dtLshqoiGRDHbHueIT9sjkd2F4tW1qPSX2xKAQK8p1e6pM+Z913GM1shv7dOqqasEMYbC5zEaClJomQe8OtQLA==}
     dev: false
 
   /@types/json-schema@7.0.12:
@@ -2644,6 +2653,15 @@ packages:
   /jiti@1.20.0:
     resolution: {integrity: sha512-3TV69ZbrvV6U5DfQimop50jE9Dl6J8O1ja1dvBbMba/sZ3YBEQqJ2VZRoQPVnhlzjNtU1vaXRZVrVjU4qtm8yA==}
     hasBin: true
+
+  /jose@5.0.1:
+    resolution: {integrity: sha512-gRVzy7s3RRdGbXmcTdlOswJOjhwPLx1ijIgAqLY6ktzFpOJxxYn4l0fC2vHaHHi4YBX/5FOL3aY+6W0cvQgpug==}
+    dev: false
+
+  /js-cookie@3.0.5:
+    resolution: {integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==}
+    engines: {node: '>=14'}
+    dev: false
 
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}

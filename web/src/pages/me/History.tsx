@@ -56,8 +56,9 @@ interface HistoryItemWebsite {
 }
 
 interface HistoryItemArticle {
-  id: string;
-  articleId: string;
+  article: {
+    name: string;
+  };
   promptText: string;
   resultText: string;
   createdAt: string;
@@ -67,10 +68,10 @@ interface History {
   videos: HistoryItemVideo[];
   websites: HistoryItemWebsite[];
   articles: HistoryItemArticle[];
+  audios: HistoryItemAudio[];
 }
 
 export function HistoryPage() {
-  const hanko = useMemo(() => hankoInstance, []);
   const router = useNavigate();
   const [history, setHistory] = useState<History>();
   const [filter, setFilter] = useState<
@@ -81,6 +82,7 @@ export function HistoryPage() {
     (async () => {
       try {
         const history = await api.post("/ai/complete/all/log");
+        console.log(history.data);
         setHistory(history.data);
       } catch (e) {
         router("/auth?expired=1");
@@ -157,8 +159,10 @@ export function HistoryPage() {
         <TableBody>
           {history?.articles &&
             history.articles.map((item: HistoryItemArticle, i: number) => (
-              <TableRow key={item.id}>
-                <TableCell className="font-medium">{item.articleId}</TableCell>
+              <TableRow key={i}>
+                <TableCell className="font-medium">
+                  {item.article.name}
+                </TableCell>
                 <TableCell>{item.promptText.slice(0, 60)}...</TableCell>
                 <TableCell>{item.resultText.slice(0, 60)}...</TableCell>
                 <TableCell className="text-right">
