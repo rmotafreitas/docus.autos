@@ -1,15 +1,9 @@
 hanko-auth,
 hanko-profile {
-  /* Color Scheme */
-  --color: #333333;
-  --color-shade-1: #8f9095;
-  --color-shade-2: #e5e6ef;
-
   --brand-color: #506cf0;
   --brand-color-shade-1: #6b84fb;
   --brand-contrast-color: white;
 
-  --background-color: white;
   --error-color: #e82020;
   --link-color: #506cf0;
 
@@ -95,6 +89,19 @@ hanko-auth::part(paragraph) {
   @apply text-white;
 }
 
+hanko-profile::part(paragraph),
+hanko-profile::part(headline1) {
+  @apply text-foreground;
+}
+
 hanko-auth::part(link) {
   @apply text-white;
+}
+
+hanko-auth {
+  --background-color: white;
+}
+hanko-profile {
+  --background-color: transparent;
+  --color: white;
 }
