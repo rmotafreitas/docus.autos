@@ -18,9 +18,24 @@ interface Message {
   resultText: string;
 }
 
+const scrollChat = () => {
+  const myDiv = document.querySelector(
+    "div[style='min-width: 100%; display: table;']"
+  );
+  if (myDiv) {
+    myDiv.scrollIntoView({ block: "end", behavior: "smooth" });
+  }
+};
+
 export function ChatSection({ id, type }: ChatModalProps) {
   return (
-    <Dialog.Root>
+    <Dialog.Root
+      onOpenChange={() => {
+        setTimeout(() => {
+          scrollChat();
+        }, 100);
+      }}
+    >
       <Dialog.Trigger disabled={!id} className="flex items-center">
         <Button disabled={!id}>
           <MessagesSquareIcon className="w-4 h-4 mr-2" />
@@ -82,15 +97,6 @@ export function ChatModal({ id, type }: ChatModalProps) {
   useEffect(() => {
     scrollChat();
   }, [completion, isLoading]);
-
-  const scrollChat = () => {
-    const myDiv = document.querySelector(
-      "div[style='min-width: 100%; display: table;']"
-    );
-    if (myDiv) {
-      myDiv.scrollIntoView({ block: "end", behavior: "smooth" });
-    }
-  };
 
   return (
     <Dialog.Portal>
