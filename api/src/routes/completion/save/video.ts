@@ -8,7 +8,7 @@ export async function videoCompletionSave(
   userId: string
 ) {
   const bodySchema = z.object({
-    videoId: z.string().uuid(),
+    videoId: z.string(),
     resultText: z.string(),
     promptText: z.string(),
   });

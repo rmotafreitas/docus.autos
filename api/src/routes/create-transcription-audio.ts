@@ -14,7 +14,7 @@ export const createTranscriptionAudioRoute = async (app: FastifyInstance) => {
     }
 
     const paramsSchema = z.object({
-      audioId: z.string().uuid(),
+      audioId: z.string(),
     });
 
     const { audioId } = paramsSchema.parse(request.params);

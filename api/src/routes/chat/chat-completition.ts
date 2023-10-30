@@ -14,7 +14,7 @@ export const getAIChatCompleteRoute = async (app: FastifyInstance) => {
     }
 
     const bodySchema = z.object({
-      contentId: z.string().uuid(),
+      contentId: z.string(),
       prompt: z.string(),
       temperature: z.number().min(0).max(1).default(0.5),
     });

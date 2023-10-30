@@ -6,12 +6,12 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:../database/dev/db"
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 model Video {
-  id           String         @id @default(uuid())
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   path         String
   transcript   String?
@@ -20,7 +20,7 @@ model Video {
 }
 
 model Audio {
-  id           String         @id @default(uuid())
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   path         String
   transcript   String?
@@ -29,9 +29,9 @@ model Audio {
 }
 
 model Audiohistory {
-  id         String    @id @default(uuid())
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
   userId     String
-  audioId    String
+  audioId    String    @db.ObjectId
   audio      Audio     @relation(fields: [audioId], references: [id])
   promptText String?
   resultText String?
@@ -40,16 +40,16 @@ model Audiohistory {
 }
 
 model Prompt {
-  id       String @id @default(uuid())
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
   title    String
   template String
   type     String @default("video")
 }
 
 model Videohistory {
-  id         String    @id @default(uuid())
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
   userId     String
-  videoId    String
+  videoId    String    @db.ObjectId
   video      Video     @relation(fields: [videoId], references: [id])
   promptText String?
   resultText String?
@@ -58,7 +58,8 @@ model Videohistory {
 }
 
 model Website {
-  url            String           @id
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  url            String           @unique
   title          String?
   image          String?
   content        String?
@@ -67,7 +68,7 @@ model Website {
 }
 
 model Article {
-  id             String           @id @default(uuid())
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
   name           String
   path           String
   transcript     String?
@@ -76,9 +77,9 @@ model Article {
 }
 
 model Articlehistory {
-  id         String    @id @default(uuid())
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
   userId     String
-  articleId  String
+  articleId  String    @db.ObjectId
   article    Article   @relation(fields: [articleId], references: [id])
   promptText String?
   resultText String?
@@ -87,23 +88,23 @@ model Articlehistory {
 }
 
 model Message {
-  id               String          @id @default(uuid())
+  id               String          @id @default(auto()) @map("_id") @db.ObjectId
   userId           String
   promptText       String?
   resultText       String?
   createdAt        DateTime        @default(now())
   Articlehistory   Articlehistory? @relation(fields: [articlehistoryId], references: [id])
-  articlehistoryId String?
+  articlehistoryId String?         @db.ObjectId
   Websitehistory   Websitehistory? @relation(fields: [websitehistoryId], references: [id])
-  websitehistoryId String?
+  websitehistoryId String?         @db.ObjectId
   Videohistory     Videohistory?   @relation(fields: [videohistoryId], references: [id])
-  videohistoryId   String?
+  videohistoryId   String?         @db.ObjectId
   Audiohistory     Audiohistory?   @relation(fields: [audiohistoryId], references: [id])
-  audiohistoryId   String?
+  audiohistoryId   String?         @db.ObjectId
 }
 
 model Websitehistory {
-  id         String    @id @default(uuid())
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
   userId     String
   websiteUrl String
   website    Website   @relation(fields: [websiteUrl], references: [url])

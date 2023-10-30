@@ -10,7 +10,7 @@ export async function videoCompletion(
   reply: FastifyReply
 ) {
   const bodySchema = z.object({
-    videoId: z.string().uuid(),
+    videoId: z.string(),
     prompt: z.string(),
     temperature: z.number().min(0).max(1).default(0.5),
   });

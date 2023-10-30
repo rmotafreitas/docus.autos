@@ -14,7 +14,7 @@ export const getAIChatSaveRoute = async (app: FastifyInstance) => {
     }
 
     const bodySchema = z.object({
-      contentId: z.string().uuid(),
+      contentId: z.string(),
       promptText: z.string(),
       resultText: z.string(),
     });

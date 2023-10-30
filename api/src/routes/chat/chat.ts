@@ -11,7 +11,7 @@ export const getAIChatRoute = async (app: FastifyInstance) => {
     }
 
     const bodySchema = z.object({
-      contentId: z.string().uuid(),
+      contentId: z.string(),
     });
 
     const { contentId } = bodySchema.parse(request.body);

@@ -10,7 +10,7 @@ export async function audioCompletion(
   reply: FastifyReply
 ) {
   const bodySchema = z.object({
-    audioId: z.string().uuid(),
+    audioId: z.string(),
     prompt: z.string(),
     temperature: z.number().min(0).max(1).default(0.5),
   });

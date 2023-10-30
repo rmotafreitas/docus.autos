@@ -8,7 +8,7 @@ export async function audioCompletionSave(
   userId: string
 ) {
   const bodySchema = z.object({
-    audioId: z.string().uuid(),
+    audioId: z.string(),
     resultText: z.string(),
     promptText: z.string(),
   });
