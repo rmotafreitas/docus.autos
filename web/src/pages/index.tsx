@@ -31,23 +31,25 @@ export function HomePage() {
           Revolutionize your documents functionality with AI integration
         </h3>
       </section>
-      <section className="flex flex-row justify-evenly w-5/6 items-center gap-6 mb-16">
+      <section className="flex flex-row justify-evenly w-5/6 items-center gap-6 mb-16 max-md:flex-col max-md:items-center">
         <div className="max-w-xl flex flex-col gap-2">
           <h4 className="text-4xl font-semibold">
-            Lorem ipsum, dolor sit amet
+            Efficiency Unleashed: Embrace Cutting-Edge Tech
           </h4>
           <p className="text-lg leading-relaxed">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta,
-            nobis nostrum libero eaque fuga modi amet exercitationem
-            reprehenderit aut commodi repudiandae ipsum quibusdam minus labore
-            quae ipsam accusamus illo facere?
+            Harness the full potential of our cutting-edge technology, allowing
+            you to effortlessly streamline your workflow and unlock unparalleled
+            efficiency. Our AI-powered solution is meticulously designed to
+            optimize every aspect of your document management process, enabling
+            you to focus on what truly matters. Say goodbye to tedious tasks and
+            welcome a new era of seamless productivity.
           </p>
         </div>
         <aside className="flex flex-col max-w-3xl bg-muted p-4 gap-4 rounded-lg">
           <section className="flex flex-row gap-2">
             <FileVideo className="w-14 h-14 stroke-primary" />
             <aside>
-              <h5 className="text-lg font-semibold">Video Files</h5>
+              <h5 className="text-lg font-semibold">Video & Youtube Content</h5>
               <p>
                 Create a summary, title, and description for your video files
               </p>
@@ -58,21 +60,23 @@ export function HomePage() {
             <Globe className="w-14 h-14 stroke-primary" />
             <aside>
               <h5 className="text-lg font-semibold">Internet Access</h5>
-              <p>Generate a summary for any website</p>
+              <p>Generate a summary, FAQ, for any website</p>
             </aside>
           </section>
         </aside>
       </section>
-      <section className="flex flex-row-reverse justify-evenly w-5/6 items-center gap-6 mb-10">
+      <section className="flex flex-row-reverse justify-evenly w-5/6 items-center gap-6 mb-10 max-md:flex-col max-md:items-center">
         <div className="max-w-xl flex flex-col gap-2">
           <h4 className="text-4xl font-semibold">
-            Lorem ipsum, dolor sit amet
+            Enhancing Document Dynamics: Streamlining Audio and PDFs
           </h4>
           <p className="text-lg leading-relaxed">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta,
-            nobis nostrum libero eaque fuga modi amet exercitationem
-            reprehenderit aut commodi repudiandae ipsum quibusdam minus labore
-            quae ipsam accusamus illo facere?
+            Experience a seamless synergy of innovation as we revolutionize the
+            management of your audio files and PDF documents. Our cutting-edge
+            solution enhances accessibility and precision, empowering you to
+            effortlessly navigate through the realms of sound and text. Uncover
+            a new dimension of efficiency and organization with our integrated
+            tools, simplifying your document experience like never before.
           </p>
         </div>
         <aside className="flex flex-col max-w-3xl bg-muted p-4 gap-4 rounded-lg">

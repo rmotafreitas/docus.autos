@@ -27,7 +27,6 @@ export function Navbar() {
         Docus
       </Link>
       <ul className="flex gap-8 items-center">
-        <li className="text-lg font-semibold">Features</li>
         <li className="text-lg font-semibold">
           <Link to="/apps">Apps</Link>
         </li>
