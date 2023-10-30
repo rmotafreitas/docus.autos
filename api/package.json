@@ -20,7 +20,9 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@fastify/cookie": "^9.1.0",
     "@fastify/cors": "^8.3.0",
+    "@fastify/jwt": "^7.2.2",
     "@fastify/multipart": "^7.7.3",
     "@fastify/static": "^6.11.2",
     "@prisma/client": "5.3.0",
@@ -30,6 +32,8 @@
     "cheerio": "1.0.0-rc.12",
     "dotenv": "^16.3.1",
     "fastify": "^4.23.1",
+    "fastify-auth0-verify": "^1.2.1",
+    "jose": "^5.0.1",
     "openai": "^4.6.0",
     "pdf-parse": "^1.1.1",
     "puppeteer": "^21.3.8",

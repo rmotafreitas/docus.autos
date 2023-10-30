@@ -5,7 +5,12 @@ import { getInfo, chooseFormat } from "ytdl-core";
 
 export const getYTVideoInfoRoute = async (app: FastifyInstance) => {
   app.post("/videos/yt", async (request, reply) => {
-    console.log("request.body", request.body);
+    // @ts-expect-error
+    const userId = request.userID;
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
     const { url } = z
       .object({
         url: z.string().url(),

@@ -60,7 +60,6 @@ export function AudiosAppPage() {
     onFinish: async (prompt, completion) => {
       const res = await api.post("/ai/complete/audios/save", {
         audioId,
-        userId: user?.id,
         resultText: completion,
         promptText: input,
       });

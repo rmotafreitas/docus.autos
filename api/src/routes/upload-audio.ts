@@ -17,6 +17,12 @@ export const uploadAudioRoute = async (app: FastifyInstance) => {
     },
   });
   app.post("/audios", async (request, reply) => {
+    // @ts-expect-error
+    const userId = request.userID;
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
     const data = await request.file();
 
     if (!data) {

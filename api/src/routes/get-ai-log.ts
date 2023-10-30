@@ -13,6 +13,12 @@ interface typeRes {
 
 export const getAILogsCompletion = async (app: FastifyInstance) => {
   app.post("/ai/complete/:type/log", async (request, reply) => {
+    // @ts-expect-error
+    const userId = request.userID;
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
     const paramsSchema = z.object({
       type: z.string(),
     });
@@ -20,11 +26,10 @@ export const getAILogsCompletion = async (app: FastifyInstance) => {
     const { type } = paramsSchema.parse(request.params);
 
     const bodySchema = z.object({
-      userId: z.string().uuid(),
       contentId: z.string().uuid().optional(),
     });
 
-    const { userId, contentId } = bodySchema.parse(request.body);
+    const { contentId } = bodySchema.parse(request.body);
 
     let res: typeRes = {
       videos: [],

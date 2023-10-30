@@ -8,7 +8,12 @@ import { z } from "zod";
 
 export const getWebsiteContentRoute = async (app: FastifyInstance) => {
   app.post("/websites", async (request, reply) => {
-    console.log("request.body", request.body);
+    // @ts-expect-error
+    const userId = request.userID;
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
     const { url } = z
       .object({
         url: z.string().url(),

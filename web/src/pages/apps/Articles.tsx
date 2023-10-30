@@ -61,7 +61,6 @@ export function ArticleAppPage() {
     onFinish: async (prompt, completion) => {
       const res = await api.post("/ai/complete/articles/save", {
         articleId,
-        userId: user?.id,
         resultText: completion,
         promptText: input,
       });

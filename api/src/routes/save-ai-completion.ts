@@ -7,6 +7,12 @@ import { audioCompletionSave } from "./completion/save/audio";
 
 export const saveAIVideoCompletion = async (app: FastifyInstance) => {
   app.post("/ai/complete/:type/save", async (request, reply) => {
+    // @ts-expect-error
+    const userId = request.userID;
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
     const paramsSchema = z.object({
       type: z.string(),
     });
@@ -15,13 +21,13 @@ export const saveAIVideoCompletion = async (app: FastifyInstance) => {
 
     switch (type) {
       case "videos":
-        return await videoCompletionSave(request, reply);
+        return await videoCompletionSave(request, reply, userId);
       case "websites":
-        return await websiteCompletionSave(request, reply);
+        return await websiteCompletionSave(request, reply, userId);
       case "articles":
-        return await articleCompletionSave(request, reply);
+        return await articleCompletionSave(request, reply, userId);
       case "audios":
-        return await audioCompletionSave(request, reply);
+        return await audioCompletionSave(request, reply, userId);
       default:
         return reply.status(400).send({ error: "Invalid type" });
     }

@@ -4,18 +4,16 @@ import { prisma } from "../../../lib/prisma";
 
 export async function articleCompletionSave(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
+  userId: string
 ) {
   const bodySchema = z.object({
     articleId: z.string().uuid(),
-    userId: z.string().uuid(),
     resultText: z.string(),
     promptText: z.string(),
   });
 
-  const { articleId, resultText, userId, promptText } = bodySchema.parse(
-    request.body
-  );
+  const { articleId, resultText, promptText } = bodySchema.parse(request.body);
 
   const article = await prisma.articlehistory.findFirst({
     where: {

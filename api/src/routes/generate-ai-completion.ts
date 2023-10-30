@@ -7,6 +7,12 @@ import { audioCompletion } from "./completion/gen/audio";
 
 export const generateAICompletionRoute = async (app: FastifyInstance) => {
   app.post("/ai/complete/:type", async (request, reply) => {
+    // @ts-expect-error
+    const userID = request.userID;
+    if (!userID) {
+      throw new Error("Not authenticated");
+    }
+
     const paramsSchema = z.object({
       type: z.string(),
     });

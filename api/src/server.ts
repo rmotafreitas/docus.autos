@@ -1,7 +1,7 @@
 import { getAIChatRoute } from "./routes/chat/chat";
 import { prisma } from "./lib/prisma";
 import { fastifyCors } from "@fastify/cors";
-import { fastify } from "fastify";
+import { FastifyReply, FastifyRequest, fastify } from "fastify";
 import { getAllPromptsRoute } from "./routes/get-all-prompts";
 import { uploadVideoRoute } from "./routes/upload-video";
 import { createTranscriptionVideoRoute } from "./routes/create-transcription-video";
@@ -18,12 +18,46 @@ import { uploadAudioRoute } from "./routes/upload-audio";
 import { createTranscriptionAudioRoute } from "./routes/create-transcription-audio";
 import { getAIChatCompleteRoute } from "./routes/chat/chat-completition";
 import { getAIChatSaveRoute } from "./routes/chat/chat-save";
+import type { FastifyCookieOptions } from "@fastify/cookie";
+import cookie from "@fastify/cookie";
+import * as jose from "jose";
 
 const app = fastify();
 
+const authJWTCookieHanko = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const token = request.cookies?.hanko;
+
+  // Check if the token is valid and not expired
+  try {
+    const payload = jose.decodeJwt(token ?? "");
+    const userID = payload.sub;
+
+    if (!userID || token === undefined) {
+      throw new Error("Invalid token");
+    }
+
+    // @ts-expect-error
+    request.userID = userID;
+  } catch (error) {
+    // @ts-expect-error
+    request.userID = null;
+  }
+};
+
 app.register(fastifyCors, {
-  origin: "*",
+  origin: "http://localhost:5173",
+  credentials: true,
 });
+
+app.register(cookie, {
+  secret: "my-secret", // for cookies signature
+  parseOptions: {}, // options for parsing cookies
+} as FastifyCookieOptions);
+
+app.addHook("preHandler", authJWTCookieHanko);
 
 app.get("/", async (request, reply) => {
   return { hello: "world" };

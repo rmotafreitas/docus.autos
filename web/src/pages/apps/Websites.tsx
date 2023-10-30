@@ -60,7 +60,6 @@ export function WebsitesAppPage() {
     onFinish: async (prompt, completion) => {
       const res = await api.post("/ai/complete/websites/save", {
         url,
-        userId: user?.id,
         resultText: completion,
         promptText: input,
       });

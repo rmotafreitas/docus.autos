@@ -7,14 +7,19 @@ import { ChatCompletionMessageParam } from "openai/resources/chat";
 
 export const getAIChatSaveRoute = async (app: FastifyInstance) => {
   app.post("/ai/chat/:type/save", async (request, reply) => {
+    // @ts-expect-error
+    const userId = request.userID;
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
     const bodySchema = z.object({
-      userId: z.string().uuid(),
       contentId: z.string().uuid(),
       promptText: z.string(),
       resultText: z.string(),
     });
 
-    const { userId, contentId, promptText, resultText } = bodySchema.parse(
+    const { contentId, promptText, resultText } = bodySchema.parse(
       request.body
     );
 

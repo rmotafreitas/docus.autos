@@ -18,6 +18,12 @@ export const uploadArticleRoute = async (app: FastifyInstance) => {
     },
   });
   app.post("/articles", async (request, reply) => {
+    // @ts-expect-error
+    const userId = request.userID;
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
     const data = await request.file();
 
     if (!data) {

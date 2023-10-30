@@ -4,12 +4,17 @@ import { z } from "zod";
 
 export const getAIChatRoute = async (app: FastifyInstance) => {
   app.post("/ai/chat/:type", async (request, reply) => {
+    // @ts-expect-error
+    const userId = request.userID;
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
     const bodySchema = z.object({
-      userId: z.string().uuid(),
       contentId: z.string().uuid(),
     });
 
-    const { userId, contentId } = bodySchema.parse(request.body);
+    const { contentId } = bodySchema.parse(request.body);
 
     const paramsSchema = z.object({
       type: z.enum(["article", "video", "website", "audio"]),

@@ -7,6 +7,12 @@ import { openai } from "../lib/opeanai";
 
 export const createTranscriptionVideoRoute = async (app: FastifyInstance) => {
   app.post("/videos/:videoId/transcription", async (request, reply) => {
+    // @ts-expect-error
+    const userID = request.userID;
+    if (!userID) {
+      throw new Error("Not authenticated");
+    }
+
     const paramsSchema = z.object({
       videoId: z.string().uuid(),
     });

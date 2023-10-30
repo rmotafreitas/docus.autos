@@ -4,18 +4,16 @@ import { prisma } from "../../../lib/prisma";
 
 export async function websiteCompletionSave(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
+  userId: string
 ) {
   const bodySchema = z.object({
     url: z.string(),
-    userId: z.string().uuid(),
     resultText: z.string(),
     promptText: z.string(),
   });
 
-  const { url, resultText, userId, promptText } = bodySchema.parse(
-    request.body
-  );
+  const { url, resultText, promptText } = bodySchema.parse(request.body);
 
   const website = await prisma.websitehistory.findFirst({
     where: {

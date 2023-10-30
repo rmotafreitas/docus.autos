@@ -60,7 +60,6 @@ export function VideosAppPage() {
     onFinish: async (prompt, completion) => {
       const res = await api.post("/ai/complete/videos/save", {
         videoId,
-        userId: user?.id,
         resultText: completion,
         promptText: input,
       });

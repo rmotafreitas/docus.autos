@@ -73,9 +73,7 @@ export function HistoryPage() {
     (async () => {
       try {
         const user = await hanko.user.getCurrent();
-        const history = await api.post("/ai/complete/all/log", {
-          userId: user.id,
-        });
+        const history = await api.post("/ai/complete/all/log");
         setHistory(history.data);
       } catch (e) {
         router("/auth?expired=1");

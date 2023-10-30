@@ -39,7 +39,6 @@ export function ChatModal({ id, type }: ChatModalProps) {
 
   async function getMessages() {
     const { data } = await api.post(`/ai/chat/${type}`, {
-      userId,
       contentId: id,
     });
     setMessages(data);
@@ -57,7 +56,6 @@ export function ChatModal({ id, type }: ChatModalProps) {
     api: `http://localhost:3333/ai/chat/${type}/complete`,
     body: {
       contentId: id,
-      userId,
     },
     headers: {
       "Content-Type": "application/json",
@@ -67,7 +65,6 @@ export function ChatModal({ id, type }: ChatModalProps) {
       setCompletion("");
       await api.post(`/ai/chat/${type}/save`, {
         contentId: id,
-        userId,
         resultText: completion,
         promptText: input,
       });

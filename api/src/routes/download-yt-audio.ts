@@ -11,7 +11,12 @@ import { pipeline } from "node:stream/promises";
 
 export const downloadYtAudioRoute = async (app: FastifyInstance) => {
   app.post("/videos/yt/download", async (request, reply) => {
-    console.log("request.body", request.body);
+    // @ts-expect-error
+    const userID = request.userID;
+    if (!userID) {
+      throw new Error("Not authenticated");
+    }
+
     const { url } = z
       .object({
         url: z.string().url(),

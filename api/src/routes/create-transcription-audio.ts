@@ -7,6 +7,12 @@ import { openai } from "../lib/opeanai";
 
 export const createTranscriptionAudioRoute = async (app: FastifyInstance) => {
   app.post("/audios/:audioId/transcription", async (request, reply) => {
+    // @ts-expect-error
+    const userID = request.userID;
+    if (!userID) {
+      throw new Error("Not authenticated");
+    }
+
     const paramsSchema = z.object({
       audioId: z.string().uuid(),
     });
