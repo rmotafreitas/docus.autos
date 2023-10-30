@@ -1,9 +1,9 @@
-import { OpenAIStream, streamToResponse } from "ai";
+import { OpenAIStream } from "ai";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
 
-import { openai } from "../../../lib/opeanai";
+import { openai, streamRes } from "../../../lib/opeanai";
 
 export async function audioCompletion(
   request: FastifyRequest,
@@ -43,10 +43,5 @@ export async function audioCompletion(
 
   const stream = OpenAIStream(response);
 
-  streamToResponse(stream, reply.raw, {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST",
-    },
-  });
+  return streamRes(stream, reply);
 }

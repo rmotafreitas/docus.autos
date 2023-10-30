@@ -3,7 +3,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
 
-import { openai } from "../../../lib/opeanai";
+import { openai, streamRes } from "../../../lib/opeanai";
 
 export async function articleCompletion(
   request: FastifyRequest,
@@ -49,10 +49,5 @@ export async function articleCompletion(
 
   const stream = OpenAIStream(response);
 
-  streamToResponse(stream, reply.raw, {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST",
-    },
-  });
+  return streamRes(stream, reply);
 }

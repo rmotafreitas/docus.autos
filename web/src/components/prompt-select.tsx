@@ -23,13 +23,9 @@ export function PromptSelect({ onPromptSelected, type }: PromptSelectProps) {
   const [prompts, setPrompts] = useState<Prompt[]>([]);
 
   useEffect(() => {
-    api
-      .get("/prompts/" + type, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        setPrompts(response.data);
-      });
+    api.get("/prompts/" + type).then((response) => {
+      setPrompts(response.data);
+    });
   }, []);
 
   const handlePromptSelected = (promptId: string) => {

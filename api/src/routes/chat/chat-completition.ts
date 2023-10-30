@@ -1,5 +1,5 @@
 import { OpenAIStream, streamToResponse } from "ai";
-import { openai } from "../../lib/opeanai";
+import { openai, streamRes } from "../../lib/opeanai";
 import { prisma } from "../../lib/prisma";
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
@@ -108,11 +108,6 @@ export const getAIChatCompleteRoute = async (app: FastifyInstance) => {
 
     const stream = OpenAIStream(response);
 
-    streamToResponse(stream, reply.raw, {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST",
-      },
-    });
+    return streamRes(stream, reply);
   });
 };
