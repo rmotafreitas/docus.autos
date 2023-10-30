@@ -1,5 +1,5 @@
 import { Button } from "./ui/button";
-import { FileAudio, Upload } from "lucide-react";
+import { FileAudio, Trash, Upload } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
@@ -66,6 +66,12 @@ export const AudioInputForm = ({ onAudioUploaded }: AudioInputFormProps) => {
     onAudioUploaded(audioId);
   };
 
+  const handleDeleteAudio = () => {
+    setSelectedFile(null);
+    setStatus("waiting");
+    promptInputRef.current!.value = "";
+  };
+
   return (
     <form className="flex flex-col gap-6" onSubmit={handleUploadAudio}>
       <label
@@ -108,21 +114,30 @@ export const AudioInputForm = ({ onAudioUploaded }: AudioInputFormProps) => {
         />
       </div>
 
-      <Button
-        disabled={status !== "waiting"}
-        type="submit"
-        data-success={status === "success"}
-        className="data-[success=true]:bg-emerald-400"
-      >
-        {status === "waiting" ? (
-          <>
-            Upload audio
-            <Upload className="w-4 h-4 ml-2" />
-          </>
-        ) : (
-          statusMessages[status]
-        )}
-      </Button>
+      <div className="flex gap-2 justify-end">
+        <Button
+          disabled={status !== "waiting"}
+          type="submit"
+          data-success={status === "success"}
+          className="data-[success=true]:bg-emerald-400 flex-1"
+        >
+          {status === "waiting" ? (
+            <>
+              Upload audio
+              <Upload className="w-4 h-4 ml-2" />
+            </>
+          ) : (
+            statusMessages[status]
+          )}
+        </Button>
+        <Button
+          onClick={handleDeleteAudio}
+          type="button"
+          className="bg-red-500 hover:bg-gray-500"
+        >
+          <Trash className="w-4 h-4" />
+        </Button>
+      </div>
     </form>
   );
 };

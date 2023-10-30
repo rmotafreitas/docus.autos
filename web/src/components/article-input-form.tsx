@@ -1,5 +1,5 @@
 import { Button } from "./ui/button";
-import { FileText, Upload } from "lucide-react";
+import { FileText, Trash, Upload } from "lucide-react";
 import { ChangeEvent, FormEvent, useMemo, useState } from "react";
 
 import { api } from "@/lib/axios";
@@ -53,6 +53,11 @@ export const ArticleInputForm = ({
     }
   };
 
+  const handleDeleteArticle = () => {
+    setSelectedFile(null);
+    setStatus("waiting");
+  };
+
   return (
     <form className="flex flex-col gap-6" onSubmit={handleUploadArticle}>
       <label
@@ -80,21 +85,30 @@ export const ArticleInputForm = ({
         onChange={handleFileSelected}
       />
 
-      <Button
-        disabled={status !== "waiting" || selectedFile === null}
-        type="submit"
-        data-success={status === "success"}
-        className="data-[success=true]:bg-emerald-400"
-      >
-        {status === "waiting" ? (
-          <>
-            Upload Article
-            <Upload className="w-4 h-4 ml-2" />
-          </>
-        ) : (
-          statusMessages[status]
-        )}
-      </Button>
+      <div className="flex gap-2 justify-end">
+        <Button
+          disabled={status !== "waiting" || selectedFile === null}
+          type="submit"
+          data-success={status === "success"}
+          className="data-[success=true]:bg-emerald-400 flex-1"
+        >
+          {status === "waiting" ? (
+            <>
+              Upload Article
+              <Upload className="w-4 h-4 ml-2" />
+            </>
+          ) : (
+            statusMessages[status]
+          )}
+        </Button>
+        <Button
+          onClick={handleDeleteArticle}
+          type="button"
+          className="bg-red-500 hover:bg-gray-500"
+        >
+          <Trash className="w-4 h-4" />
+        </Button>
+      </div>
     </form>
   );
 };

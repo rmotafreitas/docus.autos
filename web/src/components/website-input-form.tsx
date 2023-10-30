@@ -1,4 +1,4 @@
-import { CrossIcon, Globe, Upload } from "lucide-react";
+import { CrossIcon, Globe, Trash, Upload } from "lucide-react";
 import { FormEvent, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
@@ -29,9 +29,6 @@ interface WebsiteInputFormProps {
 export const WebsiteInputForm = ({
   onWebsiteUploaded,
 }: WebsiteInputFormProps) => {
-  const [selectedWebsite, setSelectedWebsite] = useState<String | null>(null);
-  const [isFetchingDataFromAPI, setIsFetchingDataFromAPI] = useState(false);
-  const promptInputRef = useRef<HTMLTextAreaElement>(null);
   const [url, setUrl] = useState<String>("");
   const [status, setStatus] = useState<Status>("waiting");
   const [websiteInfo, setWebsiteInfo] = useState<WebsiteInfo>({
@@ -49,7 +46,6 @@ export const WebsiteInputForm = ({
     setUrl(url.trim());
     event.preventDefault();
     setStatus("fetching");
-    setIsFetchingDataFromAPI(true);
     try {
       const res = await api.post("/websites", {
         url: url.trim().includes("http") ? url.trim() : `https://${url.trim()}`,
@@ -57,7 +53,6 @@ export const WebsiteInputForm = ({
       // grab status from response
 
       setStatus("success");
-      setIsFetchingDataFromAPI(false);
       const image = await api.get(res.data.image, { responseType: "blob" });
       const file = new File([image.data], "image.png", { type: "image/png" });
       res.data.image = URL.createObjectURL(file);
@@ -65,7 +60,6 @@ export const WebsiteInputForm = ({
       onWebsiteUploaded(res.data.url);
     } catch (error) {
       setStatus("waiting");
-      setIsFetchingDataFromAPI(false);
       setWebsiteInfo({
         url: "",
         title: "",
@@ -75,10 +69,21 @@ export const WebsiteInputForm = ({
     }
   };
 
+  const handleDeleteWebsite = async () => {
+    setUrl("");
+    setStatus("waiting");
+    setWebsiteInfo({
+      url: "",
+      title: "",
+      image: "",
+      content: "",
+    });
+  };
+
   return (
     <form className="flex flex-col gap-6" onSubmit={handleUploadWebsite}>
       <label className="border flex rounded-md aspect-video overflow-hidden border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground relative">
-        {isFetchingDataFromAPI ? (
+        {status === "fetching" ? (
           <span className="loader"></span>
         ) : websiteInfo.title !== "" ? (
           <img src={websiteInfo?.image} className="pointer-events-none" />
@@ -105,21 +110,30 @@ export const WebsiteInputForm = ({
 
       <Separator />
 
-      <Button
-        disabled={status !== "waiting" || url === ""}
-        type="submit"
-        data-success={status === "success"}
-        className="data-[success=true]:bg-emerald-400"
-      >
-        {status === "waiting" ? (
-          <>
-            Upload Website
-            <Upload className="w-4 h-4 ml-2" />
-          </>
-        ) : (
-          statusMessages[status]
-        )}
-      </Button>
+      <div className="flex gap-2 justify-end">
+        <Button
+          disabled={status !== "waiting" || url === ""}
+          type="submit"
+          data-success={status === "success"}
+          className="data-[success=true]:bg-emerald-400 flex-1"
+        >
+          {status === "waiting" ? (
+            <>
+              Upload Website
+              <Upload className="w-4 h-4 ml-2" />
+            </>
+          ) : (
+            statusMessages[status]
+          )}
+        </Button>
+        <Button
+          onClick={handleDeleteWebsite}
+          type="button"
+          className="bg-red-500 hover:bg-gray-500"
+        >
+          <Trash className="w-4 h-4" />
+        </Button>
+      </div>
     </form>
   );
 };

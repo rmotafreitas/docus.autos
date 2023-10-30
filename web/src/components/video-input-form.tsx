@@ -1,9 +1,17 @@
 import { Button } from "./ui/button";
-import { CrossIcon, FileVideo, Upload, Youtube } from "lucide-react";
+import { CrossIcon, FileVideo, Trash, Upload, Youtube } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
-import { ChangeEvent, FormEvent, useMemo, useRef, useState } from "react";
+import {
+  ButtonHTMLAttributes,
+  ChangeEvent,
+  FormEvent,
+  MouseEventHandler,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { initFFmpeg } from "@/lib/ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
@@ -195,6 +203,21 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
     onVideoUploaded(videoId);
   };
 
+  const handleDeleteVideo = async () => {
+    console.log("deleting video");
+    setSelectedFile(null);
+    setIsFetchingDataFromAPI(false);
+    setStatus("waiting");
+    setYoutubeVideoInfo({
+      url: "",
+      title: "",
+      id: "",
+      thumbnail: "",
+    });
+    promptInputRef.current!.value = "";
+    youtubeLinkInputRef.current!.value = "";
+  };
+
   return (
     <form className="flex flex-col gap-6" onSubmit={handleUploadVideo}>
       <section className="flex justify-evenly">
@@ -293,24 +316,34 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
         />
       </div>
 
-      <Button
-        disabled={
-          status !== "waiting" ||
-          (inputType === "youtube" && youtubeVideoInfo.title === "")
-        }
-        type="submit"
-        data-success={status === "success"}
-        className="data-[success=true]:bg-emerald-400"
-      >
-        {status === "waiting" ? (
-          <>
-            Upload video
-            <Upload className="w-4 h-4 ml-2" />
-          </>
-        ) : (
-          statusMessages[status]
-        )}
-      </Button>
+      <div className="flex gap-2 justify-end">
+        <Button
+          disabled={
+            status !== "waiting" ||
+            (inputType === "youtube" && youtubeVideoInfo.title === "") ||
+            (inputType === "file" && !selectedFile)
+          }
+          type="submit"
+          data-success={status === "success"}
+          className="data-[success=true]:bg-emerald-400 flex-1"
+        >
+          {status === "waiting" ? (
+            <>
+              Upload video
+              <Upload className="w-4 h-4 ml-2" />
+            </>
+          ) : (
+            statusMessages[status]
+          )}
+        </Button>
+        <Button
+          onClick={handleDeleteVideo}
+          type="button"
+          className="bg-red-500 hover:bg-gray-500"
+        >
+          <Trash className="w-4 h-4" />
+        </Button>
+      </div>
     </form>
   );
 };
