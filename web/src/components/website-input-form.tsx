@@ -29,7 +29,7 @@ interface WebsiteInputFormProps {
 export const WebsiteInputForm = ({
   onWebsiteUploaded,
 }: WebsiteInputFormProps) => {
-  const [url, setUrl] = useState<String>("");
+  const urlInputRef = useRef<HTMLInputElement>(null);
   const [status, setStatus] = useState<Status>("waiting");
   const [websiteInfo, setWebsiteInfo] = useState<WebsiteInfo>({
     url: "",
@@ -38,12 +38,9 @@ export const WebsiteInputForm = ({
     content: "",
   });
 
-  const handleGetInfoFromWebsite = async (value: String) => {
-    setUrl(value);
-  };
-
   const handleUploadWebsite = async (event: FormEvent<HTMLFormElement>) => {
-    setUrl(url.trim());
+    urlInputRef.current!.value = urlInputRef.current!.value.trim();
+    const url = urlInputRef.current!.value;
     event.preventDefault();
     setStatus("fetching");
     try {
@@ -70,7 +67,7 @@ export const WebsiteInputForm = ({
   };
 
   const handleDeleteWebsite = async () => {
-    setUrl("");
+    urlInputRef.current!.value = "";
     setStatus("waiting");
     setWebsiteInfo({
       url: "",
@@ -105,14 +102,14 @@ export const WebsiteInputForm = ({
         disabled={status !== "waiting"}
         id="website_url"
         placeholder="Paste a website link here"
-        onChange={(e) => handleGetInfoFromWebsite(e.target.value)}
+        ref={urlInputRef}
       />
 
       <Separator />
 
       <div className="flex gap-2 justify-end">
         <Button
-          disabled={status !== "waiting" || url === ""}
+          disabled={status !== "waiting"}
           type="submit"
           data-success={status === "success"}
           className="data-[success=true]:bg-emerald-400 flex-1"

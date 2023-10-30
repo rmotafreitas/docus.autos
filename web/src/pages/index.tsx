@@ -20,7 +20,7 @@ export function HomePage() {
           documents
         </p>
         <p className="text-2xl font-semibold text-[#FF3BFF]">
-          Automate your docs
+          automate your docs
         </p>
       </section>
       <section className="flex flex-col justify-center items-center gap-6 mt-10 mb-20">
