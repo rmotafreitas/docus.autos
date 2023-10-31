@@ -3,7 +3,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://docus-autos.vercel.app/">
     <img src="./web/public/icon.png" alt="Logo" width="180" height="180">
   </a>
 
