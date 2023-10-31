@@ -90,22 +90,22 @@ Transcript:
       title: "Summary for Website",
       template: `Your task is to create a concise summary for a website.
 
-        Below, you will find transcription from the website, which you will use to generate the summary.
-        
-        The summary should be no longer than 200 words, written in the first person, and should highlight the key points of the website.
-        
-        Employ engaging language that captures the reader's interest.
-        
-        The format for your response should be as follows:
-        
-        '''
-        Summary.
-        '''
-        
-        Transcription:
-        '''
-        {transcription}
-        '''`.trim(),
+Below, you will find transcription from the website, which you will use to generate the summary.
+
+The summary should be no longer than 200 words, written in the first person, and should highlight the key points of the website.
+
+Employ engaging language that captures the reader's interest.
+
+The format for your response should be as follows:
+
+'''
+Summary.
+'''
+
+Transcript:
+'''
+{transcription}
+'''`.trim(),
       type: "website",
     },
   });
@@ -116,24 +116,59 @@ Transcript:
       template:
         `Your task is to create a concise FAQ (Frequently Asked Questions) for a website.
 
-      Below, you'll find transcription from the website. Utilize this material to craft the FAQ.
-      
-      It should consist of a maximum of 200 words in the first person, including only information from the website.
-      
-      Employ attention-grabbing language that captivates the reader's attention and refrain from inventing details.
-      
-      The format for your response should be as follows:
+Below, you'll find transcription from the website. Utilize this material to craft the FAQ.
+
+It should consist of a maximum of 200 words in the first person, including only information from the website.
+
+Employ attention-grabbing language that captivates the reader's attention and refrain from inventing details.
+
+The format for your response should be as follows:
 
       
-      '''
-      Q(N): [question]
-      A(N): [answer]
-      '''
-      
-      Transcription
-      '''
-      {transcription}
-      '''`.trim(),
+'''
+Q(N): [question]
+A(N): [answer]
+'''
+
+Transcript:
+'''
+{transcription}
+'''`.trim(),
+      type: "website",
+    },
+  });
+  // BEGIN: tutorial-prompt
+  await prisma.prompt.create({
+    data: {
+      title: "Tutorial Creation",
+      template:
+        `Your task is to create a tutorial on a given topic for a website.
+
+Below, you'll find transcription from the website. Use this material to create the tutorial.
+
+The tutorial should be a maximum of 1000 words, and should cover all the key points.
+
+Use engaging language that captures the reader's interest and provide examples wherever possible.
+
+The format for your response should be as follows:
+
+'''
+Tutorial.
+
+Topic: [topic]
+Key Points:
+- [point 1]
+- [point 2]
+- [point 3]
+- [point n]
+
+Additional Notes:
+[any additional notes or instructions]
+
+'''
+Transcript:
+{transcription}
+'''`.trim(),
       type: "website",
     },
   });
@@ -165,6 +200,40 @@ Transcript:
 
   await prisma.prompt.create({
     data: {
+      title: "Blog Post Creation",
+      template: `Your task is to create a blog post on a given topic.
+
+Below you'll find a transcript on the topic. Use this material to create the blog post.
+
+The blog post should be a maximum of 1000 words, and should cover all the key points.
+
+Use engaging language that captures the reader's interest and provide examples wherever possible.
+
+The format for your response should be as follows:
+
+'''
+Blog Post.
+
+Topic: [topic]
+Key Points:
+- [point 1]
+- [point 2]
+- [point 3]
+- ...
+
+Additional Notes:
+[any additional notes or instructions]
+
+'''
+Transcript:
+{transcription}
+'''`.trim(),
+      type: "article",
+    },
+  });
+
+  await prisma.prompt.create({
+    data: {
       title: "Summary for Audio",
       template: `Your role is to generate a succinct summary for an audio.
 
@@ -178,6 +247,27 @@ The return should be in the following format:
 
 '''
 Summary.
+'''
+
+Transcript:
+'''
+{transcription}
+'''`.trim(),
+      type: "audio",
+    },
+  });
+
+  await prisma.prompt.create({
+    data: {
+      title: "Summary for Audio",
+      template: `Your role is to generate the transcription for an audio.
+
+Below you will receive a transcript of this audio, use this transcript to generate the transcription.
+
+The return should be in the following format:
+
+'''
+Transcription.
 '''
 
 Transcript:

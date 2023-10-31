@@ -20,7 +20,7 @@ export function HomePage() {
           documents
         </p>
         <p className="text-2xl font-semibold text-[#FF3BFF]">
-          automate your docs
+          Automate your docs
         </p>
       </section>
       <section className="flex flex-col justify-center items-center gap-6 mt-10 mb-20">
@@ -28,7 +28,7 @@ export function HomePage() {
           Hack your productivity
         </h2>
         <h3 className="text-3xl text-center max-w-7xl">
-          Revolutionize your documents functionality with AI integration
+          revolutionize your documents functionality with AI integration
         </h3>
       </section>
       <section className="flex flex-row justify-evenly w-5/6 items-center gap-6 mb-16 max-md:flex-col max-md:items-center">

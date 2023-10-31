@@ -25,9 +25,9 @@ export function AppsPage() {
             Icon={Globe}
             url="/apps/websites"
             features={[
-              "Generate a cool title for your website",
-              "Generate an attractive description for your website",
-              "Generate a summary from a website",
+              "Generate a good summary for your website",
+              "Generate a Frequently Asked Questions section for your website",
+              "Generate a tutorial or guide for your website",
             ]}
           />
           <FeatureCard
@@ -36,9 +36,8 @@ export function AppsPage() {
             Icon={FileText}
             url="/apps/articles"
             features={[
-              "Generate a cool title for your article",
-              "Make the best bullet points for your article",
-              "Generate a summary from an article",
+              "Generate a good summary for your article",
+              "Create a blog post from your article",
             ]}
           />
           <FeatureCard
@@ -47,9 +46,8 @@ export function AppsPage() {
             title="Audios"
             url="/apps/audios"
             features={[
+              "Generate a good summary for your audio",
               "Generate a transcript from an audio",
-              "Generate a summary from an audio",
-              "Make a blog post from an audio",
             ]}
           />
         </section>
