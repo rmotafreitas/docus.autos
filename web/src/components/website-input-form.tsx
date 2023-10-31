@@ -53,18 +53,21 @@ export const WebsiteInputForm = ({
         url,
       });
       // grab status from response
-
-      setStatus("success");
-      const image = await axios.get(
-        `https://api.apiflash.com/v1/urltoimage?access_key=${
-          import.meta.env.VITE_API_FLASH
-        }&wait_until=page_loaded&url=${url}`,
-        { responseType: "blob" }
-      );
-      const file = new File([image.data], "image.png", { type: "image/png" });
-      res.data.image = URL.createObjectURL(file);
-      setWebsiteInfo(res.data);
-      onWebsiteUploaded(res.data.url);
+      if (res.data.content) {
+        setStatus("success");
+        const image = await axios.get(
+          `https://api.apiflash.com/v1/urltoimage?access_key=${
+            import.meta.env.VITE_API_FLASH
+          }&wait_until=page_loaded&url=${url}`,
+          { responseType: "blob" }
+        );
+        const file = new File([image.data], "image.png", { type: "image/png" });
+        res.data.image = URL.createObjectURL(file);
+        onWebsiteUploaded(res.data.url);
+        setWebsiteInfo(res.data);
+      } else {
+        throw new Error("Website not available for us");
+      }
     } catch (error) {
       setStatus("waiting");
       setWebsiteInfo({
