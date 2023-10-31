@@ -42,17 +42,22 @@ export function ProfilePage() {
           <hanko-profile />
           <section className="w-full flex flex-row justify-center gap-2 items-center max-sm:flex-col">
             <Button className="flex flex-1 bg-primary max-sm:w-full">
-              <Link to="/me/history" className="flex flex-row items-center">
+              <Link
+                to="/me/history"
+                className="flex flex-row items-center w-full h-full justify-center"
+              >
                 <History size={24} className="mr-2" />
                 History
               </Link>
             </Button>
+            {/*
             <Button className="flex flex-1 bg-primary max-sm:w-full">
               <Link to="/me/history" className="flex flex-row items-center">
                 <EditIcon size={24} className="mr-2" />
                 Prompts
               </Link>
             </Button>
+            */}
             <Button
               className="flex flex-1 bg-red-500 hover:bg-red-600 max-sm:w-full justify-center items-center"
               onClick={handleHankoLogout}
