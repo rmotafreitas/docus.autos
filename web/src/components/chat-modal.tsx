@@ -91,14 +91,14 @@ export function ChatModal({ id, type, close }: ChatModalProps) {
     setCompletion,
     isLoading,
   } = useCompletion({
-    api: `http://localhost:3333/ai/chat/${type}/complete`,
+    api: `${api.getUri()}/ai/chat/${type}/complete`,
     body: {
       contentId: id,
     },
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${Cookies.get("hanko")}`,
     },
-    credentials: "include",
     onFinish: async (prompt, completion) => {
       setInput("");
       setCompletion("");
