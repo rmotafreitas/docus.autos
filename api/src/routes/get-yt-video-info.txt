@@ -1,8 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
 
-import { getInfo } from "@distube/ytdl-core";
-
 export const getYTVideoInfoRoute = async (app: FastifyInstance) => {
   app.post("/videos/yt", async (request, reply) => {
     // @ts-expect-error
