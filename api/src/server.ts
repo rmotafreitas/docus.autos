@@ -18,8 +18,6 @@ import { uploadAudioRoute } from "./routes/upload-audio";
 import { createTranscriptionAudioRoute } from "./routes/create-transcription-audio";
 import { getAIChatCompleteRoute } from "./routes/chat/chat-completition";
 import { getAIChatSaveRoute } from "./routes/chat/chat-save";
-import type { FastifyCookieOptions } from "@fastify/cookie";
-import cookie from "@fastify/cookie";
 import * as jose from "jose";
 import { getAICompletionHistoryRoute } from "./routes/get-ai-completion-history";
 import { deleteAICompletionHistoryRoute } from "./routes/delete-ai-completion-history";
@@ -53,17 +51,12 @@ const authJWTCookieHanko = async (
 
 app.register(fastifyCors, {
   origin: "http://localhost:5173",
-  credentials: true,
 });
-
-app.register(cookie, {
-  secret: "my-secret", // for cookies signature
-  parseOptions: {}, // options for parsing cookies
-} as FastifyCookieOptions);
 
 app.addHook("preHandler", authJWTCookieHanko);
 
 app.get("/", async (request, reply) => {
+  console.log(request);
   return { hello: "world" };
 });
 
