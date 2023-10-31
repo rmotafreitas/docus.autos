@@ -44,12 +44,13 @@ export const WebsiteInputForm = ({
 
   const handleUploadWebsite = async (event: FormEvent<HTMLFormElement>) => {
     urlInputRef.current!.value = urlInputRef.current!.value.trim();
-    const url = urlInputRef.current!.value;
+    let url = urlInputRef.current!.value.trim();
+    url = url.includes("http") ? url : `https://${url}`;
     event.preventDefault();
     setStatus("fetching");
     try {
       const res = await api.post("/websites", {
-        url: url.trim().includes("http") ? url.trim() : `https://${url.trim()}`,
+        url,
       });
       // grab status from response
 
@@ -57,7 +58,7 @@ export const WebsiteInputForm = ({
       const image = await axios.get(
         `https://api.apiflash.com/v1/urltoimage?access_key=${
           import.meta.env.VITE_API_FLASH
-        }&wait_until=page_loaded&url=${url.trim()}`,
+        }&wait_until=page_loaded&url=${url}`,
         { responseType: "blob" }
       );
       const file = new File([image.data], "image.png", { type: "image/png" });
