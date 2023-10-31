@@ -49,7 +49,7 @@ const authJWTCookieHanko = async (
 };
 
 app.register(fastifyCors, {
-  origin: "http://localhost:5173",
+  origin: "https://docus-autos.vercel.app",
 });
 
 app.addHook("preHandler", authJWTCookieHanko);
