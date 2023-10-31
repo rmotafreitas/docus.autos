@@ -29,7 +29,6 @@ const authJWTCookieHanko = async (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
-  console.log(request.headers.authorization);
   const token = request.headers.authorization?.split(" ")[1] ?? null;
 
   // Check if the token is valid and not expired
@@ -44,7 +43,6 @@ const authJWTCookieHanko = async (
     // @ts-expect-error
     request.userID = userID;
   } catch (error) {
-    console.log(error);
     // @ts-expect-error
     request.userID = null;
   }
@@ -57,7 +55,6 @@ app.register(fastifyCors, {
 app.addHook("preHandler", authJWTCookieHanko);
 
 app.get("/", async (request, reply) => {
-  console.log(request);
   return { hello: "world" };
 });
 

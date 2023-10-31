@@ -1,9 +1,9 @@
+import { UserIdContext, UserIdContextProps } from "@/contexts/user.context";
+import { hankoApi, hankoInstance } from "@/lib/hanko";
+import { register } from "@teamhanko/hanko-elements";
 import { useContext, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../components/navbar";
-import { hankoApi, hankoInstance } from "@/lib/hanko";
-import { register } from "@teamhanko/hanko-elements";
-import { UserIdContext, UserIdContextProps } from "@/contexts/user.context";
 
 export function LoginPage() {
   const { setUserId }: UserIdContextProps = useContext(UserIdContext);

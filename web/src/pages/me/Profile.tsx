@@ -1,12 +1,12 @@
 import { useContext, useEffect, useMemo } from "react";
 // @ts-ignore
-import { register } from "@teamhanko/hanko-elements";
 import { Navbar } from "@/components/navbar";
-import { hankoApi, hankoInstance } from "@/lib/hanko";
-import { UserIdContext, UserIdContextProps } from "@/contexts/user.context";
-import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { EditIcon, History, LogOutIcon, UserIcon } from "lucide-react";
+import { UserIdContext, UserIdContextProps } from "@/contexts/user.context";
+import { hankoApi, hankoInstance } from "@/lib/hanko";
+import { register } from "@teamhanko/hanko-elements";
+import { History, LogOutIcon, UserIcon } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 export function ProfilePage() {
   const hanko = useMemo(() => hankoInstance, []);

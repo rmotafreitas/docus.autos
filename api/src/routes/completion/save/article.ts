@@ -14,7 +14,6 @@ export async function articleCompletionSave(
   });
 
   const { articleId, resultText, promptText } = bodySchema.parse(request.body);
-  console.log(articleId, resultText, promptText);
 
   const article = await prisma.articlehistory.findFirst({
     where: {
@@ -42,7 +41,6 @@ export async function articleCompletionSave(
         },
       },
     });
-    console.log(res);
     return res;
   }
   return;

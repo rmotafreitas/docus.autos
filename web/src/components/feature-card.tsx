@@ -8,7 +8,7 @@ interface Props {
   i: number;
 }
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 export function FeatureCard({ title, features, Icon, url, i }: Props) {
   const cardRef = useRef<HTMLAnchorElement>(null);

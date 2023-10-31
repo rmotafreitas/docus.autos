@@ -1,11 +1,11 @@
-import { CrossIcon, Eraser, Globe, Trash, Upload } from "lucide-react";
+import { api } from "@/lib/axios";
+import { View } from "@/pages/apps/Videos";
+import { CrossIcon, Eraser, Globe, Upload } from "lucide-react";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
-import { api } from "@/lib/axios";
-import { Input } from "./ui/input";
-import { View } from "@/pages/apps/Videos";
 
 type Status = "waiting" | "fetching" | "uploading" | "generating" | "success";
 
@@ -83,7 +83,6 @@ export const WebsiteInputForm = ({
 
   useEffect(() => {
     if (view && view.website) {
-      console.log(view.website.url);
       urlInputRef.current!.value = view.website.url;
       handleUploadWebsite(new Event("submit") as any);
     }

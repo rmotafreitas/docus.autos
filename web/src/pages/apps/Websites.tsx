@@ -1,7 +1,15 @@
+import { ViewParams } from "@/App";
+import { ChatSection } from "@/components/chat-modal";
+import { Navbar } from "@/components/navbar";
+import { api } from "@/lib/axios";
+import { hankoInstance } from "@/lib/hanko";
+import { useCompletion } from "ai/react";
+import Cookies from "js-cookie";
+import { Wand2 } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { PromptSelect } from "../../components/prompt-select";
 import { Button } from "../../components/ui/button";
-import { Github, Wand2 } from "lucide-react";
-import { Separator } from "../../components/ui/separator";
-import { Textarea } from "../../components/ui/textarea";
 import { Label } from "../../components/ui/label";
 import {
   Select,
@@ -10,19 +18,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
+import { Separator } from "../../components/ui/separator";
 import { Slider } from "../../components/ui/slider";
+import { Textarea } from "../../components/ui/textarea";
 import { WebsiteInputForm } from "../../components/website-input-form";
-import { PromptSelect } from "../../components/prompt-select";
-import { useEffect, useMemo, useState } from "react";
-import { Navbar } from "@/components/navbar";
-import { useCompletion } from "ai/react";
-import { useNavigate, useParams } from "react-router-dom";
-import { hankoInstance } from "@/lib/hanko";
-import { api } from "@/lib/axios";
-import { ChatSection } from "@/components/chat-modal";
-import { ViewParams } from "@/App";
 import { View } from "./Videos";
-import Cookies from "js-cookie";
 
 export function WebsitesAppPage() {
   const deleteView = () => {

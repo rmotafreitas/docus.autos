@@ -1,12 +1,12 @@
+import { api } from "@/lib/axios";
 import { useEffect, useState } from "react";
 import {
   Select,
-  SelectTrigger,
   SelectContent,
-  SelectValue,
   SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "./ui/select";
-import { api } from "@/lib/axios";
 
 interface Prompt {
   id: string;

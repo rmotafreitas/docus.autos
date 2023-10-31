@@ -1,13 +1,13 @@
-import * as Dialog from "@radix-ui/react-dialog";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { Cross, MessagesSquareIcon, SendHorizonal } from "lucide-react";
-import { ScrollArea } from "./ui/scroll-area";
-import { useContext, useEffect, useState } from "react";
-import { api } from "@/lib/axios";
 import { UserIdContext, UserIdContextProps } from "@/contexts/user.context";
+import { api } from "@/lib/axios";
+import * as Dialog from "@radix-ui/react-dialog";
+import { Cross2Icon } from "@radix-ui/react-icons";
 import { useCompletion } from "ai/react";
-import { Cross1Icon, Cross2Icon } from "@radix-ui/react-icons";
+import { MessagesSquareIcon, SendHorizonal } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { ScrollArea } from "./ui/scroll-area";
 
 interface ChatModalProps {
   id: string;

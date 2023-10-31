@@ -1,7 +1,16 @@
-import { Button } from "../../components/ui/button";
+import { ViewParams } from "@/App";
+import { ArticleInputForm } from "@/components/article-input-form";
+import { ChatSection } from "@/components/chat-modal";
+import { Navbar } from "@/components/navbar";
+import { api } from "@/lib/axios";
+import { hankoInstance } from "@/lib/hanko";
+import { useCompletion } from "ai/react";
+import Cookies from "js-cookie";
 import { Wand2 } from "lucide-react";
-import { Separator } from "../../components/ui/separator";
-import { Textarea } from "../../components/ui/textarea";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { PromptSelect } from "../../components/prompt-select";
+import { Button } from "../../components/ui/button";
 import { Label } from "../../components/ui/label";
 import {
   Select,
@@ -10,19 +19,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
+import { Separator } from "../../components/ui/separator";
 import { Slider } from "../../components/ui/slider";
-import { PromptSelect } from "../../components/prompt-select";
-import { useEffect, useMemo, useState } from "react";
-import { useCompletion } from "ai/react";
-import { Navbar } from "@/components/navbar";
-import { hankoInstance } from "@/lib/hanko";
-import { useNavigate, useParams } from "react-router-dom";
-import { api } from "@/lib/axios";
-import { ArticleInputForm } from "@/components/article-input-form";
-import { ChatSection } from "@/components/chat-modal";
-import { ViewParams } from "@/App";
+import { Textarea } from "../../components/ui/textarea";
 import { View } from "./Videos";
-import Cookies from "js-cookie";
 
 export function ArticleAppPage() {
   const deleteView = () => {

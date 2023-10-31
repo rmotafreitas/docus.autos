@@ -1,8 +1,4 @@
-import { Button } from "./ui/button";
-import { Eraser, FileAudio, Trash, Upload } from "lucide-react";
-import { Separator } from "./ui/separator";
-import { Textarea } from "./ui/textarea";
-import { Label } from "./ui/label";
+import { Eraser, FileAudio, Upload } from "lucide-react";
 import {
   ChangeEvent,
   FormEvent,
@@ -11,6 +7,10 @@ import {
   useRef,
   useState,
 } from "react";
+import { Button } from "./ui/button";
+import { Label } from "./ui/label";
+import { Separator } from "./ui/separator";
+import { Textarea } from "./ui/textarea";
 
 import { api } from "@/lib/axios";
 import { View } from "@/pages/apps/Videos";

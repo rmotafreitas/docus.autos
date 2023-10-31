@@ -1,17 +1,17 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
+import { useMemo, useState } from "react";
+import { ThemeProvider } from "./components/theme-provider";
+import { UserIdContext, UserIdContextProps } from "./contexts/user.context";
 import { HomePage } from "./pages";
 import { LoginPage } from "./pages/Login";
+import { AppsPage } from "./pages/apps";
+import { ArticleAppPage } from "./pages/apps/Articles";
+import { AudiosAppPage } from "./pages/apps/Audios";
 import { VideosAppPage } from "./pages/apps/Videos";
 import { WebsitesAppPage } from "./pages/apps/Websites";
 import { ProfilePage } from "./pages/me/Profile";
-import { AppsPage } from "./pages/apps";
 import { HistoryPage, linker } from "./pages/me/logs/History";
-import { ArticleAppPage } from "./pages/apps/Articles";
-import { AudiosAppPage } from "./pages/apps/Audios";
-import { UserIdContext, UserIdContextProps } from "./contexts/user.context";
-import { useMemo, useState } from "react";
-import { ThemeProvider } from "./components/theme-provider";
 
 export type ViewParams = {
   viewid: string;

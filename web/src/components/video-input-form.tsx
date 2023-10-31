@@ -1,15 +1,4 @@
-import { Button } from "./ui/button";
-import {
-  CrossIcon,
-  Eraser,
-  FileVideo,
-  Trash,
-  Upload,
-  Youtube,
-} from "lucide-react";
-import { Separator } from "./ui/separator";
-import { Textarea } from "./ui/textarea";
-import { Label } from "./ui/label";
+import { CrossIcon, Eraser, FileVideo, Upload, Youtube } from "lucide-react";
 import {
   ChangeEvent,
   FormEvent,
@@ -18,13 +7,17 @@ import {
   useRef,
   useState,
 } from "react";
+import { Button } from "./ui/button";
+import { Label } from "./ui/label";
+import { Separator } from "./ui/separator";
+import { Textarea } from "./ui/textarea";
 
-import { initFFmpeg } from "@/lib/ffmpeg";
-import { fetchFile } from "@ffmpeg/util";
 import { api } from "@/lib/axios";
-import { Input } from "./ui/input";
+import { initFFmpeg } from "@/lib/ffmpeg";
 import { View, isStringAYoutbeUrl } from "@/pages/apps/Videos";
+import { fetchFile } from "@ffmpeg/util";
 import { Cross2Icon } from "@radix-ui/react-icons";
+import { Input } from "./ui/input";
 
 type Status = "waiting" | "converting" | "uploading" | "generating" | "success";
 

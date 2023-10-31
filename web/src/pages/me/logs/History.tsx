@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,8 +6,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+import { HistoryTypeParams } from "@/App";
 import { DataTable } from "@/components/data-table";
 import { Navbar } from "@/components/navbar";
 import { api } from "@/lib/axios";
@@ -20,14 +21,6 @@ import {
   Globe,
 } from "lucide-react";
 import {
-  HistoryItemWebsite,
-  columns as website_cols,
-} from "./schema/webistes.columns";
-import {
-  HistoryItemVideo,
-  columns as video_cols,
-} from "./schema/videos.columns";
-import {
   HistoryItemArticle,
   columns as article_cols,
 } from "./schema/articles.columns";
@@ -35,7 +28,14 @@ import {
   HistoryItemAudio,
   columns as audio_cols,
 } from "./schema/audios.columns";
-import { HistoryTypeParams } from "@/App";
+import {
+  HistoryItemVideo,
+  columns as video_cols,
+} from "./schema/videos.columns";
+import {
+  HistoryItemWebsite,
+  columns as website_cols,
+} from "./schema/webistes.columns";
 
 export const linker = {
   websites: {

@@ -4,6 +4,7 @@ import { Navbar } from "@/components/navbar";
 import { api } from "@/lib/axios";
 import { hankoInstance } from "@/lib/hanko";
 import { useCompletion } from "ai/react";
+import Cookies from "js-cookie";
 import { Wand2 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -21,7 +22,6 @@ import { Separator } from "../../components/ui/separator";
 import { Slider } from "../../components/ui/slider";
 import { Textarea } from "../../components/ui/textarea";
 import { VideoInputForm } from "../../components/video-input-form";
-import Cookies from "js-cookie";
 
 export const isStringAYoutbeUrl = (str: string) => {
   const youtubeUrlRegex = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/;
