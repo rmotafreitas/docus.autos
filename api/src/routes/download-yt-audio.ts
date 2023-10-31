@@ -1,6 +1,8 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
 
+import ytdl from "ytdl-core";
+
 import fs from "node:fs";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
