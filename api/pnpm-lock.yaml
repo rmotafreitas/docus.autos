@@ -57,8 +57,8 @@ dependencies:
     specifier: ^21.3.8
     version: 21.3.8(typescript@5.2.2)
   ytdl-core:
-    specifier: ^4.11.5
-    version: 4.11.5
+    specifier: ^4.10.0
+    version: 4.10.0
   zod:
     specifier: ^3.22.2
     version: 3.22.2
@@ -2627,9 +2627,9 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /ytdl-core@4.11.5:
-    resolution: {integrity: sha512-27LwsW4n4nyNviRCO1hmr8Wr5J1wLLMawHCQvH8Fk0hiRqrxuIu028WzbJetiYH28K8XDbeinYW4/wcHQD1EXA==}
-    engines: {node: '>=12'}
+  /ytdl-core@4.10.0:
+    resolution: {integrity: sha512-RCCoSVTmMeBPH5NFR1fh3nkDU9okvWM0ZdN6plw6I5+vBBZVUEpOt8vjbSgprLRMmGUsmrQZJhvG1CHOat4mLA==}
+    engines: {node: '>=10'}
     dependencies:
       m3u8stream: 0.8.6
       miniget: 4.2.3

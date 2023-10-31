@@ -11,7 +11,6 @@ export const streamRes = (stream: ReadableStream<any>, reply: FastifyReply) => {
   return streamToResponse(stream, reply.raw, {
     headers: {
       "Access-Control-Allow-Origin": "http://localhost:5173",
-      "Access-Control-Allow-Credentials": "true",
       "Access-Control-Allow-Methods": "GET, POST",
     },
   });

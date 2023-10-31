@@ -22,6 +22,7 @@ import { ArticleInputForm } from "@/components/article-input-form";
 import { ChatSection } from "@/components/chat-modal";
 import { ViewParams } from "@/App";
 import { View } from "./Videos";
+import Cookies from "js-cookie";
 
 export function ArticleAppPage() {
   const deleteView = () => {
@@ -75,13 +76,14 @@ export function ArticleAppPage() {
     isLoading,
     setCompletion,
   } = useCompletion({
-    api: "http://localhost:3333/ai/complete/articles",
+    api: api.getUri() + "/ai/complete/articles",
     body: {
       id: articleId,
       temperature,
     },
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${Cookies.get("hanko")}`,
     },
     credentials: "include",
     onFinish: async (prompt, completion) => {
