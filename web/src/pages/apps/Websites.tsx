@@ -75,7 +75,7 @@ export function WebsitesAppPage() {
     isLoading,
     setCompletion,
   } = useCompletion({
-    api: api.getUri() + "/ai/complete/videos",
+    api: api.getUri() + "/ai/complete/websites",
     body: {
       url,
       temperature,
