@@ -42,7 +42,6 @@
     "openai": "^4.6.0",
     "pdf-parse": "^1.1.1",
     "puppeteer": "^21.3.8",
-    "youtube-dl-exec": "^2.4.16",
     "zod": "^3.22.2"
   }
 }
