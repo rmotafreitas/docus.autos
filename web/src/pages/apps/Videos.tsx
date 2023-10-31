@@ -1,7 +1,14 @@
-import { Button } from "../../components/ui/button";
+import { ViewParams } from "@/App";
+import { ChatSection } from "@/components/chat-modal";
+import { Navbar } from "@/components/navbar";
+import { api } from "@/lib/axios";
+import { hankoInstance } from "@/lib/hanko";
+import { useCompletion } from "ai/react";
 import { Wand2 } from "lucide-react";
-import { Separator } from "../../components/ui/separator";
-import { Textarea } from "../../components/ui/textarea";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { PromptSelect } from "../../components/prompt-select";
+import { Button } from "../../components/ui/button";
 import { Label } from "../../components/ui/label";
 import {
   Select,
@@ -10,18 +17,49 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
+import { Separator } from "../../components/ui/separator";
 import { Slider } from "../../components/ui/slider";
+import { Textarea } from "../../components/ui/textarea";
 import { VideoInputForm } from "../../components/video-input-form";
-import { PromptSelect } from "../../components/prompt-select";
-import { useEffect, useMemo, useState } from "react";
-import { useCompletion } from "ai/react";
-import { Navbar } from "@/components/navbar";
-import { hankoInstance } from "@/lib/hanko";
-import { useNavigate } from "react-router-dom";
-import { api } from "@/lib/axios";
-import { ChatSection } from "@/components/chat-modal";
+
+export const isStringAYoutbeUrl = (str: string) => {
+  const youtubeUrlRegex = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/;
+  return str.match(youtubeUrlRegex);
+};
+
+export interface View {
+  id: string;
+  video?: {
+    name: string;
+    id: string;
+  };
+  website?: {
+    url: string;
+  };
+  article?: {
+    name: string;
+    id: string;
+  };
+  audio?: {
+    name: string;
+    id: string;
+  };
+  promptText: string;
+  resultText: string;
+  createdAt: string;
+  deleteView: () => void;
+}
 
 export function VideosAppPage() {
+  const deleteView = () => {
+    setView(undefined);
+    setChatId("");
+    setVideoId(null);
+  };
+
+  const { viewid } = useParams<ViewParams>();
+
+  const [view, setView] = useState<View>();
   const [temperature, setTemperature] = useState(0.5);
   const [videoId, setVideoId] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
@@ -38,6 +76,18 @@ export function VideosAppPage() {
       } catch (e) {
         router("/auth?expired=1");
       }
+      if (viewid) {
+        const res = await api.get(`/ai/complete/videos/${viewid}`);
+        const data: View = res.data;
+        if (data.video) {
+          setVideoId(data.video.id);
+        }
+        setInput(data.promptText);
+        setChatId(data.id);
+        setCompletion(data.resultText);
+        data.deleteView = deleteView;
+        setView(data);
+      }
     })();
   }, []);
 
@@ -48,6 +98,7 @@ export function VideosAppPage() {
     handleSubmit,
     completion,
     isLoading,
+    setCompletion,
   } = useCompletion({
     api: "http://localhost:3333/ai/complete/videos",
     body: {
@@ -101,7 +152,7 @@ export function VideosAppPage() {
         </section>
 
         <aside className="w-80 flex flex-col gap-6 max-md:w-full">
-          <VideoInputForm onVideoUploaded={setVideoId} />
+          <VideoInputForm view={view} onVideoUploaded={setVideoId} />
 
           <Separator />
 
@@ -147,7 +198,7 @@ export function VideosAppPage() {
 
             <Separator />
 
-            <Button disabled={isLoading || !videoId} type="submit">
+            <Button disabled={isLoading || !videoId || !input} type="submit">
               Generate
               <Wand2 className="w-4 h-4 ml-2" />
             </Button>

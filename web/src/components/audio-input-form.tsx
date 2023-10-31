@@ -1,11 +1,20 @@
 import { Button } from "./ui/button";
-import { FileAudio, Trash, Upload } from "lucide-react";
+import { Eraser, FileAudio, Trash, Upload } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
-import { ChangeEvent, FormEvent, useMemo, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { api } from "@/lib/axios";
+import { View } from "@/pages/apps/Videos";
+import { Cross2Icon } from "@radix-ui/react-icons";
 
 type Status = "waiting" | "converting" | "uploading" | "generating" | "success";
 
@@ -18,9 +27,13 @@ const statusMessages = {
 
 interface AudioInputFormProps {
   onAudioUploaded: (audioId: string) => void;
+  view?: View;
 }
 
-export const AudioInputForm = ({ onAudioUploaded }: AudioInputFormProps) => {
+export const AudioInputForm = ({
+  onAudioUploaded,
+  view,
+}: AudioInputFormProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const promptInputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -70,13 +83,22 @@ export const AudioInputForm = ({ onAudioUploaded }: AudioInputFormProps) => {
     setSelectedFile(null);
     setStatus("waiting");
     promptInputRef.current!.value = "";
+    view?.deleteView();
   };
+
+  useEffect(() => {
+    if (view && view.audio) {
+      setStatus("success");
+    }
+  }, [view]);
 
   return (
     <form className="flex flex-col gap-6" onSubmit={handleUploadAudio}>
       <label
-        className="border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5"
+        className="border flex rounded-md aspect-video border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground data-[disabled=false]:hover:bg-primary/5 text-center
+                   data-[disabled=true]:cursor-not-allowed data-[disabled=false]:cursor-pointer"
         htmlFor="audio"
+        data-disabled={status !== "waiting"}
       >
         {previewURL ? (
           <>
@@ -85,6 +107,11 @@ export const AudioInputForm = ({ onAudioUploaded }: AudioInputFormProps) => {
               src={previewURL}
               controls
             />
+          </>
+        ) : view ? (
+          <>
+            <Cross2Icon className="w-4 h-4" />
+            Audio preview of ({view.audio?.name}) not available in view mode
           </>
         ) : (
           <>
@@ -99,6 +126,7 @@ export const AudioInputForm = ({ onAudioUploaded }: AudioInputFormProps) => {
         accept="audio/mp3"
         className="sr-only"
         onChange={handleFileSelected}
+        disabled={status !== "waiting"}
       />
 
       <Separator />
@@ -116,7 +144,7 @@ export const AudioInputForm = ({ onAudioUploaded }: AudioInputFormProps) => {
 
       <div className="flex gap-2 justify-end">
         <Button
-          disabled={status !== "waiting"}
+          disabled={status !== "waiting" || selectedFile === null}
           type="submit"
           data-success={status === "success"}
           className="data-[success=true]:bg-emerald-400 flex-1"
@@ -135,7 +163,7 @@ export const AudioInputForm = ({ onAudioUploaded }: AudioInputFormProps) => {
           type="button"
           className="bg-red-600 hover:bg-gray-500"
         >
-          <Trash className="w-4 h-4" />
+          <Eraser className="w-4 h-4" />
         </Button>
       </div>
     </form>

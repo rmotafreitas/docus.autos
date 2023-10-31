@@ -1,13 +1,19 @@
 import { Button } from "./ui/button";
-import { CrossIcon, FileVideo, Trash, Upload, Youtube } from "lucide-react";
+import {
+  CrossIcon,
+  Eraser,
+  FileVideo,
+  Trash,
+  Upload,
+  Youtube,
+} from "lucide-react";
 import { Separator } from "./ui/separator";
 import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
 import {
-  ButtonHTMLAttributes,
   ChangeEvent,
   FormEvent,
-  MouseEventHandler,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -17,6 +23,8 @@ import { initFFmpeg } from "@/lib/ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
 import { api } from "@/lib/axios";
 import { Input } from "./ui/input";
+import { View, isStringAYoutbeUrl } from "@/pages/apps/Videos";
+import { Cross2Icon } from "@radix-ui/react-icons";
 
 type Status = "waiting" | "converting" | "uploading" | "generating" | "success";
 
@@ -36,14 +44,21 @@ interface YoutubeVideoInfo {
 
 interface VideoInputFormProps {
   onVideoUploaded: (videoId: string) => void;
+  view?: View;
 }
 
-export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
+export const VideoInputForm = ({
+  onVideoUploaded,
+  view,
+}: VideoInputFormProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isFetchingDataFromAPI, setIsFetchingDataFromAPI] = useState(false);
-  const promptInputRef = useRef<HTMLTextAreaElement>(null);
-  const youtubeLinkInputRef = useRef<HTMLInputElement>(null);
-
+  const promptInputRef = useRef<HTMLTextAreaElement>(
+    document.createElement("textarea")
+  );
+  const youtubeLinkInputRef = useRef<HTMLInputElement>(
+    document.createElement("input")
+  );
   const [status, setStatus] = useState<Status>("waiting");
   const [inputType, setInputType] = useState<"file" | "youtube">("file");
   const [youtubeVideoInfo, setYoutubeVideoInfo] = useState<YoutubeVideoInfo>({
@@ -52,6 +67,22 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
     id: "",
     thumbnail: "",
   });
+
+  useEffect(() => {
+    if (view && view.video) {
+      if (isStringAYoutbeUrl(view.video.name)) {
+        setInputType("youtube");
+        youtubeLinkInputRef.current!.value = view.video.name;
+        handleGetInfoFromYoutube().then(() => {
+          promptInputRef.current!.value = "Prompts not visible on view mode";
+        });
+      } else {
+        setInputType("file");
+        promptInputRef.current!.value = "Prompts not visible on view mode";
+      }
+      setStatus("success");
+    }
+  }, [view]);
 
   const handleGetInfoFromYoutube = async () => {
     setIsFetchingDataFromAPI(true);
@@ -204,7 +235,7 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
   };
 
   const handleDeleteVideo = async () => {
-    console.log("deleting video");
+    view?.deleteView?.();
     setSelectedFile(null);
     setIsFetchingDataFromAPI(false);
     setStatus("waiting");
@@ -222,21 +253,27 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
     <form className="flex flex-col gap-6" onSubmit={handleUploadVideo}>
       <section className="flex justify-evenly">
         <button
-          className="hover:text-primary
-          transition-all duration-200 hover:border-b-primary border-2 border-transparent flex-1
-          data-[active=true]:border-b-primary data-[active=true]:text-primary data-[active=true]:font-bold data-[active=true]:pointer-events-none
-        "
+          disabled={view && inputType === "youtube"}
+          className="
+          transition-all duration-200  border-2 border-transparent flex-1
+          data-[active=true]:border-b-primary data-[active=true]:text-primary data-[active=true]:font-bold data-[active=true]:pointer-events-none 
+          data-[enabled=true]:hover:text-primary data-[enabled=true]:hover:border-b-primary data-[enabled=true]:hover:font-bold data-[enabled=true]:hover:cursor-pointer
+          data-[enabled=false]:cursor-not-allowed"
           data-active={inputType === "file"}
+          data-enabled={view && inputType !== "youtube"}
           onClick={() => setInputType("file")}
         >
           File
         </button>
         <button
-          className="hover:text-primary
-          transition-all duration-200 hover:border-b-primary border-2 border-transparent flex-1 hover:font-bold
+          disabled={view && inputType === "file"}
+          className="
+          transition-all duration-200 border-2 border-transparent flex-1 
           data-[active=true]:border-b-primary data-[active=true]:text-primary data-[active=true]:font-bold data-[active=true]:pointer-events-none
-        "
+          data-[enabled=true]:hover:text-primary data-[enabled=true]:hover:border-b-primary data-[enabled=true]:hover:font-bold data-[enabled=true]:hover:cursor-pointer
+          data-[enabled=false]:cursor-not-allowed"
           data-active={inputType === "youtube"}
+          data-enabled={view && inputType !== "file"}
           onClick={() => setInputType("youtube")}
         >
           Youtube
@@ -246,11 +283,19 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
       {inputType === "file" ? (
         <>
           <label
-            className="border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5"
+            className="border flex rounded-md aspect-video border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground data-[disabled=false]:hover:bg-primary/5 text-center
+              data-[disabled=true]:cursor-not-allowed data-[disabled=false]:cursor-pointer
+            "
             htmlFor="video"
+            data-disabled={status !== "waiting"}
           >
             {previewURL ? (
               <video src={previewURL} className="pointer-events-none" />
+            ) : view ? (
+              <>
+                <Cross2Icon className="w-4 h-4" />
+                Video preview of ({view.video?.name}) not available in view mode
+              </>
             ) : (
               <>
                 <FileVideo className="w-4 h-4" />
@@ -264,6 +309,7 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
             accept="video/mp4"
             className="sr-only"
             onChange={handleFileSelected}
+            disabled={status !== "waiting"}
           />
         </>
       ) : (
@@ -341,7 +387,7 @@ export const VideoInputForm = ({ onVideoUploaded }: VideoInputFormProps) => {
           type="button"
           className="bg-red-600 hover:bg-gray-500"
         >
-          <Trash className="w-4 h-4" />
+          <Eraser className="w-4 h-4" />
         </Button>
       </div>
     </form>

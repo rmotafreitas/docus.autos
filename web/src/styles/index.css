@@ -72,7 +72,9 @@
   position: absolute;
   width: 24px;
   height: 24px;
-  border: 5px solid #fff;
+  @apply border-4;
+  @apply border-solid;
+  @apply border-primary;
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;

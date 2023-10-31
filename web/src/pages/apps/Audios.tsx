@@ -16,12 +16,24 @@ import { useEffect, useMemo, useState } from "react";
 import { useCompletion } from "ai/react";
 import { Navbar } from "@/components/navbar";
 import { hankoInstance } from "@/lib/hanko";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { api } from "@/lib/axios";
 import { AudioInputForm } from "@/components/audio-input-form";
 import { ChatSection } from "@/components/chat-modal";
+import { View } from "./Videos";
+import { ViewParams } from "@/App";
 
 export function AudiosAppPage() {
+  const deleteView = () => {
+    setView(undefined);
+    setChatId("");
+    setAudioId(null);
+  };
+
+  const { viewid } = useParams<ViewParams>();
+
+  const [view, setView] = useState<View>();
+
   const [temperature, setTemperature] = useState(0.5);
   const [audioId, setAudioId] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
@@ -38,6 +50,18 @@ export function AudiosAppPage() {
       } catch (e) {
         router("/auth?expired=1");
       }
+      if (viewid) {
+        const res = await api.get(`/ai/complete/audios/${viewid}`);
+        const data: View = res.data;
+        if (data.audio) {
+          setAudioId(data.audio.id);
+        }
+        setInput(data.promptText);
+        setChatId(data.id);
+        setCompletion(data.resultText);
+        data.deleteView = deleteView;
+        setView(data);
+      }
     })();
   }, []);
 
@@ -48,6 +72,7 @@ export function AudiosAppPage() {
     handleSubmit,
     completion,
     isLoading,
+    setCompletion,
   } = useCompletion({
     api: "http://localhost:3333/ai/complete/audios",
     body: {
@@ -101,7 +126,7 @@ export function AudiosAppPage() {
         </section>
 
         <aside className="w-80 flex flex-col gap-6 max-md:w-full">
-          <AudioInputForm onAudioUploaded={setAudioId} />
+          <AudioInputForm view={view} onAudioUploaded={setAudioId} />
 
           <Separator />
 
@@ -147,7 +172,7 @@ export function AudiosAppPage() {
 
             <Separator />
 
-            <Button disabled={isLoading || !audioId} type="submit">
+            <Button disabled={isLoading || !audioId || !input} type="submit">
               Generate
               <Wand2 className="w-4 h-4 ml-2" />
             </Button>

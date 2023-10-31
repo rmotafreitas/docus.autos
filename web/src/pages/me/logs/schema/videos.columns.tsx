@@ -12,6 +12,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Link } from "react-router-dom";
+import { deleteRow } from "../History";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -85,8 +87,22 @@ export const columns: ColumnDef<HistoryItemVideo>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link
+                className="w-full h-full flex items-center"
+                to={`/apps/videos/${video.id}`}
+              >
+                View
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="text-red-500 cursor-pointer"
+              onClick={async () => {
+                await deleteRow(video.id, "videos");
+              }}
+            >
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

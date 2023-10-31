@@ -12,10 +12,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Link } from "react-router-dom";
+import { api } from "@/lib/axios";
+import { deleteRow } from "../History";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type HistoryItemArticle = {
+  id: string;
   article: {
     name: string;
   };
@@ -83,8 +87,22 @@ export const columns: ColumnDef<HistoryItemArticle>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link
+                className="w-full h-full flex items-center"
+                to={`/apps/articles/${article.id}`}
+              >
+                View
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="text-red-500 cursor-pointer"
+              onClick={async () => {
+                await deleteRow(article.id, "articles");
+              }}
+            >
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

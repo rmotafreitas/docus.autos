@@ -16,12 +16,24 @@ import { PromptSelect } from "../../components/prompt-select";
 import { useEffect, useMemo, useState } from "react";
 import { Navbar } from "@/components/navbar";
 import { useCompletion } from "ai/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { hankoInstance } from "@/lib/hanko";
 import { api } from "@/lib/axios";
 import { ChatSection } from "@/components/chat-modal";
+import { ViewParams } from "@/App";
+import { View } from "./Videos";
 
 export function WebsitesAppPage() {
+  const deleteView = () => {
+    setView(undefined);
+    setChatId("");
+    setWebsiteUrl("");
+  };
+
+  const { viewid } = useParams<ViewParams>();
+
+  const [view, setView] = useState<View>();
+
   const [temperature, setTemperature] = useState(0.5);
   const [url, setWebsiteUrl] = useState<string | null>(null);
   const [chatId, setChatId] = useState<string>("");
@@ -38,6 +50,18 @@ export function WebsitesAppPage() {
       } catch (e) {
         router("/auth?expired=1");
       }
+      if (viewid) {
+        const res = await api.get(`/ai/complete/websites/${viewid}`);
+        const data: View = res.data;
+        if (data.website) {
+          setWebsiteUrl(data.website.url);
+        }
+        setInput(data.promptText);
+        setChatId(data.id);
+        setCompletion(data.resultText);
+        data.deleteView = deleteView;
+        setView(data);
+      }
     })();
   }, []);
 
@@ -48,6 +72,7 @@ export function WebsitesAppPage() {
     handleSubmit,
     completion,
     isLoading,
+    setCompletion,
   } = useCompletion({
     api: "http://localhost:3333/ai/complete/websites",
     body: {
@@ -101,7 +126,7 @@ export function WebsitesAppPage() {
         </section>
 
         <aside className="w-80 flex flex-col gap-6 max-md:w-full">
-          <WebsiteInputForm onWebsiteUploaded={setWebsiteUrl} />
+          <WebsiteInputForm view={view} onWebsiteUploaded={setWebsiteUrl} />
 
           <Separator />
 
@@ -147,7 +172,7 @@ export function WebsitesAppPage() {
 
             <Separator />
 
-            <Button disabled={isLoading || !url} type="submit">
+            <Button disabled={isLoading || !url || !input} type="submit">
               Generate
               <Wand2 className="w-4 h-4 ml-2" />
             </Button>

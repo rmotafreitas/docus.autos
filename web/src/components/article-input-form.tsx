@@ -1,8 +1,10 @@
+import { Eraser, FileText, Upload } from "lucide-react";
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react";
 import { Button } from "./ui/button";
-import { FileText, Trash, Upload } from "lucide-react";
-import { ChangeEvent, FormEvent, useMemo, useState } from "react";
 
 import { api } from "@/lib/axios";
+import { View } from "@/pages/apps/Videos";
+import { Cross2Icon } from "@radix-ui/react-icons";
 
 type Status = "waiting" | "converting" | "uploading" | "generating" | "success";
 
@@ -15,10 +17,12 @@ const statusMessages = {
 
 interface ArticleInputFormProps {
   onArticleUploaded: (articleId: string) => void;
+  view?: View;
 }
 
 export const ArticleInputForm = ({
   onArticleUploaded,
+  view,
 }: ArticleInputFormProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -56,13 +60,22 @@ export const ArticleInputForm = ({
   const handleDeleteArticle = () => {
     setSelectedFile(null);
     setStatus("waiting");
+    view?.deleteView();
   };
+
+  useEffect(() => {
+    if (view && view.article) {
+      setStatus("success");
+    }
+  }, [view]);
 
   return (
     <form className="flex flex-col gap-6" onSubmit={handleUploadArticle}>
       <label
-        className="border flex rounded-md aspect-video cursor-pointer border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground hover:bg-primary/5 overflow-hidden"
+        className="border flex rounded-md aspect-video border-dashed text-sm flex-col gap-2 items-center justify-center text-muted-foreground data-[disabled=false]:hover:bg-primary/5 text-center
+              data-[disabled=true]:cursor-not-allowed data-[disabled=false]:cursor-pointer"
         htmlFor="article"
+        data-disabled={status !== "waiting"}
       >
         {previewURL ? (
           <iframe
@@ -70,6 +83,12 @@ export const ArticleInputForm = ({
             src={previewURL}
             title="article-preview"
           />
+        ) : view?.article ? (
+          <>
+            <Cross2Icon className="w-4 h-4" />
+            Preview of article ({view.article.name}) preview not available in
+            view mode
+          </>
         ) : (
           <>
             <FileText className="w-4 h-4" />
@@ -83,6 +102,7 @@ export const ArticleInputForm = ({
         accept="application/pdf"
         className="sr-only"
         onChange={handleFileSelected}
+        disabled={status !== "waiting"}
       />
 
       <div className="flex gap-2 justify-end">
@@ -106,7 +126,7 @@ export const ArticleInputForm = ({
           type="button"
           className="bg-red-600 hover:bg-gray-500"
         >
-          <Trash className="w-4 h-4" />
+          <Eraser className="w-4 h-4" />
         </Button>
       </div>
     </form>

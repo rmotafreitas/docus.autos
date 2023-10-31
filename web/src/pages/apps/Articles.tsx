@@ -16,12 +16,24 @@ import { useEffect, useMemo, useState } from "react";
 import { useCompletion } from "ai/react";
 import { Navbar } from "@/components/navbar";
 import { hankoInstance } from "@/lib/hanko";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { api } from "@/lib/axios";
 import { ArticleInputForm } from "@/components/article-input-form";
 import { ChatSection } from "@/components/chat-modal";
+import { ViewParams } from "@/App";
+import { View } from "./Videos";
 
 export function ArticleAppPage() {
+  const deleteView = () => {
+    setView(undefined);
+    setChatId("");
+    setArticleId(null);
+  };
+
+  const { viewid } = useParams<ViewParams>();
+
+  const [view, setView] = useState<View>();
+
   const [temperature, setTemperature] = useState(0.5);
   const [articleId, setArticleId] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
@@ -39,6 +51,18 @@ export function ArticleAppPage() {
       } catch (e) {
         router("/auth?expired=1");
       }
+      if (viewid) {
+        const res = await api.get(`/ai/complete/articles/${viewid}`);
+        const data: View = res.data;
+        if (data.article) {
+          setArticleId(data.article.id);
+        }
+        setInput(data.promptText);
+        setChatId(data.id);
+        setCompletion(data.resultText);
+        data.deleteView = deleteView;
+        setView(data);
+      }
     })();
   }, []);
 
@@ -49,6 +73,7 @@ export function ArticleAppPage() {
     handleSubmit,
     completion,
     isLoading,
+    setCompletion,
   } = useCompletion({
     api: "http://localhost:3333/ai/complete/articles",
     body: {
@@ -102,7 +127,7 @@ export function ArticleAppPage() {
         </section>
 
         <aside className="w-80 flex flex-col gap-6 max-md:w-full">
-          <ArticleInputForm onArticleUploaded={setArticleId} />
+          <ArticleInputForm view={view} onArticleUploaded={setArticleId} />
 
           <Separator />
 
@@ -148,7 +173,7 @@ export function ArticleAppPage() {
 
             <Separator />
 
-            <Button disabled={isLoading || !articleId} type="submit">
+            <Button disabled={isLoading || !articleId || !input} type="submit">
               Generate
               <Wand2 className="w-4 h-4 ml-2" />
             </Button>

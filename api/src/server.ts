@@ -21,6 +21,8 @@ import { getAIChatSaveRoute } from "./routes/chat/chat-save";
 import type { FastifyCookieOptions } from "@fastify/cookie";
 import cookie from "@fastify/cookie";
 import * as jose from "jose";
+import { getAICompletionHistoryRoute } from "./routes/get-ai-completion-history";
+import { deleteAICompletionHistoryRoute } from "./routes/delete-ai-completion-history";
 
 const app = fastify();
 
@@ -78,6 +80,8 @@ app.register(uploadAudioRoute);
 app.register(getAIChatRoute);
 app.register(getAIChatCompleteRoute);
 app.register(getAIChatSaveRoute);
+app.register(getAICompletionHistoryRoute);
+app.register(deleteAICompletionHistoryRoute);
 
 app.register(fastifystatic, {
   root: path.join(__dirname, "..", "tmp"),

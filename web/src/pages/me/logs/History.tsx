@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { DataTable } from "@/components/data-table";
 import { Navbar } from "@/components/navbar";
@@ -31,20 +31,28 @@ import {
   HistoryItemArticle,
   columns as article_cols,
 } from "./schema/articles.columns";
-import { HistoryItemAudio } from "./schema/audios.columns";
+import {
+  HistoryItemAudio,
+  columns as audio_cols,
+} from "./schema/audios.columns";
+import { HistoryTypeParams } from "@/App";
 
-const linker = {
-  website_cols: {
+export const linker = {
+  websites: {
     cols: website_cols,
     key: "websites",
   },
-  video_cols: {
+  videos: {
     cols: video_cols,
     key: "videos",
   },
-  article_cols: {
+  articles: {
     cols: article_cols,
     key: "articles",
+  },
+  audios: {
+    cols: audio_cols,
+    key: "audios",
   },
 };
 
@@ -55,16 +63,23 @@ type History = {
   audios: HistoryItemAudio[];
 };
 
+export const deleteRow = async (id: string, type: keyof typeof linker) => {
+  const res = await api.delete(`/ai/complete/${type}/${id}`);
+  window.location.href = `/me/history/${type}`;
+};
+
 export function HistoryPage() {
+  let { typeid } = useParams<HistoryTypeParams>();
+  typeid = typeid || "websites";
+
   const router = useNavigate();
   const [history, setHistory] = useState<History>();
-  const [filter, setFilter] = useState<keyof typeof linker>("website_cols");
+  const [filter, setFilter] = useState<keyof typeof linker>(typeid);
 
   useEffect(() => {
     (async () => {
       try {
         const history = await api.post("/ai/complete/all/log");
-        console.log(history.data);
         setHistory(history.data);
       } catch (e) {
         router("/auth?expired=1");
@@ -86,14 +101,14 @@ export function HistoryPage() {
               }
             />
             <DropdownMenu>
-              <DropdownMenuTrigger className="absolute top-2 right-2">
+              <DropdownMenuTrigger className="absolute top-[4.85rem] right-2">
                 <FilterIcon className="text-xl text-muted-foreground" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuLabel>Media Filter</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-                  onClick={() => setFilter("video_cols")}
+                  onClick={() => setFilter("videos")}
                   className="flex flex-row gap-2 justify-start items-center"
                 >
                   <FileVideo className="w-4" />
@@ -101,7 +116,7 @@ export function HistoryPage() {
                 </DropdownMenuItem>
 
                 <DropdownMenuItem
-                  onClick={() => setFilter("website_cols")}
+                  onClick={() => setFilter("websites")}
                   className="flex flex-row gap-2 justify-start items-center"
                 >
                   <Globe className="w-4" />
@@ -109,14 +124,17 @@ export function HistoryPage() {
                 </DropdownMenuItem>
 
                 <DropdownMenuItem
-                  onClick={() => setFilter("article_cols")}
+                  onClick={() => setFilter("articles")}
                   className="flex flex-row gap-2 justify-start items-center"
                 >
                   <FileText className="w-4" />
                   Documents
                 </DropdownMenuItem>
 
-                <DropdownMenuItem className="flex flex-row gap-2 justify-start items-center">
+                <DropdownMenuItem
+                  onClick={() => setFilter("audios")}
+                  className="flex flex-row gap-2 justify-start items-center"
+                >
                   <FileAudio className="w-4" />
                   Audios
                 </DropdownMenuItem>

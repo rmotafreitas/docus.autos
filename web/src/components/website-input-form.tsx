@@ -1,10 +1,11 @@
-import { CrossIcon, Globe, Trash, Upload } from "lucide-react";
-import { FormEvent, useRef, useState } from "react";
+import { CrossIcon, Eraser, Globe, Trash, Upload } from "lucide-react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
 import { api } from "@/lib/axios";
 import { Input } from "./ui/input";
+import { View } from "@/pages/apps/Videos";
 
 type Status = "waiting" | "fetching" | "uploading" | "generating" | "success";
 
@@ -24,12 +25,14 @@ interface WebsiteInfo {
 
 interface WebsiteInputFormProps {
   onWebsiteUploaded: (url: string) => void;
+  view?: View;
 }
 
 export const WebsiteInputForm = ({
   onWebsiteUploaded,
+  view,
 }: WebsiteInputFormProps) => {
-  const urlInputRef = useRef<HTMLInputElement>(null);
+  const urlInputRef = useRef<HTMLInputElement>(document.createElement("input"));
   const [status, setStatus] = useState<Status>("waiting");
   const [websiteInfo, setWebsiteInfo] = useState<WebsiteInfo>({
     url: "",
@@ -75,7 +78,16 @@ export const WebsiteInputForm = ({
       image: "",
       content: "",
     });
+    view?.deleteView();
   };
+
+  useEffect(() => {
+    if (view && view.website) {
+      console.log(view.website.url);
+      urlInputRef.current!.value = view.website.url;
+      handleUploadWebsite(new Event("submit") as any);
+    }
+  }, [view]);
 
   return (
     <form className="flex flex-col gap-6" onSubmit={handleUploadWebsite}>
@@ -128,7 +140,7 @@ export const WebsiteInputForm = ({
           type="button"
           className="bg-red-600 hover:bg-gray-500"
         >
-          <Trash className="w-4 h-4" />
+          <Eraser className="w-4 h-4" />
         </Button>
       </div>
     </form>
