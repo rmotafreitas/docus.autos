@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { getAIChatRoute } from "./routes/chat/chat";
 import { prisma } from "./lib/prisma";
 import { fastifyCors } from "@fastify/cors";
@@ -88,9 +89,10 @@ app.register(fastifystatic, {
   prefix: "/tmp/",
 });
 
+// @ts-ignore
 app
   .listen({
-    port: 3333,
+    port: process.env.PORT || 3000,
   })
   .then((address) => {
     console.log(`Server is listening on ${address}`);
