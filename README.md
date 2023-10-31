@@ -25,7 +25,16 @@
     <li>
       <a href="#about-the-project">About The Project</a>
     </li>
-    <li><a href="#built-with">Built with</a></li>
+    <li>
+        <a href="#built-with">Built with</a>
+        <ul>
+            <li><a href="#front-end">Front end</a></li>
+            <li><a href="#ui">UI</a></li>
+            <li><a href="#auth">Auth</a></li>
+            <li><a href="#back-end">Back end</a></li>
+            <li><a href="#hosting">Hosting</a></li>
+      </ul>
+    </li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
