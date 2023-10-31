@@ -44,6 +44,7 @@ const authJWTCookieHanko = async (
     // @ts-expect-error
     request.userID = userID;
   } catch (error) {
+    console.log(error);
     // @ts-expect-error
     request.userID = null;
   }
