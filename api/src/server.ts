@@ -31,6 +31,7 @@ const authJWTCookieHanko = async (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
+  console.log(request.headers.authorization);
   const token = request.headers.authorization?.split(" ")[1] ?? null;
 
   // Check if the token is valid and not expired
