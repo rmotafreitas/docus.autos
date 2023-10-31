@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
+import axios from "axios";
 
 type Status = "waiting" | "fetching" | "uploading" | "generating" | "success";
 
@@ -53,7 +54,12 @@ export const WebsiteInputForm = ({
       // grab status from response
 
       setStatus("success");
-      const image = await api.get(res.data.image, { responseType: "blob" });
+      const image = await axios.get(
+        `https://api.apiflash.com/v1/urltoimage?access_key=${
+          import.meta.env.VITE_API_FLASH
+        }&wait_until=page_loaded&url=${url.trim()}`,
+        { responseType: "blob" }
+      );
       const file = new File([image.data], "image.png", { type: "image/png" });
       res.data.image = URL.createObjectURL(file);
       setWebsiteInfo(res.data);

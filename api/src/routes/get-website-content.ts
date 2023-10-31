@@ -1,4 +1,3 @@
-import puppeteer from "puppeteer";
 import axios from "axios";
 import { prisma } from "../lib/prisma";
 import { load } from "cheerio";
@@ -35,16 +34,6 @@ export const getWebsiteContentRoute = async (app: FastifyInstance) => {
       return reply.status(400).send({ error: "Invalid URL" });
     }
 
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.setViewport({ width: 1280, height: 720 });
-    await page.goto(url, { waitUntil: "networkidle0" });
-    const screenshot = "tmp/preview-" + Date.now() + ".jpg";
-    await page.screenshot({
-      path: screenshot,
-    });
-    await browser.close();
-
     const existingWebsite = await prisma.website.findUnique({
       where: {
         url: url,
@@ -58,7 +47,6 @@ export const getWebsiteContentRoute = async (app: FastifyInstance) => {
         },
         data: {
           title: $("title").text(),
-          image: screenshot,
           content: paragraphs,
         },
       });
@@ -67,7 +55,6 @@ export const getWebsiteContentRoute = async (app: FastifyInstance) => {
         data: {
           url: url,
           title: $("title").text(),
-          image: screenshot,
           content: paragraphs,
         },
       });
