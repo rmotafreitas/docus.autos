@@ -28,7 +28,7 @@ export async function websiteCompletion(
   }
   const originalPromptSize = prompt.length;
   const websiteContent = website.content.slice(0, 14400 - originalPromptSize);
-  const promptMessage = prompt.replace("{content}", websiteContent);
+  const promptMessage = prompt.replace("{transcription}", websiteContent);
 
   const response = await openai.chat.completions.create({
     model: "gpt-3.5-turbo-16k-0613",
