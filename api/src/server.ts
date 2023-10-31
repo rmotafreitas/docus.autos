@@ -1,6 +1,5 @@
 import "dotenv/config";
 import { getAIChatRoute } from "./routes/chat/chat";
-import { prisma } from "./lib/prisma";
 import { fastifyCors } from "@fastify/cors";
 import { FastifyReply, FastifyRequest, fastify } from "fastify";
 import { getAllPromptsRoute } from "./routes/get-all-prompts";
@@ -24,6 +23,7 @@ import cookie from "@fastify/cookie";
 import * as jose from "jose";
 import { getAICompletionHistoryRoute } from "./routes/get-ai-completion-history";
 import { deleteAICompletionHistoryRoute } from "./routes/delete-ai-completion-history";
+const host = "RENDER" in process.env ? `0.0.0.0` : `localhost`;
 
 const app = fastify();
 
@@ -92,6 +92,7 @@ app.register(fastifystatic, {
 // @ts-ignore
 app
   .listen({
+    host,
     port: process.env.PORT || 3000,
   })
   .then((address) => {
