@@ -24,6 +24,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@distube/ytdl-core": "^4.13.2",
     "@fastify/cookie": "^9.1.0",
     "@fastify/cors": "^8.3.0",
     "@fastify/jwt": "^7.2.2",
@@ -41,7 +42,7 @@
     "openai": "^4.6.0",
     "pdf-parse": "^1.1.1",
     "puppeteer": "^21.3.8",
-    "ytdl-core": "4.10.0",
+    "youtube-dl-exec": "^2.4.16",
     "zod": "^3.22.2"
   }
 }

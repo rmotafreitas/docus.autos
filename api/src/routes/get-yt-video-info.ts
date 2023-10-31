@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
 
-import { getInfo, chooseFormat } from "ytdl-core";
+import { getInfo } from "@distube/ytdl-core";
 
 export const getYTVideoInfoRoute = async (app: FastifyInstance) => {
   app.post("/videos/yt", async (request, reply) => {
@@ -21,12 +21,7 @@ export const getYTVideoInfoRoute = async (app: FastifyInstance) => {
       return reply.status(400).send({ error: "Invalid URL" });
     }
 
-    const info = await getInfo(url, {
-      requestOptions: {
-        maxRetries: 5,
-        backoff: { inc: 2000, max: 2000 },
-      },
-    });
+    const info = await getInfo(url);
 
     if (!info) {
       return reply.status(400).send({ error: "Invalid URL" });
