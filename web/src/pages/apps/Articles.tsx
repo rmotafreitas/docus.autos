@@ -85,7 +85,6 @@ export function ArticleAppPage() {
       "Content-Type": "application/json",
       Authorization: `Bearer ${Cookies.get("hanko")}`,
     },
-    credentials: "include",
     onFinish: async (prompt, completion) => {
       const res = await api.post("/ai/complete/articles/save", {
         articleId,

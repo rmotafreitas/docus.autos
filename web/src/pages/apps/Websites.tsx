@@ -22,6 +22,7 @@ import { api } from "@/lib/axios";
 import { ChatSection } from "@/components/chat-modal";
 import { ViewParams } from "@/App";
 import { View } from "./Videos";
+import Cookies from "js-cookie";
 
 export function WebsitesAppPage() {
   const deleteView = () => {
@@ -74,15 +75,15 @@ export function WebsitesAppPage() {
     isLoading,
     setCompletion,
   } = useCompletion({
-    api: "http://localhost:3333/ai/complete/websites",
+    api: api.getUri() + "/ai/complete/videos",
     body: {
       url,
       temperature,
     },
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${Cookies.get("hanko")}`,
     },
-    credentials: "include",
     onFinish: async (prompt, completion) => {
       const res = await api.post("/ai/complete/websites/save", {
         url,

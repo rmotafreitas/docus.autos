@@ -21,6 +21,7 @@ import { Separator } from "../../components/ui/separator";
 import { Slider } from "../../components/ui/slider";
 import { Textarea } from "../../components/ui/textarea";
 import { VideoInputForm } from "../../components/video-input-form";
+import Cookies from "js-cookie";
 
 export const isStringAYoutbeUrl = (str: string) => {
   const youtubeUrlRegex = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/;
@@ -100,15 +101,15 @@ export function VideosAppPage() {
     isLoading,
     setCompletion,
   } = useCompletion({
-    api: "http://localhost:3333/ai/complete/videos",
+    api: api.getUri() + "/ai/complete/videos",
     body: {
       videoId,
       temperature,
     },
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${Cookies.get("hanko")}`,
     },
-    credentials: "include",
     onFinish: async (prompt, completion) => {
       const res = await api.post("/ai/complete/videos/save", {
         videoId,

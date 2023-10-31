@@ -22,6 +22,7 @@ import { AudioInputForm } from "@/components/audio-input-form";
 import { ChatSection } from "@/components/chat-modal";
 import { View } from "./Videos";
 import { ViewParams } from "@/App";
+import Cookies from "js-cookie";
 
 export function AudiosAppPage() {
   const deleteView = () => {
@@ -74,15 +75,15 @@ export function AudiosAppPage() {
     isLoading,
     setCompletion,
   } = useCompletion({
-    api: "http://localhost:3333/ai/complete/audios",
+    api: api.getUri() + "/ai/complete/audios",
     body: {
       audioId,
       temperature,
     },
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${Cookies.get("hanko")}`,
     },
-    credentials: "include",
     onFinish: async (prompt, completion) => {
       const res = await api.post("/ai/complete/audios/save", {
         audioId,
