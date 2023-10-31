@@ -24,8 +24,7 @@ import { Textarea } from "../../components/ui/textarea";
 import { VideoInputForm } from "../../components/video-input-form";
 
 export const isStringAYoutbeUrl = (str: string) => {
-  const youtubeUrlRegex = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/;
-  return str.match(youtubeUrlRegex);
+  return str.includes("youtube.com") || str.includes("youtu.be");
 };
 
 export interface View {
