@@ -91,7 +91,7 @@ export const VideoInputForm = ({
       });
     }
 
-    if (!RegExp(/youtube.com\/watch\?v=/).test(url)) {
+    if (!url.includes("youtube.com") && !url.includes("youtu.be")) {
       setIsFetchingDataFromAPI(false);
       return setYoutubeVideoInfo({
         url,
