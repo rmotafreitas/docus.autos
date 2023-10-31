@@ -11,7 +11,7 @@ export default defineConfig({
   },
   plugins: [react()],
   optimizeDeps: {
-    exclude: ["@ffmpeg/ffmpeg", "@ffmpeg/util", "ytdl-core"],
+    exclude: ["@ffmpeg/ffmpeg", "@ffmpeg/util"],
   },
   resolve: {
     alias: {
