@@ -1,3 +1,4 @@
+import { getInfo } from "ytdl-core";
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
 
